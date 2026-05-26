@@ -1,0 +1,31 @@
+# Environment and secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+
+# Virtual environments
+graph_env/
+venv/
+.venv/
+env/
+
+# Generated artifacts
+knowledge_graph.html
+pruning_logs.txt
+
+# Test cache
+.pytest_cache/
+
+# Generated artifacts
+knowledge_graph.html
+pruning_logs.txt
