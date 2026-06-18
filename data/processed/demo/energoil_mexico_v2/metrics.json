@@ -1,0 +1,133 @@
+{
+  "scenario_id": "energoil_mexico_v2",
+  "metrics": [
+    {
+      "id": "M-01",
+      "name": "Tasa de Entrega a Tiempo",
+      "definition": "% de entregas realizadas dentro del plazo acordado con el cliente",
+      "client_need": "Continuidad operativa del cliente industrial"
+    },
+    {
+      "id": "M-02",
+      "name": "Tasa de Cumplimiento de Volumen",
+      "definition": "% del volumen pedido vs. volumen efectivamente entregado",
+      "client_need": "Confiabilidad del suministro"
+    },
+    {
+      "id": "M-03",
+      "name": "Competitividad de Precio vs. Rack",
+      "definition": "Diferencial promedio entre precio Energoil y precio rack PEMEX terminal",
+      "client_need": "Protección del margen del cliente gasolinero"
+    },
+    {
+      "id": "M-04",
+      "name": "Incidentes Regulatorios por Entrega",
+      "definition": "Número de incidentes CRE / NOM-016 / SCT por cada 100 entregas",
+      "client_need": "Cero interrupciones por cumplimiento"
+    },
+    {
+      "id": "M-05",
+      "name": "Días de Crédito Disponibles",
+      "definition": "Plazo promedio de crédito otorgado a clientes activos",
+      "client_need": "Flexibilidad financiera del cliente autoconsumo"
+    },
+    {
+      "id": "M-06",
+      "name": "Tasa de Retención de Clientes",
+      "definition": "% de clientes que renuevan contrato o continúan comprando al cierre del período",
+      "client_need": "Confianza y relación comercial de largo plazo"
+    }
+  ],
+  "metric_drivers": [
+    {
+      "id": "MD-01",
+      "parent_metric_id": "M-01",
+      "name": "Disponibilidad de flota de pipas",
+      "description": "Nº de unidades disponibles vs. requeridas por ruta y turno"
+    },
+    {
+      "id": "MD-02",
+      "parent_metric_id": "M-01",
+      "name": "Tiempo de carga en terminal TAR",
+      "description": "Minutos promedio desde llegada a terminal hasta salida con carga"
+    },
+    {
+      "id": "MD-03",
+      "parent_metric_id": "M-01",
+      "name": "Eficiencia de ruteo",
+      "description": "% de rutas ejecutadas sin retrasos por planeación o tráfico"
+    },
+    {
+      "id": "MD-04",
+      "parent_metric_id": "M-01",
+      "name": "Disponibilidad de producto en terminal",
+      "description": "Días de inventario disponible en la TAR asignada"
+    },
+    {
+      "id": "MD-05",
+      "parent_metric_id": "M-02",
+      "name": "Cobertura de posición de compra",
+      "description": "Volumen comprometido con proveedor vs. volumen demandado por clientes"
+    },
+    {
+      "id": "MD-06",
+      "parent_metric_id": "M-02",
+      "name": "Índice de merma y diferencia de aforo",
+      "description": "Litros perdidos o no entregados por merma, contaminación o aforo"
+    },
+    {
+      "id": "MD-07",
+      "parent_metric_id": "M-03",
+      "name": "Costo de adquisición por litro",
+      "description": "Precio pagado en terminal + flete de recepción por litro"
+    },
+    {
+      "id": "MD-08",
+      "parent_metric_id": "M-03",
+      "name": "Optimización del IEPS",
+      "description": "Aprovechamiento de estímulos fiscales y variaciones de IEPS por período"
+    },
+    {
+      "id": "MD-09",
+      "parent_metric_id": "M-03",
+      "name": "Eficiencia operativa de distribución",
+      "description": "Costo logístico total por litro entregado"
+    },
+    {
+      "id": "MD-10",
+      "parent_metric_id": "M-04",
+      "name": "Vigencia de permisos CRE y SCT",
+      "description": "Días hasta vencimiento de permisos críticos de transporte y comercialización"
+    },
+    {
+      "id": "MD-11",
+      "parent_metric_id": "M-04",
+      "name": "Conformidad NOM-016 del producto",
+      "description": "% de muestras de producto que pasan prueba de calidad por lote"
+    },
+    {
+      "id": "MD-12",
+      "parent_metric_id": "M-05",
+      "name": "Capital de trabajo disponible",
+      "description": "Líneas de crédito activas vs. volumen de compras mensual"
+    },
+    {
+      "id": "MD-13",
+      "parent_metric_id": "M-05",
+      "name": "Tasa de recuperación de cartera",
+      "description": "% de facturas cobradas dentro del plazo acordado"
+    },
+    {
+      "id": "MD-14",
+      "parent_metric_id": "M-06",
+      "name": "Net Promoter Score operativo",
+      "description": "Calificación de satisfacción post-entrega por cliente"
+    },
+    {
+      "id": "MD-15",
+      "parent_metric_id": "M-06",
+      "name": "Tiempo de respuesta a incidencias",
+      "description": "Horas promedio desde reporte de problema hasta resolución"
+    }
+  ]
+}

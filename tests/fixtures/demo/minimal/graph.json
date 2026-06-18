@@ -1,0 +1,38 @@
+{
+  "scenario_id": "minimal_demo",
+  "title": "Minimal demo fixture",
+  "nodes": [
+    {
+      "id": "M-01",
+      "type": "Metric",
+      "label": "On-Time Delivery",
+      "properties": {
+        "definition": "Share of deliveries within agreed window",
+        "client_need": "Operational continuity"
+      }
+    },
+    {
+      "id": "A-01",
+      "type": "Activity",
+      "label": "Track daily rack prices",
+      "properties": {}
+    }
+  ],
+  "relationships": [
+    {
+      "source": "A-01",
+      "target": "M-01",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.9,
+        "justification": "Price tracking affects delivery scheduling"
+      }
+    },
+    {
+      "source": "A-01",
+      "target": "UNKNOWN-NODE",
+      "type": "AFFECTS",
+      "properties": {}
+    }
+  ]
+}

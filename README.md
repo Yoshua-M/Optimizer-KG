@@ -1,93 +1,113 @@
-# Knowledge Graph Generator
+# Optimizer (knowledge-graph-llms)
 
-A Streamlit application that extract graph data (entities and relationships) from text input using LangChain and OpenAI's GPT models, and generates interactive graphs.
+Python codebase for **Optimizer**: map client and internal interview material to an **organizational knowledge graph** linked to **client value**, so leaders can see which activities and processes matter most for investment. Product scope is in [`docs/PRD.md`](docs/PRD.md); system design in [`docs/architecture.md`](docs/architecture.md).
+
+**Today:** a Streamlit app that extracts entities and relationships from text with LangChain + OpenAI and renders an interactive graph with PyVis. **Staged next:** batch ingestion, graph hygiene, value linkage, and Neo4j persistence per the PRD.
+
 ![CleanShot 2025-05-28 at 13 11 46](https://github.com/user-attachments/assets/4fef9158-8dd8-432d-bb8a-b53953a82c6c)
 
-👉 This repo is part of my project tutorial on Youtube:
-[![](https://img.youtube.com/vi/O-T_6KOXML4/0.jpg)](https://www.youtube.com/watch?v=O-T_6KOXML4)
+## Features (current app)
 
-## Features
+- Text input via upload (`.txt`) or paste
+- LLM-powered entity and relationship extraction (GPT-4o via LangChain)
+- Interactive PyVis graph in the browser
+- Modular package layout under `src/optimizer/` for ongoing PRD work
 
-- Two input methods: text upload (.txt files) or direct text input
-- Interactive knowledge graph visualization
-- Customizable graph display with physics-based layout
-- Entity relationship extraction powered by OpenAI's GPT-4o model
+## Prerequisites
+
+- Python 3.8+
+- OpenAI API key
 
 ## Installation
 
-### Prerequisites
-
-- Python 3.8 or higher
-- OpenAI API key
-
-### Dependencies
-
-The application requires the following Python packages:
-
-- langchain (>= 0.1.0): Core LLM framework
-- langchain-experimental (>= 0.0.45): Experimental LangChain features
-- langchain-openai (>= 0.1.0): OpenAI integration for LangChain
-- python-dotenv (>= 1.0.0): Environment variable support
-- pyvis (>= 0.3.2): Graph visualization
-- streamlit (>= 1.32.0): Web UI framework
-- pytest (>= 7.0.0): Unit tests
-
-Install all required dependencies using the provided requirements.txt file:
+Use a virtual environment (e.g. `graph_env/` in the repo):
 
 ```bash
-pip install -r requirements.txt
+python -m venv graph_env
+source graph_env/bin/activate
+pip install --upgrade pip setuptools wheel
+pip install -e .
 ```
 
-### Setup
+`pip install -e .` installs the **`optimizer`** package from `src/` (see `pyproject.toml`). Dependencies are listed there; `requirements.txt` mirrors them for convenience.
 
-1. Clone this repository:
-   ```bash
-   git clone [repository-url]
-   cd knowledge_graph_app_2
-   ```
+Create a `.env` file at the project root:
 
-   Note: Replace `[repository-url]` with the actual URL of this repository.
+```text
+OPENAI_API_KEY=your_key_here
+```
 
-2. Create a `.env` file in the root directory with your OpenAI API key:
-   ```
-   OPENAI_API_KEY=your_openai_api_key_here
-   ```
+## Run the app
 
-## Running the Application
-
-To run the Streamlit app:
+**Text → knowledge graph** (requires `OPENAI_API_KEY`):
 
 ```bash
+source graph_env/bin/activate
 streamlit run app.py
 ```
 
-This will start the application and open it in your default web browser (typically at http://localhost:8501).
-
-## Running tests
-
-Unit tests mock the LLM and do not call OpenAI:
+**Fixture sales demo** (no API key; pre-built scenario data via `configs/demo_scenarios.json`; uses the same scenario UI as production):
 
 ```bash
-pytest -v
+source graph_env/bin/activate
+streamlit run app_demo.py
 ```
+
+Opens in the browser (default http://localhost:8501). Session output may write `knowledge_graph.html` or `scenario_knowledge_graph.html` to the working directory (usually repo root).
+
+## Tests
+
+```bash
+source graph_env/bin/activate
+python -m unittest discover -s tests -p "test_*.py" -v
+```
+
+Unit tests mock the LLM. The integration test in `tests/graph_building/` runs against OpenAI when `OPENAI_API_KEY` is set in `.env`.
 
 ## Usage
 
-1. Choose your input method from the sidebar (Upload txt or Input text)
-2. If uploading a file, select a .txt file from your computer
-3. If using direct input, type or paste your text into the text area
-4. Click the "Generate Knowledge Graph" button
-5. Wait for the graph to be generated (this may take a few moments depending on the length of the text)
-6. Explore the interactive knowledge graph:
-   - Drag nodes to rearrange the graph
-   - Hover over nodes and edges to see additional information
-   - Zoom in/out using the mouse wheel
-   - Filter the graph for specific nodes and edges.
+1. Choose **Upload txt** or **Input text** in the sidebar
+2. Provide text and click **Generate Knowledge Graph**
+3. Explore the graph (drag nodes, zoom, filter)
 
-## How It Works
+## How it works
 
-The application uses LangChain's experimental graph transformers with OpenAI's GPT-4o model to:
-1. Extract entities from the input text
-2. Identify relationships between these entities
-3. Generate a graph structure representing this information
-4. Visualize the graph using PyVis, a Python interface for the vis.js visualization library
+```text
+app.py → presentation/ → application/run_pyvis_graph
+       → graph_building/extract_graph_data → infrastructure/ (LLM + PyVis)
+       → HTML embedded in Streamlit
+```
+
+LangChain's graph transformer turns text into graph documents; PyVis builds the interactive view.
+
+## Project layout
+
+| Path | Role |
+|------|------|
+| `app.py` | Streamlit entry — text → graph (`streamlit run app.py`) |
+| `app_demo.py` | Streamlit entry — fixture demos (`streamlit run app_demo.py`) |
+| `src/optimizer/` | Main Python package (`optimizer`) |
+| `src/optimizer/presentation/` | Streamlit UI |
+| `src/optimizer/application/` | Use-case orchestration (`run_pyvis_graph`, `run_demo_scenario`) |
+| `src/optimizer/graph_building/` | Production org-graph extraction |
+| `src/optimizer/infrastructure/` | LLM client, PyVis, future adapters |
+| `src/optimizer/experiments/` | Exploration spikes (not used by default UI) |
+| `src/optimizer/ingestion/`, `client_value/`, `graph_hygiene/`, `value_linkage/`, `ontology/` | PRD domains (scaffolded) |
+| `tests/` | Unittest layout mirroring `src/optimizer/` |
+| `data/raw`, `data/interim`, `data/processed` | Data pipeline placeholders |
+| `docs/` | PRD, architecture, structure references |
+| `configs/` | Runtime/scenario config (future) |
+
+Each package module has an `AGENTS.md` with boundaries and entry points for contributors and agents working in that area.
+
+## Documentation
+
+| Doc | Contents |
+|-----|----------|
+| [`docs/PRD.md`](docs/PRD.md) | Product requirements |
+| [`docs/architecture.md`](docs/architecture.md) | Domains, flows, dependencies |
+| [`docs/AGENTS.md`](docs/AGENTS.md) | What lives in `docs/` |
+
+## Origins
+
+This repo began as a [knowledge graph from text tutorial](https://www.youtube.com/watch?v=O-T_6KOXML4); it is being extended into the Optimizer product described in the PRD.

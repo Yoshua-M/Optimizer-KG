@@ -1,0 +1,26 @@
+{
+  "scenarios": [
+    {
+      "id": "energoil_mexico",
+      "title": "Energoil México",
+      "description": "Demo: grafo operativo + métricas de valor cliente (datos simulados)",
+      "paths": {
+        "graph": "data/processed/demo/energoil_mexico/graph.json",
+        "metrics": "data/processed/demo/energoil_mexico/metrics.json",
+        "relevance": "data/processed/demo/energoil_mexico/relevance.json",
+        "copy": "data/processed/demo/energoil_mexico/copy.md"
+      }
+    },
+    {
+      "id": "energoil_mexico_v2",
+      "title": "Energoil México v2",
+      "description": "Demo v2: áreas Porter, eventos Demanda/Entrega de Valor, PRECEDES cross-proceso",
+      "paths": {
+        "graph": "data/processed/demo/energoil_mexico_v2/graph.json",
+        "metrics": "data/processed/demo/energoil_mexico_v2/metrics.json",
+        "relevance": "data/processed/demo/energoil_mexico_v2/relevance.json",
+        "copy": "data/processed/demo/energoil_mexico_v2/copy.md"
+      }
+    }
+  ]
+}

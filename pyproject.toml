@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "optimizer"
+version = "0.1.0"
+description = "Knowledge graph extraction and visualization (Streamlit + LangChain + PyVis)"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "langchain>=0.1.0",
+    "langchain-experimental>=0.0.45",
+    "langchain-openai>=0.1.0",
+    "python-dotenv>=1.0.0",
+    "pyvis>=0.3.2",
+    "plotly>=5.18.0",
+    "streamlit>=1.32.0",
+    "networkx>=3.1",
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "scipy>=1.10.0",
+    "pgmpy>=0.1.25",
+    "python-louvain>=0.16",
+]
+
+[project.optional-dependencies]
+dev = []
+
+[tool.setuptools.packages.find]
+where = ["src"]

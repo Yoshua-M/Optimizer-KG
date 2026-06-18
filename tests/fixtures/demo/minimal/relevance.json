@@ -1,0 +1,40 @@
+{
+  "scenario_id": "minimal_demo",
+  "activities": [
+    {
+      "activity_id": "A-01",
+      "activity_name": "Track daily rack prices",
+      "process_id": "P-01",
+      "p": 0.5,
+      "c": 0.5,
+      "f": 0.5,
+      "r": 0.5,
+      "v": 0.5,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 1.0,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.4,
+          "relevance": 0.2,
+          "pct_contribution": 1.0
+        }
+      ],
+      "strategic_b_zero": false,
+      "b_zero_reason": null
+    }
+  ],
+  "matrix": [
+    {
+      "activity_id": "A-01",
+      "metric_id": "M-01",
+      "relevance": 0.2
+    }
+  ],
+  "rankings_by_metric": {
+    "M-01": ["A-01"]
+  },
+  "process_rollups": [],
+  "strategic_b_zero": []
+}

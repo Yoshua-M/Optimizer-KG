@@ -1,0 +1,12 @@
+{
+  "scenario_id": "minimal_demo",
+  "metrics": [
+    {
+      "id": "M-01",
+      "name": "On-Time Delivery",
+      "definition": "Share of deliveries within agreed window",
+      "client_need": "Operational continuity"
+    }
+  ],
+  "metric_drivers": []
+}
