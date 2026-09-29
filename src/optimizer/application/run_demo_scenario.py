@@ -9,12 +9,14 @@ from optimizer.application.scenario_models import (
     MATRIX_TOP_N,
     ActivityDisplayItem,
     ActivityScoreDisplay,
+    CrossValidationDisplay,
     GraphFilter,
     MatrixDisplayRow,
     MetricRow,
     ScenarioViewModel,
     StrategicBZeroRow,
 )
+from optimizer.graph_analytics.enhanced_scoring import compose_enhanced_value_input
 from optimizer.infrastructure.demo_loader import (
     bundle_to_value_input,
     load_demo_bundle,
@@ -35,17 +37,57 @@ def run_demo_scenario(
     """
     root = repo_root or resolve_repo_root()
     bundle = load_demo_bundle(scenario_id, repo_root=root)
-    value_input = bundle_to_value_input(bundle)
+
+    evaluation_confidence = None
+    cross_validation: tuple[CrossValidationDisplay, ...] = ()
+    if bundle.scenario.kind == "ai_enhanced":
+        enhanced = compose_enhanced_value_input(
+            bundle.graph,
+            bundle.metrics,
+            bundle.relevance,
+            bundle.graph_documents,
+        )
+        value_input = enhanced.value_input
+        evaluation_confidence = enhanced.evaluation_confidence
+        cross_validation = tuple(
+            CrossValidationDisplay(
+                activity_id=finding.activity_id,
+                activity_name=finding.activity_name,
+                message=finding.message,
+            )
+            for finding in enhanced.cross_validation_findings
+        )
+        metrics = tuple(_build_metrics(bundle.metrics))
+        matrix_rows = tuple(_build_matrix_rows_from_value_input(value_input))
+        activities = tuple(_build_activities_from_value_input(value_input))
+        process_rollups = tuple(
+            {
+                "process_id": row.process_id,
+                "metric_id": row.metric_id,
+                "relevance_sum": row.relevance_sum,
+                "pct_contribution": row.pct_contribution,
+            }
+            for row in value_input.process_rollups
+        )
+    else:
+        value_input = bundle_to_value_input(bundle)
+        metrics = tuple(_build_metrics(bundle.metrics))
+        matrix_rows = tuple(_build_matrix_rows(bundle.relevance, bundle.metrics))
+        activities = tuple(_build_activities(bundle.relevance))
+        process_rollups = tuple(bundle.relevance.get("process_rollups") or [])
+
     return run_scenario_view(
         graph_documents=bundle.graph_documents,
         value_input=value_input,
         graph_filter=graph_filter,
         scenario=bundle.scenario,
-        metrics=tuple(_build_metrics(bundle.metrics)),
-        matrix_rows=tuple(_build_matrix_rows(bundle.relevance, bundle.metrics)),
+        metrics=metrics,
+        matrix_rows=matrix_rows,
         strategic_b_zero=tuple(_build_strategic_b_zero(bundle.relevance)),
-        activities=tuple(_build_activities(bundle.relevance)),
-        process_rollups=tuple(bundle.relevance.get("process_rollups") or []),
+        activities=activities,
+        process_rollups=process_rollups,
+        evaluation_confidence=evaluation_confidence,
+        cross_validation_findings=cross_validation,
     )
 
 
@@ -59,6 +101,61 @@ def _build_metrics(metrics_doc: dict[str, Any]) -> list[MetricRow]:
         )
         for item in metrics_doc.get("metrics", [])
     ]
+
+
+def _build_matrix_rows_from_value_input(value_input) -> list[MatrixDisplayRow]:
+    by_metric: dict[str, list[MatrixDisplayRow]] = defaultdict(list)
+    for activity in value_input.activities:
+        for score in activity.scores:
+            if score.relevance <= 0:
+                continue
+            by_metric[score.metric_id].append(
+                MatrixDisplayRow(
+                    activity_id=activity.activity_id,
+                    activity_name=activity.activity_name,
+                    metric_id=score.metric_id,
+                    relevance=float(score.relevance),
+                )
+            )
+    rows: list[MatrixDisplayRow] = []
+    for metric in value_input.metrics:
+        metric_rows = by_metric.get(metric.id, [])
+        metric_rows.sort(key=lambda item: item.relevance, reverse=True)
+        rows.extend(metric_rows[:MATRIX_TOP_N])
+    return rows
+
+
+def _build_activities_from_value_input(value_input) -> list[ActivityDisplayItem]:
+    items: list[ActivityDisplayItem] = []
+    for activity in value_input.activities:
+        scores = tuple(
+            ActivityScoreDisplay(
+                metric_id=score.metric_id,
+                g=score.g,
+                j=score.j,
+                dv=score.dv,
+                b=score.b,
+                relevance=score.relevance,
+                pct_contribution=score.pct_contribution,
+            )
+            for score in activity.scores
+        )
+        items.append(
+            ActivityDisplayItem(
+                activity_id=activity.activity_id,
+                activity_name=activity.activity_name,
+                process_id=activity.process_id,
+                strategic_b_zero=False,
+                b_zero_reason=None,
+                scores=scores,
+                p=activity.p,
+                c=activity.c,
+                f=activity.f,
+                r=activity.r,
+                v=activity.v,
+            )
+        )
+    return items
 
 
 def _strategic_b_zero_ids(relevance: dict[str, Any]) -> set[str]:
@@ -155,6 +252,11 @@ def _build_activities(relevance: dict[str, Any]) -> list[ActivityDisplayItem]:
                 strategic_b_zero=bool(act.get("strategic_b_zero")),
                 b_zero_reason=act.get("b_zero_reason"),
                 scores=scores,
+                p=act.get("p"),
+                c=act.get("c"),
+                f=act.get("f"),
+                r=act.get("r"),
+                v=act.get("v"),
             )
         )
     return items

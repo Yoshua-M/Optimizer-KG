@@ -243,6 +243,9 @@ class TestRunDemoScenario(unittest.TestCase):
         picker_ids = {item.activity_id for item in vm.activities}
         self.assertIn("A-01", picker_ids)
         self.assertIn("A-02", picker_ids)
+        a01 = next(item for item in vm.activities if item.activity_id == "A-01")
+        self.assertEqual(a01.p, 0.5)
+        self.assertEqual(a01.v, 0.5)
 
     def test_matrix_caps_at_top_n_per_metric(self):
         _write_oversized_matrix_repo(self.repo_root)

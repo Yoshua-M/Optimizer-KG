@@ -7,6 +7,7 @@ from langchain_community.graphs.graph_document import GraphDocument
 from pyvis.network import Network
 
 if TYPE_CHECKING:
+    from optimizer.graph_analytics.graph_bridge import GraphContext
     from optimizer.graph_analytics.models import (
         AnalyticFinding,
         HighlightPayload,
@@ -101,6 +102,11 @@ class ActivityDisplayItem:
     strategic_b_zero: bool = False
     b_zero_reason: str | None = None
     scores: tuple[ActivityScoreDisplay, ...] = ()
+    p: float | None = None
+    c: float | None = None
+    f: float | None = None
+    r: float | None = None
+    v: float | None = None
 
 
 @dataclass(frozen=True)
@@ -118,10 +124,22 @@ class GraphFilter:
     explain_activity_id: str | None = None
     value_stream_overlay: bool = False
     value_stream_focus_delivery_id: str | None = None
+    value_stream_focus_is_fused: bool = False
     value_stream_include_support: bool = False
     value_stream_include_waste: bool = False
     value_stream_merge_crossing: bool = False
     analytic_highlight_id: str | None = None
+    relevance_heatmap_enabled: bool = False
+    confidence_heatmap_enabled: bool = False
+    generated_highlight_enabled: bool = False
+    generated_opacity: float = 0.2
+
+
+@dataclass(frozen=True)
+class CrossValidationDisplay:
+    activity_id: str
+    activity_name: str
+    message: str
 
 
 @dataclass(frozen=True)
@@ -174,3 +192,10 @@ class ScenarioViewModel:
     vs_color_overrides: dict[str, str] | None = None
     active_analytic_highlight: HighlightPayload | None = None
     value_stream_merge_crossing: bool = False
+    cumulative_relevance_by_activity_id: dict[str, float] = field(default_factory=dict)
+    graph_context: GraphContext | None = None
+    evaluation_confidence: float | None = None
+    cross_validation_findings: tuple[CrossValidationDisplay, ...] = ()
+    confidence_by_node_id: dict[str, float] = field(default_factory=dict)
+    generated_node_ids: frozenset[str] = frozenset()
+    generated_edge_keys: frozenset[tuple[str, str, str]] = frozenset()

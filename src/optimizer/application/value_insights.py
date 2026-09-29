@@ -10,6 +10,7 @@ from optimizer.graph_analytics.plots import (
     format_process_label,
 )
 from optimizer.graph_analytics.relevance import (
+    build_cumulative_relevance_scores,
     build_edge_relevance_map,
     build_indirect_relevance_map,
     build_relevance_explain_paths,
@@ -17,6 +18,7 @@ from optimizer.graph_analytics.relevance import (
 )
 
 __all__ = [
+    "build_cumulative_relevance_scores",
     "build_edge_relevance_map",
     "build_indirect_relevance_map",
     "build_plot_series",

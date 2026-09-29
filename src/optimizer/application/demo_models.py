@@ -12,6 +12,9 @@ class DemoScenario:
     title: str
     description: str
     paths: dict[str, str]
+    # "value" = full fixture with metrics/relevance; "structural" = graph-only;
+    # "ai_enhanced" = real data + generated fill + confidence visualization.
+    kind: str = "value"
 
 
 @dataclass(frozen=True)

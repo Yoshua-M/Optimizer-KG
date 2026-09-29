@@ -66,6 +66,24 @@ class TestRunScenarioView(unittest.TestCase):
         self.assertIn("Metric", vm.available_node_types)
         self.assertIn("AFFECTS", vm.available_relationship_types)
 
+    def test_isolation_seed_is_marked_on_the_graph(self):
+        graph_filter = self.GraphFilter(
+            node_types=None,
+            relationship_types=None,
+            isolation_seed_id="A-01",
+            relevance_pull_enabled=False,
+        )
+        vm = self.run_scenario_view(
+            graph_documents=self.graph_documents,
+            value_input=self.value_input,
+            graph_filter=graph_filter,
+        )
+        nodes = {node["id"]: node for node in vm.graph_network.nodes}
+        seed = nodes["A-01"]
+        self.assertEqual(seed.get("color"), "#FFEB3B")
+        self.assertEqual(seed.get("size"), 40.0)
+        self.assertNotEqual(nodes["M-01"].get("color"), "#FFEB3B")
+
     def test_graph_filter_reduces_visible_nodes(self):
         graph_filter = self.GraphFilter(
             node_types=frozenset({"Activity"}),
@@ -105,6 +123,18 @@ class TestRunScenarioView(unittest.TestCase):
             ),
         )
         _assert_edge_styling_differs(vm_off.graph_network, vm_on.graph_network)
+
+    def test_activity_tooltips_include_evaluation_from_value_input(self):
+        vm = self.run_scenario_view(
+            graph_documents=self.graph_documents,
+            value_input=self.value_input,
+        )
+        title = {node["id"]: node for node in vm.graph_network.nodes}["A-01"].get("title", "")
+        self.assertIn("Posición: 0.5", title)
+        self.assertIn("Causalidad: 0.5", title)
+        self.assertIn("Frecuencia: 0.5", title)
+        self.assertIn("Riesgo: 0.5", title)
+        self.assertIn("Valor interno: 0.5", title)
 
 
 def _assert_edge_styling_differs(net_off: Network, net_on: Network) -> None:
@@ -387,6 +417,44 @@ class TestRunScenarioViewAnalyticsIntegration(unittest.TestCase):
             graph_filter=graph_filter,
         )
         self.assertIsNotNone(vm.active_analytic_highlight)
+
+    def test_relevance_heatmap_colors_activities_and_dims_rest(self):
+        import json
+        from pathlib import Path
+
+        from optimizer.infrastructure.visualization.pyvis_graph import (
+            DIM_COLOR,
+            HEATMAP_COLOR_HIGH,
+        )
+
+        project_root = Path(__file__).resolve().parents[2]
+        minimal_fixture = project_root / "tests" / "fixtures" / "demo" / "minimal"
+        from optimizer.infrastructure.demo_loader import (
+            bundle_to_value_input,
+            graph_json_to_graph_documents,
+        )
+
+        graph = json.loads((minimal_fixture / "graph.json").read_text(encoding="utf-8"))
+        graph_documents = graph_json_to_graph_documents(graph)
+        from tests.fixtures.scenario.value_scenario_factory import minimal_value_scenario
+
+        value_input = minimal_value_scenario()
+        vm = self.run_scenario_view(
+            graph_documents=graph_documents,
+            value_input=value_input,
+            graph_filter=self.GraphFilter(
+                node_types=None,
+                relationship_types=None,
+                isolation_seed_id=None,
+                relevance_pull_enabled=False,
+                relevance_heatmap_enabled=True,
+            ),
+        )
+        nodes = {node["id"]: node for node in vm.graph_network.nodes}
+        edges = {(edge["from"], edge["to"]): edge for edge in vm.graph_network.edges}
+        self.assertEqual(nodes["A-01"].get("color"), HEATMAP_COLOR_HIGH)
+        self.assertEqual(nodes["M-01"].get("color"), DIM_COLOR)
+        self.assertEqual(edges[("A-01", "M-01")].get("color"), DIM_COLOR)
 
 
 if __name__ == "__main__":

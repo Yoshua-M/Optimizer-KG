@@ -97,17 +97,6 @@ def _collect_process_neighborhood(
             value_targets.add(relationship.source.id)
     included.update(value_targets)
 
-    for relationship in document.relationships:
-        if (
-            relationship.source.id in included
-            and relationship.target.id in included
-        ):
-            continue
-        if relationship.source.id in included:
-            included.add(relationship.target.id)
-        elif relationship.target.id in included:
-            included.add(relationship.source.id)
-
     if process_id in nodes_by_id:
         included.add(process_id)
     return included
@@ -116,7 +105,11 @@ def _collect_process_neighborhood(
 def _collect_activity_neighborhood(
     document: GraphDocument,
     activity_id: str,
+    *,
+    value_input: ValueScenarioInput | None = None,
+    value_stream_trees=(),
 ) -> set[str]:
+    """Activity, its process, scored value paths, and value-stream trees through it."""
     included = {activity_id}
 
     for relationship in document.relationships:
@@ -131,23 +124,24 @@ def _collect_activity_neighborhood(
         if process_id:
             included.add(process_id)
 
-    value_targets: set[str] = set()
-    for relationship in document.relationships:
-        if relationship.type not in _VALUE_RELATIONSHIPS:
-            continue
-        if relationship.source.id == activity_id:
-            value_targets.add(relationship.target.id)
-        if relationship.target.id == activity_id:
-            value_targets.add(relationship.source.id)
-    included.update(value_targets)
+    if value_input is not None:
+        included.update(
+            explain_activity_relevance([document], value_input, activity_id).node_ids
+        )
+    else:
+        for relationship in document.relationships:
+            if relationship.type not in _VALUE_RELATIONSHIPS:
+                continue
+            if relationship.source.id == activity_id:
+                included.add(relationship.target.id)
+            elif relationship.target.id == activity_id:
+                included.add(relationship.source.id)
 
-    for relationship in document.relationships:
-        source_id = relationship.source.id
-        target_id = relationship.target.id
-        if source_id in included and target_id not in included:
-            included.add(target_id)
-        elif target_id in included and source_id not in included:
-            included.add(source_id)
+    # ponytail: events come only from value-stream trees that contain the activity.
+    # Walk PRECEDES ancestors/descendants when a scored activity sits on no tree.
+    for tree in value_stream_trees:
+        if activity_id in tree.activity_ids:
+            included.update(tree.node_ids)
 
     return included
 
@@ -210,6 +204,9 @@ def merge_explain_highlight_into_documents(
 def isolate_subgraph(
     documents: list[GraphDocument],
     seed_id: str,
+    *,
+    value_input: ValueScenarioInput | None = None,
+    value_stream_trees=(),
 ) -> list[GraphDocument]:
     isolated: list[GraphDocument] = []
     for document in documents:
@@ -224,7 +221,12 @@ def isolate_subgraph(
         if seed_node.type == "Process":
             included = _collect_process_neighborhood(document, seed_id)
         else:
-            included = _collect_activity_neighborhood(document, seed_id)
+            included = _collect_activity_neighborhood(
+                document,
+                seed_id,
+                value_input=value_input,
+                value_stream_trees=value_stream_trees,
+            )
 
         nodes = [node for node in document.nodes if node.id in included]
         relationships = [

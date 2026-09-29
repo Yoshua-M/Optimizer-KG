@@ -101,6 +101,94 @@ class TestGraphFilter(unittest.TestCase):
         self.assertIn("M-01", ids)
         self.assertNotIn("A-02", ids)
 
+    def test_isolate_activity_keeps_failure_scope_only(self):
+        from langchain_community.graphs.graph_document import GraphDocument, Node, Relationship
+        from langchain_core.documents import Document
+
+        from optimizer.application.scenario_models import (
+            ActivityRow,
+            ActivityScoreRow,
+            MetricRow,
+            ValueScenarioInput,
+        )
+        from optimizer.graph_analytics.models import ValueStreamTree
+
+        p1 = Node(id="P-01", type="Process")
+        a1 = Node(id="A-01", type="Activity", properties={"process_id": "P-01"})
+        sibling = Node(id="A-sib", type="Activity", properties={"process_id": "P-01"})
+        flow = Node(id="A-flow", type="Activity", properties={"process_id": "P-02"})
+        other = Node(id="A-other", type="Activity", properties={"process_id": "P-02"})
+        p2 = Node(id="P-02", type="Process")
+        m1 = Node(id="M-01", type="Metric")
+        noise = Node(id="M-noise", type="Metric")
+        demand = Node(id="E-dem", type="Event", properties={"event_type": "demand"})
+        delivery = Node(id="E-del", type="Event", properties={"event_type": "value_realization"})
+        documents = [
+            GraphDocument(
+                nodes=[p1, p2, a1, sibling, flow, other, m1, noise, demand, delivery],
+                relationships=[
+                    Relationship(source=a1, target=p1, type="PART_OF"),
+                    Relationship(source=sibling, target=p1, type="PART_OF"),
+                    Relationship(source=other, target=p2, type="PART_OF"),
+                    Relationship(source=a1, target=m1, type="AFFECTS"),
+                    Relationship(source=a1, target=noise, type="AFFECTS"),
+                    Relationship(source=sibling, target=m1, type="AFFECTS"),
+                    Relationship(source=demand, target=a1, type="PRECEDES"),
+                    Relationship(source=a1, target=flow, type="PRECEDES"),
+                    Relationship(source=flow, target=delivery, type="PRECEDES"),
+                ],
+                source=Document(page_content="failure scope"),
+            )
+        ]
+        value_input = ValueScenarioInput(
+            metrics=(MetricRow(id="M-01", name="M-01", definition="", client_need=""),),
+            activities=(
+                ActivityRow(
+                    activity_id="A-01",
+                    activity_name="A-01",
+                    process_id="P-01",
+                    p=1.0,
+                    c=1.0,
+                    f=1.0,
+                    r=1.0,
+                    v=1.0,
+                    scores=(
+                        ActivityScoreRow(
+                            metric_id="M-01",
+                            g=1.0,
+                            j=0.0,
+                            dv=0.0,
+                            b=1.0,
+                            relevance=1.0,
+                            pct_contribution=1.0,
+                        ),
+                    ),
+                ),
+            ),
+            process_rollups=(),
+            strategic_b_zero=(),
+        )
+        tree = ValueStreamTree(
+            delivery_event_id="E-del",
+            anchor_event_ids=frozenset({"E-dem"}),
+            activity_ids=frozenset({"A-01", "A-flow"}),
+            node_ids=frozenset({"E-dem", "A-01", "A-flow", "E-del"}),
+            edge_keys=frozenset(),
+            node_scores={},
+            total_relevance=1.0,
+        )
+        isolated = self.isolate_subgraph(
+            documents,
+            "A-01",
+            value_input=value_input,
+            value_stream_trees=(tree,),
+        )
+        ids = self._node_ids(isolated)
+        self.assertEqual(
+            ids,
+            {"A-01", "P-01", "M-01", "A-flow", "E-dem", "E-del"},
+        )
+
     def test_filter_then_isolate_composes(self):
         graph_filter = self.GraphFilter(
             node_types=frozenset({"Activity", "Process", "Metric"}),
