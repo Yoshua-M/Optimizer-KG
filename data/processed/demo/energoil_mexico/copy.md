@@ -18,4 +18,4 @@ Actividades con **V alto y B = 0** son hallazgos: críticas internamente pero si
 
 ## Datos
 
-Escenario simulado para demo comercial. Fuente: inventario Energoil México (junio 2026).
+Escenario simulado para demo comercial. Fuente: inventario Energoil México v1 (junio 2026).

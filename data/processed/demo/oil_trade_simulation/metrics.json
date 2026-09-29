@@ -1,0 +1,115 @@
+{
+  "scenario_id": "oil_trade_simulation",
+  "metrics": [
+    {
+      "id": "M-01",
+      "name": "Confiabilidad de entrega en ventana comprometida",
+      "definition": "% de entregas dentro de ±30 min del horario comprometido",
+      "client_need": "El cliente necesita planear su operación alrededor de la entrega"
+    },
+    {
+      "id": "M-02",
+      "name": "Tiempo de respuesta ante falla de suministro",
+      "definition": "Horas desde detección interna de falla hasta notificación al cliente con alternativa",
+      "client_need": "El cliente juzga la relación por lo que pasa cuando algo sale mal"
+    },
+    {
+      "id": "M-03",
+      "name": "Exactitud de volumen entregado",
+      "definition": "% de entregas con diferencia entre pedido y recibido dentro de tolerancia (<0.5%)",
+      "client_need": "El cliente gestiona su propio inventario — una entrega corta fuerza una compra de emergencia"
+    },
+    {
+      "id": "M-04",
+      "name": "Costo total de abastecimiento predecible",
+      "definition": "Costo por litro del período (precio + costo financiero de crédito + overhead administrativo) vs. lo acordado",
+      "client_need": "El cliente necesita precio estable para fijar sus propios precios"
+    },
+    {
+      "id": "M-05",
+      "name": "Ausencia de fricción administrativa",
+      "definition": "Compuesto: tiempo de confirmación de pedido + tasa de errores en factura + incidentes documentales que requirieron intervención del cliente",
+      "client_need": "El cliente quiere que pedir combustible consuma el mínimo de su propio equipo"
+    }
+  ],
+  "metric_drivers": [
+    {
+      "id": "MD-01",
+      "parent_metric_id": "M-01",
+      "name": "Disponibilidad de flota de pipas en turno",
+      "description": "Nº de unidades disponibles vs. requeridas por ruta y turno"
+    },
+    {
+      "id": "MD-02",
+      "parent_metric_id": "M-01",
+      "name": "Tiempo de carga en terminal TAR",
+      "description": "Minutos desde llegada a terminal hasta salida con carga completa"
+    },
+    {
+      "id": "MD-03",
+      "parent_metric_id": "M-01",
+      "name": "Precisión de planeación de ruta",
+      "description": "Holgura entre tiempo estimado y tiempo real de llegada a sitio cliente"
+    },
+    {
+      "id": "MD-04",
+      "parent_metric_id": "M-01",
+      "name": "Disponibilidad de producto en terminal",
+      "description": "Días de inventario disponible en TAR asignada"
+    },
+    {
+      "id": "MD-05",
+      "parent_metric_id": "M-02",
+      "name": "Tiempo de detección interna de falla",
+      "description": "Minutos desde que ocurre la falla hasta que el equipo la identifica y escala"
+    },
+    {
+      "id": "MD-06",
+      "parent_metric_id": "M-02",
+      "name": "Disponibilidad de alternativas de suministro",
+      "description": "Nº de fuentes o rutas alternativas confirmadas y operativas"
+    },
+    {
+      "id": "MD-07",
+      "parent_metric_id": "M-02",
+      "name": "Velocidad de autorización de solución de contingencia",
+      "description": "Tiempo desde propuesta de alternativa hasta autorización interna para ejecutarla"
+    },
+    {
+      "id": "MD-08",
+      "parent_metric_id": "M-03",
+      "name": "Precisión de aforo en carga",
+      "description": "Desviación promedio entre litros aforados al cargar vs. aforados al entregar"
+    },
+    {
+      "id": "MD-09",
+      "parent_metric_id": "M-03",
+      "name": "Tasa de incidentes de sello o documentación de traslado",
+      "description": "% de cargas con discrepancia documental detectada en sitio del cliente"
+    },
+    {
+      "id": "MD-10",
+      "parent_metric_id": "M-04",
+      "name": "Exactitud de facturación",
+      "description": "% de facturas emitidas sin error de precio, volumen o condición de crédito"
+    },
+    {
+      "id": "MD-11",
+      "parent_metric_id": "M-04",
+      "name": "Estabilidad del precio acordado",
+      "description": "Variaciones de precio no comunicadas al cliente con anticipación"
+    },
+    {
+      "id": "MD-12",
+      "parent_metric_id": "M-05",
+      "name": "Tiempo de confirmación de pedido",
+      "description": "Horas desde recepción hasta envío de confirmación con detalle de entrega"
+    },
+    {
+      "id": "MD-13",
+      "parent_metric_id": "M-05",
+      "name": "Tasa de pedidos con intervención manual del cliente",
+      "description": "% de pedidos que requirieron gestión adicional del cliente para avanzar"
+    }
+  ]
+}

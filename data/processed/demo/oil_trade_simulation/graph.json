@@ -1,0 +1,4814 @@
+{
+  "scenario_id": "oil_trade_simulation",
+  "title": "Oil Trade simulation — misconceptions & value streams",
+  "source": "data/raw/Oil_Trade_Simulation_Graph_Inventory.md",
+  "meta": {
+    "synthetic_signals": true,
+    "synthetic_note": "CJS—[SIGNALS]→Metric strengths not in inventory; added for J(A,M) per bridge protocol.",
+    "inferred_driver_affects": true,
+    "node_count": 138,
+    "relationship_count": 428,
+    "inventory_version": "v3",
+    "synthetic_event_precedes": true,
+    "synthetic_event_precedes_note": "Event↔Activity PRECEDES derived from INVOLVES_EVENT event_role for VS discovery.",
+    "misconceptions": [
+      "M-A",
+      "M-D",
+      "M-3"
+    ],
+    "misconception_note": "Activities A-59–A-67 embed organizational misconceptions with high V and B≈0."
+  },
+  "nodes": [
+    {
+      "id": "M-01",
+      "type": "Metric",
+      "label": "Confiabilidad de entrega en ventana comprometida",
+      "properties": {
+        "definition": "% de entregas dentro de ±30 min del horario comprometido",
+        "client_need": "El cliente necesita planear su operación alrededor de la entrega"
+      }
+    },
+    {
+      "id": "M-02",
+      "type": "Metric",
+      "label": "Tiempo de respuesta ante falla de suministro",
+      "properties": {
+        "definition": "Horas desde detección interna de falla hasta notificación al cliente con alternativa",
+        "client_need": "El cliente juzga la relación por lo que pasa cuando algo sale mal"
+      }
+    },
+    {
+      "id": "M-03",
+      "type": "Metric",
+      "label": "Exactitud de volumen entregado",
+      "properties": {
+        "definition": "% de entregas con diferencia entre pedido y recibido dentro de tolerancia (<0.5%)",
+        "client_need": "El cliente gestiona su propio inventario — una entrega corta fuerza una compra de emergencia"
+      }
+    },
+    {
+      "id": "M-04",
+      "type": "Metric",
+      "label": "Costo total de abastecimiento predecible",
+      "properties": {
+        "definition": "Costo por litro del período (precio + costo financiero de crédito + overhead administrativo) vs. lo acordado",
+        "client_need": "El cliente necesita precio estable para fijar sus propios precios"
+      }
+    },
+    {
+      "id": "M-05",
+      "type": "Metric",
+      "label": "Ausencia de fricción administrativa",
+      "properties": {
+        "definition": "Compuesto: tiempo de confirmación de pedido + tasa de errores en factura + incidentes documentales que requirieron intervención del cliente",
+        "client_need": "El cliente quiere que pedir combustible consuma el mínimo de su propio equipo"
+      }
+    },
+    {
+      "id": "MD-01",
+      "type": "MetricDriver",
+      "label": "Disponibilidad de flota de pipas en turno",
+      "properties": {
+        "parent_metric_id": "M-01",
+        "description": "Nº de unidades disponibles vs. requeridas por ruta y turno"
+      }
+    },
+    {
+      "id": "MD-02",
+      "type": "MetricDriver",
+      "label": "Tiempo de carga en terminal TAR",
+      "properties": {
+        "parent_metric_id": "M-01",
+        "description": "Minutos desde llegada a terminal hasta salida con carga completa"
+      }
+    },
+    {
+      "id": "MD-03",
+      "type": "MetricDriver",
+      "label": "Precisión de planeación de ruta",
+      "properties": {
+        "parent_metric_id": "M-01",
+        "description": "Holgura entre tiempo estimado y tiempo real de llegada a sitio cliente"
+      }
+    },
+    {
+      "id": "MD-04",
+      "type": "MetricDriver",
+      "label": "Disponibilidad de producto en terminal",
+      "properties": {
+        "parent_metric_id": "M-01",
+        "description": "Días de inventario disponible en TAR asignada"
+      }
+    },
+    {
+      "id": "MD-05",
+      "type": "MetricDriver",
+      "label": "Tiempo de detección interna de falla",
+      "properties": {
+        "parent_metric_id": "M-02",
+        "description": "Minutos desde que ocurre la falla hasta que el equipo la identifica y escala"
+      }
+    },
+    {
+      "id": "MD-06",
+      "type": "MetricDriver",
+      "label": "Disponibilidad de alternativas de suministro",
+      "properties": {
+        "parent_metric_id": "M-02",
+        "description": "Nº de fuentes o rutas alternativas confirmadas y operativas"
+      }
+    },
+    {
+      "id": "MD-07",
+      "type": "MetricDriver",
+      "label": "Velocidad de autorización de solución de contingencia",
+      "properties": {
+        "parent_metric_id": "M-02",
+        "description": "Tiempo desde propuesta de alternativa hasta autorización interna para ejecutarla"
+      }
+    },
+    {
+      "id": "MD-08",
+      "type": "MetricDriver",
+      "label": "Precisión de aforo en carga",
+      "properties": {
+        "parent_metric_id": "M-03",
+        "description": "Desviación promedio entre litros aforados al cargar vs. aforados al entregar"
+      }
+    },
+    {
+      "id": "MD-09",
+      "type": "MetricDriver",
+      "label": "Tasa de incidentes de sello o documentación de traslado",
+      "properties": {
+        "parent_metric_id": "M-03",
+        "description": "% de cargas con discrepancia documental detectada en sitio del cliente"
+      }
+    },
+    {
+      "id": "MD-10",
+      "type": "MetricDriver",
+      "label": "Exactitud de facturación",
+      "properties": {
+        "parent_metric_id": "M-04",
+        "description": "% de facturas emitidas sin error de precio, volumen o condición de crédito"
+      }
+    },
+    {
+      "id": "MD-11",
+      "type": "MetricDriver",
+      "label": "Estabilidad del precio acordado",
+      "properties": {
+        "parent_metric_id": "M-04",
+        "description": "Variaciones de precio no comunicadas al cliente con anticipación"
+      }
+    },
+    {
+      "id": "MD-12",
+      "type": "MetricDriver",
+      "label": "Tiempo de confirmación de pedido",
+      "properties": {
+        "parent_metric_id": "M-05",
+        "description": "Horas desde recepción hasta envío de confirmación con detalle de entrega"
+      }
+    },
+    {
+      "id": "MD-13",
+      "type": "MetricDriver",
+      "label": "Tasa de pedidos con intervención manual del cliente",
+      "properties": {
+        "parent_metric_id": "M-05",
+        "description": "% de pedidos que requirieron gestión adicional del cliente para avanzar"
+      }
+    },
+    {
+      "id": "CJS-01",
+      "type": "CustomerJourneyStep",
+      "label": "Evaluación de proveedor alternativo a PEMEX",
+      "properties": {
+        "experience": "El cliente considera cambiar o añadir un proveedor; evalúa reputación, cobertura y referencias"
+      }
+    },
+    {
+      "id": "CJS-02",
+      "type": "CustomerJourneyStep",
+      "label": "Negociación y cierre de contrato",
+      "properties": {
+        "experience": "El cliente negocia precio, volumen, crédito y condiciones; forma su primera impresión de cómo trabaja la comercializadora"
+      }
+    },
+    {
+      "id": "CJS-03",
+      "type": "CustomerJourneyStep",
+      "label": "Primer pedido y entrega",
+      "properties": {
+        "experience": "Momento de verdad: el cliente experimenta por primera vez el proceso real de pedido y recepción"
+      }
+    },
+    {
+      "id": "CJS-04",
+      "type": "CustomerJourneyStep",
+      "label": "Operación recurrente de suministro",
+      "properties": {
+        "experience": "Ciclo continuo donde el cliente calibra confiabilidad, exactitud y facilidad de operar con la comercializadora"
+      }
+    },
+    {
+      "id": "CJS-05",
+      "type": "CustomerJourneyStep",
+      "label": "Experiencia de falla o retraso",
+      "properties": {
+        "experience": "El cliente enfrenta una interrupción; este momento define si confía en la comercializadora como socio de largo plazo"
+      }
+    },
+    {
+      "id": "CJS-06",
+      "type": "CustomerJourneyStep",
+      "label": "Revisión comercial periódica",
+      "properties": {
+        "experience": "El cliente evalúa el desempeño del período; decide si está satisfecho o empieza a explorar alternativas"
+      }
+    },
+    {
+      "id": "CJS-07",
+      "type": "CustomerJourneyStep",
+      "label": "Renovación o expansión del contrato",
+      "properties": {
+        "experience": "El cliente toma la decisión de continuar, ampliar o terminar la relación"
+      }
+    },
+    {
+      "id": "P-01",
+      "type": "Process",
+      "label": "Gestión de Pedidos y Entregas",
+      "properties": {
+        "description": "Ciclo completo desde recepción del pedido hasta entrega confirmada y facturación"
+      }
+    },
+    {
+      "id": "P-02",
+      "type": "Process",
+      "label": "Atención de Fallas y Contingencias",
+      "properties": {
+        "description": "Detección, evaluación y resolución de interrupciones de suministro con notificación proactiva"
+      }
+    },
+    {
+      "id": "P-03",
+      "type": "Process",
+      "label": "Adquisición de Clientes",
+      "properties": {
+        "description": "Ciclo de prospección, evaluación crediticia, propuesta y contratación de clientes nuevos"
+      }
+    },
+    {
+      "id": "P-04",
+      "type": "Process",
+      "label": "Retención y Renovación de Contratos",
+      "properties": {
+        "description": "Seguimiento de contratos activos, revisión comercial y cierre de renovaciones o expansiones"
+      }
+    },
+    {
+      "id": "P-05",
+      "type": "Process",
+      "label": "Gestión de Crédito Comercial",
+      "properties": {
+        "description": "Evaluación, autorización y ajuste de condiciones crediticias para clientes activos y prospectos"
+      }
+    },
+    {
+      "id": "A-01",
+      "type": "Activity",
+      "label": "Recepción y registro del pedido del cliente",
+      "properties": {
+        "process_id": "P-01",
+        "porter_areas": [
+          "Marketing y Ventas",
+          "Logística Externa"
+        ],
+        "area": "marketing y ventas, logística externa",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Diaria",
+        "p": 0.25,
+        "c": 0.5,
+        "f": 1.0,
+        "r": 0.25,
+        "v": 0.5
+      }
+    },
+    {
+      "id": "A-02",
+      "type": "Activity",
+      "label": "Validación del pedido contra contrato activo y condiciones vigentes",
+      "properties": {
+        "process_id": "P-01",
+        "porter_areas": [
+          "Marketing y Ventas",
+          "Núcleo de Gobernanza"
+        ],
+        "area": "marketing y ventas, núcleo de gobernanza",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Diaria",
+        "p": 0.5,
+        "c": 0.75,
+        "f": 1.0,
+        "r": 0.5,
+        "v": 0.7
+      }
+    },
+    {
+      "id": "A-03",
+      "type": "Activity",
+      "label": "Autorización de crédito para el despacho",
+      "properties": {
+        "process_id": "P-01",
+        "porter_areas": [
+          "Núcleo de Gobernanza"
+        ],
+        "area": "núcleo de gobernanza",
+        "team_id": "T-01",
+        "team_label": "Núcleo de Gobernanza",
+        "frequency": "Por pedido",
+        "p": 0.75,
+        "c": 0.75,
+        "f": 1.0,
+        "r": 0.75,
+        "v": 0.8
+      }
+    },
+    {
+      "id": "A-04",
+      "type": "Activity",
+      "label": "Verificación de disponibilidad de producto en TAR asignada",
+      "properties": {
+        "process_id": "P-01",
+        "porter_areas": [
+          "Abastecimiento",
+          "Logística Interna"
+        ],
+        "area": "abastecimiento, logística interna",
+        "team_id": "T-04",
+        "team_label": "Abastecimiento",
+        "frequency": "Diaria",
+        "p": 0.75,
+        "c": 1.0,
+        "f": 1.0,
+        "r": 0.75,
+        "v": 0.9
+      }
+    },
+    {
+      "id": "A-05",
+      "type": "Activity",
+      "label": "Planeación de ruta con ventana de entrega comprometida",
+      "properties": {
+        "process_id": "P-01",
+        "porter_areas": [
+          "Logística Externa"
+        ],
+        "area": "logística externa",
+        "team_id": "T-07",
+        "team_label": "Logística Externa",
+        "frequency": "Diaria",
+        "p": 0.75,
+        "c": 1.0,
+        "f": 1.0,
+        "r": 0.75,
+        "v": 0.9
+      }
+    },
+    {
+      "id": "A-06",
+      "type": "Activity",
+      "label": "Programación de ventana de carga en terminal TAR",
+      "properties": {
+        "process_id": "P-01",
+        "porter_areas": [
+          "Logística Interna",
+          "Logística Externa"
+        ],
+        "area": "logística interna, logística externa",
+        "team_id": "T-05",
+        "team_label": "Logística Interna",
+        "frequency": "Diaria",
+        "p": 0.75,
+        "c": 0.75,
+        "f": 1.0,
+        "r": 0.75,
+        "v": 0.8
+      }
+    },
+    {
+      "id": "A-07",
+      "type": "Activity",
+      "label": "Muestreo y prueba NOM-016 del lote a cargar",
+      "properties": {
+        "process_id": "P-01",
+        "porter_areas": [
+          "Operaciones",
+          "Núcleo de Gobernanza"
+        ],
+        "area": "operaciones, núcleo de gobernanza",
+        "team_id": "T-06",
+        "team_label": "Operaciones",
+        "frequency": "Por carga",
+        "p": 0.75,
+        "c": 1.0,
+        "f": 1.0,
+        "r": 1.0,
+        "v": 0.93
+      }
+    },
+    {
+      "id": "A-08",
+      "type": "Activity",
+      "label": "Supervisión de carga: aforo, sellos y documentación de traslado",
+      "properties": {
+        "process_id": "P-01",
+        "porter_areas": [
+          "Logística Interna",
+          "Operaciones"
+        ],
+        "area": "logística interna, operaciones",
+        "team_id": "T-05",
+        "team_label": "Logística Interna",
+        "frequency": "Por carga",
+        "p": 0.75,
+        "c": 0.75,
+        "f": 1.0,
+        "r": 0.75,
+        "v": 0.8
+      }
+    },
+    {
+      "id": "A-09",
+      "type": "Activity",
+      "label": "Asignación de operador y briefing de ruta",
+      "properties": {
+        "process_id": "P-01",
+        "porter_areas": [
+          "Logística Externa",
+          "Operaciones"
+        ],
+        "area": "logística externa, operaciones",
+        "team_id": "T-07",
+        "team_label": "Logística Externa",
+        "frequency": "Por entrega",
+        "p": 0.75,
+        "c": 0.5,
+        "f": 1.0,
+        "r": 0.5,
+        "v": 0.68
+      }
+    },
+    {
+      "id": "A-10",
+      "type": "Activity",
+      "label": "Monitoreo de ruta en tiempo real (GPS y comunicación con operador)",
+      "properties": {
+        "process_id": "P-01",
+        "porter_areas": [
+          "Logística Externa",
+          "Desarrollo Tecnológico"
+        ],
+        "area": "logística externa, desarrollo tecnológico",
+        "team_id": "T-07",
+        "team_label": "Logística Externa",
+        "frequency": "Tiempo real",
+        "p": 0.75,
+        "c": 0.75,
+        "f": 1.0,
+        "r": 0.75,
+        "v": 0.8
+      }
+    },
+    {
+      "id": "A-11",
+      "type": "Activity",
+      "label": "Entrega en sitio cliente: descarga, aforo final y firma de remisión",
+      "properties": {
+        "process_id": "P-01",
+        "porter_areas": [
+          "Logística Externa"
+        ],
+        "area": "logística externa",
+        "team_id": "T-07",
+        "team_label": "Logística Externa",
+        "frequency": "Por entrega",
+        "p": 1.0,
+        "c": 1.0,
+        "f": 1.0,
+        "r": 0.75,
+        "v": 0.98
+      }
+    },
+    {
+      "id": "A-12",
+      "type": "Activity",
+      "label": "Verificación de aforo final y cierre de remisión con volumen real",
+      "properties": {
+        "process_id": "P-01",
+        "porter_areas": [
+          "Logística Externa",
+          "Operaciones"
+        ],
+        "area": "logística externa, operaciones",
+        "team_id": "T-07",
+        "team_label": "Logística Externa",
+        "frequency": "Por entrega",
+        "p": 1.0,
+        "c": 1.0,
+        "f": 1.0,
+        "r": 0.75,
+        "v": 0.98
+      }
+    },
+    {
+      "id": "A-13",
+      "type": "Activity",
+      "label": "Generación de factura CFDI post-entrega con condiciones del contrato",
+      "properties": {
+        "process_id": "P-01",
+        "porter_areas": [
+          "Núcleo de Gobernanza",
+          "Marketing y Ventas"
+        ],
+        "area": "núcleo de gobernanza, marketing y ventas",
+        "team_id": "T-01",
+        "team_label": "Núcleo de Gobernanza",
+        "frequency": "Por entrega",
+        "p": 0.75,
+        "c": 0.75,
+        "f": 1.0,
+        "r": 0.5,
+        "v": 0.78
+      }
+    },
+    {
+      "id": "A-14",
+      "type": "Activity",
+      "label": "Envío de confirmación de pedido al cliente con detalle de entrega",
+      "properties": {
+        "process_id": "P-01",
+        "porter_areas": [
+          "Marketing y Ventas"
+        ],
+        "area": "marketing y ventas",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Por pedido",
+        "p": 0.75,
+        "c": 0.75,
+        "f": 1.0,
+        "r": 0.25,
+        "v": 0.75
+      }
+    },
+    {
+      "id": "A-15",
+      "type": "Activity",
+      "label": "Envío de estado de cuenta del período sin ajustes pendientes",
+      "properties": {
+        "process_id": "P-01",
+        "porter_areas": [
+          "Núcleo de Gobernanza"
+        ],
+        "area": "núcleo de gobernanza",
+        "team_id": "T-01",
+        "team_label": "Núcleo de Gobernanza",
+        "frequency": "Mensual",
+        "p": 0.75,
+        "c": 0.5,
+        "f": 0.5,
+        "r": 0.25,
+        "v": 0.55
+      }
+    },
+    {
+      "id": "A-16",
+      "type": "Activity",
+      "label": "Detección de falla de suministro activa (TAR, ruta o documentación)",
+      "properties": {
+        "process_id": "P-02",
+        "porter_areas": [
+          "Logística Externa",
+          "Abastecimiento"
+        ],
+        "area": "logística externa, abastecimiento",
+        "team_id": "T-07",
+        "team_label": "Logística Externa",
+        "frequency": "Según evento",
+        "p": 0.75,
+        "c": 1.0,
+        "f": 0.5,
+        "r": 1.0,
+        "v": 0.83
+      }
+    },
+    {
+      "id": "A-17",
+      "type": "Activity",
+      "label": "Evaluación de opciones de contingencia disponibles",
+      "properties": {
+        "process_id": "P-02",
+        "porter_areas": [
+          "Abastecimiento",
+          "Núcleo de Gobernanza"
+        ],
+        "area": "abastecimiento, núcleo de gobernanza",
+        "team_id": "T-04",
+        "team_label": "Abastecimiento",
+        "frequency": "Según evento",
+        "p": 0.75,
+        "c": 1.0,
+        "f": 0.5,
+        "r": 0.75,
+        "v": 0.8
+      }
+    },
+    {
+      "id": "A-18",
+      "type": "Activity",
+      "label": "Notificación proactiva al cliente con alternativa concreta y tiempo estimado",
+      "properties": {
+        "process_id": "P-02",
+        "porter_areas": [
+          "Marketing y Ventas",
+          "Servicio Postventa"
+        ],
+        "area": "marketing y ventas, servicio postventa",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Según evento",
+        "p": 1.0,
+        "c": 1.0,
+        "f": 0.5,
+        "r": 1.0,
+        "v": 0.9
+      }
+    },
+    {
+      "id": "A-19",
+      "type": "Activity",
+      "label": "Coordinación y ejecución de solución alternativa de suministro",
+      "properties": {
+        "process_id": "P-02",
+        "porter_areas": [
+          "Logística Externa",
+          "Abastecimiento"
+        ],
+        "area": "logística externa, abastecimiento",
+        "team_id": "T-07",
+        "team_label": "Logística Externa",
+        "frequency": "Según evento",
+        "p": 1.0,
+        "c": 1.0,
+        "f": 0.5,
+        "r": 1.0,
+        "v": 0.9
+      }
+    },
+    {
+      "id": "A-20",
+      "type": "Activity",
+      "label": "Calificación y validación del prospecto",
+      "properties": {
+        "process_id": "P-03",
+        "porter_areas": [
+          "Marketing y Ventas"
+        ],
+        "area": "marketing y ventas",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Continua",
+        "p": 0.25,
+        "c": 0.5,
+        "f": 0.5,
+        "r": 0.25,
+        "v": 0.4
+      }
+    },
+    {
+      "id": "A-21",
+      "type": "Activity",
+      "label": "Evaluación de perfil crediticio del prospecto",
+      "properties": {
+        "process_id": "P-03",
+        "porter_areas": [
+          "Núcleo de Gobernanza"
+        ],
+        "area": "núcleo de gobernanza",
+        "team_id": "T-01",
+        "team_label": "Núcleo de Gobernanza",
+        "frequency": "Por prospecto",
+        "p": 0.75,
+        "c": 0.75,
+        "f": 0.5,
+        "r": 0.75,
+        "v": 0.7
+      }
+    },
+    {
+      "id": "A-22",
+      "type": "Activity",
+      "label": "Elaboración de propuesta comercial personalizada",
+      "properties": {
+        "process_id": "P-03",
+        "porter_areas": [
+          "Marketing y Ventas"
+        ],
+        "area": "marketing y ventas",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Por prospecto",
+        "p": 0.5,
+        "c": 0.5,
+        "f": 0.5,
+        "r": 0.25,
+        "v": 0.48
+      }
+    },
+    {
+      "id": "A-23",
+      "type": "Activity",
+      "label": "Presentación y negociación de condiciones comerciales",
+      "properties": {
+        "process_id": "P-03",
+        "porter_areas": [
+          "Marketing y Ventas"
+        ],
+        "area": "marketing y ventas",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Por prospecto",
+        "p": 0.75,
+        "c": 0.75,
+        "f": 0.5,
+        "r": 0.5,
+        "v": 0.68
+      }
+    },
+    {
+      "id": "A-24",
+      "type": "Activity",
+      "label": "Documentación y alta del cliente en sistema",
+      "properties": {
+        "process_id": "P-03",
+        "porter_areas": [
+          "Marketing y Ventas",
+          "Núcleo de Gobernanza"
+        ],
+        "area": "marketing y ventas, núcleo de gobernanza",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Por cliente nuevo",
+        "p": 0.75,
+        "c": 0.75,
+        "f": 0.5,
+        "r": 0.5,
+        "v": 0.68
+      }
+    },
+    {
+      "id": "A-25",
+      "type": "Activity",
+      "label": "Firma de contrato de suministro",
+      "properties": {
+        "process_id": "P-03",
+        "porter_areas": [
+          "Marketing y Ventas",
+          "Núcleo de Gobernanza"
+        ],
+        "area": "marketing y ventas, núcleo de gobernanza",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Por cliente nuevo",
+        "p": 1.0,
+        "c": 1.0,
+        "f": 0.5,
+        "r": 0.75,
+        "v": 0.88
+      }
+    },
+    {
+      "id": "A-26",
+      "type": "Activity",
+      "label": "Identificación de contratos próximos a vencer",
+      "properties": {
+        "process_id": "P-04",
+        "porter_areas": [
+          "Servicio Postventa",
+          "Núcleo de Gobernanza"
+        ],
+        "area": "servicio postventa, núcleo de gobernanza",
+        "team_id": "T-09",
+        "team_label": "Servicio Postventa",
+        "frequency": "Mensual",
+        "p": 0.25,
+        "c": 0.5,
+        "f": 0.5,
+        "r": 0.75,
+        "v": 0.45
+      }
+    },
+    {
+      "id": "A-27",
+      "type": "Activity",
+      "label": "Revisión del historial operativo del cliente (entregas, incidentes, facturas)",
+      "properties": {
+        "process_id": "P-04",
+        "porter_areas": [
+          "Servicio Postventa"
+        ],
+        "area": "servicio postventa",
+        "team_id": "T-09",
+        "team_label": "Servicio Postventa",
+        "frequency": "Por cliente",
+        "p": 0.5,
+        "c": 0.75,
+        "f": 0.25,
+        "r": 0.5,
+        "v": 0.55
+      }
+    },
+    {
+      "id": "A-28",
+      "type": "Activity",
+      "label": "Revisión comercial con cliente: desempeño del período y satisfacción",
+      "properties": {
+        "process_id": "P-04",
+        "porter_areas": [
+          "Servicio Postventa",
+          "Marketing y Ventas"
+        ],
+        "area": "servicio postventa, marketing y ventas",
+        "team_id": "T-09",
+        "team_label": "Servicio Postventa",
+        "frequency": "Trimestral",
+        "p": 0.75,
+        "c": 1.0,
+        "f": 0.25,
+        "r": 0.75,
+        "v": 0.75
+      }
+    },
+    {
+      "id": "A-29",
+      "type": "Activity",
+      "label": "Negociación de condiciones de renovación o expansión",
+      "properties": {
+        "process_id": "P-04",
+        "porter_areas": [
+          "Marketing y Ventas"
+        ],
+        "area": "marketing y ventas",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Por contrato",
+        "p": 0.75,
+        "c": 0.75,
+        "f": 0.25,
+        "r": 0.75,
+        "v": 0.65
+      }
+    },
+    {
+      "id": "A-30",
+      "type": "Activity",
+      "label": "Firma de renovación o expansión de contrato",
+      "properties": {
+        "process_id": "P-04",
+        "porter_areas": [
+          "Marketing y Ventas",
+          "Núcleo de Gobernanza"
+        ],
+        "area": "marketing y ventas, núcleo de gobernanza",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Por contrato",
+        "p": 1.0,
+        "c": 1.0,
+        "f": 0.25,
+        "r": 0.75,
+        "v": 0.83
+      }
+    },
+    {
+      "id": "A-31",
+      "type": "Activity",
+      "label": "Recepción y registro de solicitud de ajuste de crédito",
+      "properties": {
+        "process_id": "P-05",
+        "porter_areas": [
+          "Núcleo de Gobernanza",
+          "Marketing y Ventas"
+        ],
+        "area": "núcleo de gobernanza, marketing y ventas",
+        "team_id": "T-01",
+        "team_label": "Núcleo de Gobernanza",
+        "frequency": "Según evento",
+        "p": 0.25,
+        "c": 0.5,
+        "f": 0.25,
+        "r": 0.25,
+        "v": 0.35
+      }
+    },
+    {
+      "id": "A-32",
+      "type": "Activity",
+      "label": "Revisión de historial de pagos y comportamiento crediticio del cliente",
+      "properties": {
+        "process_id": "P-05",
+        "porter_areas": [
+          "Núcleo de Gobernanza"
+        ],
+        "area": "núcleo de gobernanza",
+        "team_id": "T-01",
+        "team_label": "Núcleo de Gobernanza",
+        "frequency": "Según evento",
+        "p": 0.5,
+        "c": 0.75,
+        "f": 0.25,
+        "r": 0.5,
+        "v": 0.55
+      }
+    },
+    {
+      "id": "A-33",
+      "type": "Activity",
+      "label": "Autorización o ajuste de condiciones crediticias",
+      "properties": {
+        "process_id": "P-05",
+        "porter_areas": [
+          "Núcleo de Gobernanza"
+        ],
+        "area": "núcleo de gobernanza",
+        "team_id": "T-01",
+        "team_label": "Núcleo de Gobernanza",
+        "frequency": "Según evento",
+        "p": 0.75,
+        "c": 1.0,
+        "f": 0.25,
+        "r": 0.75,
+        "v": 0.78
+      }
+    },
+    {
+      "id": "A-34",
+      "type": "Activity",
+      "label": "Notificación al cliente de condiciones crediticias actualizadas",
+      "properties": {
+        "process_id": "P-05",
+        "porter_areas": [
+          "Marketing y Ventas",
+          "Núcleo de Gobernanza"
+        ],
+        "area": "marketing y ventas, núcleo de gobernanza",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Según evento",
+        "p": 0.75,
+        "c": 0.75,
+        "f": 0.25,
+        "r": 0.5,
+        "v": 0.63
+      }
+    },
+    {
+      "id": "A-35",
+      "type": "Activity",
+      "label": "Gestión de vigencia y renovación de permisos CRE y SCT",
+      "properties": {
+        "porter_areas": [
+          "Núcleo de Gobernanza"
+        ],
+        "area": "núcleo de gobernanza",
+        "team_id": "T-01",
+        "team_label": "Núcleo de Gobernanza",
+        "frequency": "Mensual",
+        "p": 0.75,
+        "c": 1.0,
+        "f": 0.25,
+        "r": 1.0,
+        "v": 0.78
+      }
+    },
+    {
+      "id": "A-36",
+      "type": "Activity",
+      "label": "Administración y renovación de líneas de crédito bancarias",
+      "properties": {
+        "porter_areas": [
+          "Núcleo de Gobernanza"
+        ],
+        "area": "núcleo de gobernanza",
+        "team_id": "T-01",
+        "team_label": "Núcleo de Gobernanza",
+        "frequency": "Trimestral",
+        "p": 0.75,
+        "c": 1.0,
+        "f": 0.25,
+        "r": 0.75,
+        "v": 0.75
+      }
+    },
+    {
+      "id": "A-37",
+      "type": "Activity",
+      "label": "Cierre contable mensual y conciliación de cuentas por cobrar",
+      "properties": {
+        "porter_areas": [
+          "Núcleo de Gobernanza"
+        ],
+        "area": "núcleo de gobernanza",
+        "team_id": "T-01",
+        "team_label": "Núcleo de Gobernanza",
+        "frequency": "Mensual",
+        "p": 0.5,
+        "c": 0.5,
+        "f": 0.5,
+        "r": 0.25,
+        "v": 0.48
+      }
+    },
+    {
+      "id": "A-38",
+      "type": "Activity",
+      "label": "Gestión y renovación de seguros de flota y carga",
+      "properties": {
+        "porter_areas": [
+          "Núcleo de Gobernanza"
+        ],
+        "area": "núcleo de gobernanza",
+        "team_id": "T-01",
+        "team_label": "Núcleo de Gobernanza",
+        "frequency": "Anual",
+        "p": 0.25,
+        "c": 0.5,
+        "f": 0.25,
+        "r": 0.75,
+        "v": 0.4
+      }
+    },
+    {
+      "id": "A-39",
+      "type": "Activity",
+      "label": "Definición y actualización de política de crédito comercial",
+      "properties": {
+        "porter_areas": [
+          "Núcleo de Gobernanza"
+        ],
+        "area": "núcleo de gobernanza",
+        "team_id": "T-01",
+        "team_label": "Núcleo de Gobernanza",
+        "frequency": "Semestral",
+        "p": 0.75,
+        "c": 0.75,
+        "f": 0.25,
+        "r": 0.5,
+        "v": 0.63
+      }
+    },
+    {
+      "id": "A-40",
+      "type": "Activity",
+      "label": "Capacitación operativa y certificación de operadores de pipa",
+      "properties": {
+        "porter_areas": [
+          "Gestión de RRHH"
+        ],
+        "area": "gestión de rrhh",
+        "team_id": "T-02",
+        "team_label": "Gestión de RRHH",
+        "frequency": "Según incorporación",
+        "p": 0.5,
+        "c": 0.75,
+        "f": 0.5,
+        "r": 0.75,
+        "v": 0.63
+      }
+    },
+    {
+      "id": "A-41",
+      "type": "Activity",
+      "label": "Reclutamiento y selección de operadores con licencia federal de materiales peligrosos",
+      "properties": {
+        "porter_areas": [
+          "Gestión de RRHH"
+        ],
+        "area": "gestión de rrhh",
+        "team_id": "T-02",
+        "team_label": "Gestión de RRHH",
+        "frequency": "Según vacante",
+        "p": 0.25,
+        "c": 0.5,
+        "f": 0.25,
+        "r": 0.5,
+        "v": 0.38
+      }
+    },
+    {
+      "id": "A-42",
+      "type": "Activity",
+      "label": "Evaluación de desempeño de operadores y asignación de rutas críticas",
+      "properties": {
+        "porter_areas": [
+          "Gestión de RRHH",
+          "Logística Externa"
+        ],
+        "area": "gestión de rrhh, logística externa",
+        "team_id": "T-02",
+        "team_label": "Gestión de RRHH",
+        "frequency": "Trimestral",
+        "p": 0.25,
+        "c": 0.5,
+        "f": 0.5,
+        "r": 0.25,
+        "v": 0.4
+      }
+    },
+    {
+      "id": "A-43",
+      "type": "Activity",
+      "label": "Administración y mantenimiento del sistema de pedidos y plataforma GPS",
+      "properties": {
+        "porter_areas": [
+          "Desarrollo Tecnológico"
+        ],
+        "area": "desarrollo tecnológico",
+        "team_id": "T-03",
+        "team_label": "Desarrollo Tecnológico",
+        "frequency": "Continua",
+        "p": 0.75,
+        "c": 1.0,
+        "f": 0.5,
+        "r": 0.75,
+        "v": 0.8
+      }
+    },
+    {
+      "id": "A-44",
+      "type": "Activity",
+      "label": "Mantenimiento y soporte del ERP y portales regulatorios (CRE, SAT)",
+      "properties": {
+        "porter_areas": [
+          "Desarrollo Tecnológico"
+        ],
+        "area": "desarrollo tecnológico",
+        "team_id": "T-03",
+        "team_label": "Desarrollo Tecnológico",
+        "frequency": "Continua",
+        "p": 0.75,
+        "c": 0.75,
+        "f": 0.5,
+        "r": 0.75,
+        "v": 0.7
+      }
+    },
+    {
+      "id": "A-45",
+      "type": "Activity",
+      "label": "Gestión de integraciones entre GPS, sistema de pedidos y ERP",
+      "properties": {
+        "porter_areas": [
+          "Desarrollo Tecnológico"
+        ],
+        "area": "desarrollo tecnológico",
+        "team_id": "T-03",
+        "team_label": "Desarrollo Tecnológico",
+        "frequency": "Continua",
+        "p": 0.75,
+        "c": 0.75,
+        "f": 0.25,
+        "r": 0.75,
+        "v": 0.65
+      }
+    },
+    {
+      "id": "A-46",
+      "type": "Activity",
+      "label": "Negociación y contratación de cupo de combustible con PEMEX TI",
+      "properties": {
+        "porter_areas": [
+          "Abastecimiento"
+        ],
+        "area": "abastecimiento",
+        "team_id": "T-04",
+        "team_label": "Abastecimiento",
+        "frequency": "Mensual",
+        "p": 0.75,
+        "c": 1.0,
+        "f": 0.75,
+        "r": 0.75,
+        "v": 0.85
+      }
+    },
+    {
+      "id": "A-47",
+      "type": "Activity",
+      "label": "Registro y pre-calificación de fuentes alternativas de suministro",
+      "properties": {
+        "porter_areas": [
+          "Abastecimiento"
+        ],
+        "area": "abastecimiento",
+        "team_id": "T-04",
+        "team_label": "Abastecimiento",
+        "frequency": "Trimestral",
+        "p": 0.5,
+        "c": 0.75,
+        "f": 0.25,
+        "r": 0.75,
+        "v": 0.58
+      }
+    },
+    {
+      "id": "A-48",
+      "type": "Activity",
+      "label": "Seguimiento y conciliación de facturas de proveedores de combustible",
+      "properties": {
+        "porter_areas": [
+          "Abastecimiento"
+        ],
+        "area": "abastecimiento",
+        "team_id": "T-04",
+        "team_label": "Abastecimiento",
+        "frequency": "Mensual",
+        "p": 0.5,
+        "c": 0.5,
+        "f": 0.75,
+        "r": 0.5,
+        "v": 0.55
+      }
+    },
+    {
+      "id": "A-49",
+      "type": "Activity",
+      "label": "Control de inventario de producto en tránsito entre TAR y clientes",
+      "properties": {
+        "porter_areas": [
+          "Logística Interna"
+        ],
+        "area": "logística interna",
+        "team_id": "T-05",
+        "team_label": "Logística Interna",
+        "frequency": "Diaria",
+        "p": 0.75,
+        "c": 0.75,
+        "f": 1.0,
+        "r": 0.5,
+        "v": 0.78
+      }
+    },
+    {
+      "id": "A-50",
+      "type": "Activity",
+      "label": "Gestión de diferencias de aforo y reclamaciones ante PEMEX TI",
+      "properties": {
+        "porter_areas": [
+          "Logística Interna",
+          "Abastecimiento"
+        ],
+        "area": "logística interna, abastecimiento",
+        "team_id": "T-05",
+        "team_label": "Logística Interna",
+        "frequency": "Según evento",
+        "p": 0.5,
+        "c": 0.75,
+        "f": 0.5,
+        "r": 0.5,
+        "v": 0.6
+      }
+    },
+    {
+      "id": "A-51",
+      "type": "Activity",
+      "label": "Mantenimiento preventivo y correctivo de flota de pipas",
+      "properties": {
+        "porter_areas": [
+          "Operaciones"
+        ],
+        "area": "operaciones",
+        "team_id": "T-06",
+        "team_label": "Operaciones",
+        "frequency": "Mensual",
+        "p": 0.75,
+        "c": 1.0,
+        "f": 0.5,
+        "r": 0.75,
+        "v": 0.8
+      }
+    },
+    {
+      "id": "A-52",
+      "type": "Activity",
+      "label": "Gestión de stock de refacciones críticas para flota",
+      "properties": {
+        "porter_areas": [
+          "Operaciones"
+        ],
+        "area": "operaciones",
+        "team_id": "T-06",
+        "team_label": "Operaciones",
+        "frequency": "Mensual",
+        "p": 0.5,
+        "c": 0.75,
+        "f": 0.5,
+        "r": 0.5,
+        "v": 0.6
+      }
+    },
+    {
+      "id": "A-53",
+      "type": "Activity",
+      "label": "Gestión de incidentes de seguridad vial y reporte ASEA",
+      "properties": {
+        "porter_areas": [
+          "Operaciones",
+          "Núcleo de Gobernanza"
+        ],
+        "area": "operaciones, núcleo de gobernanza",
+        "team_id": "T-06",
+        "team_label": "Operaciones",
+        "frequency": "Según evento",
+        "p": 0.25,
+        "c": 0.75,
+        "f": 0.25,
+        "r": 1.0,
+        "v": 0.53
+      }
+    },
+    {
+      "id": "A-54",
+      "type": "Activity",
+      "label": "Monitoreo de precios rack PEMEX e IEPS por terminal y período",
+      "properties": {
+        "porter_areas": [
+          "Marketing y Ventas"
+        ],
+        "area": "marketing y ventas",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Diaria",
+        "p": 0.25,
+        "c": 0.5,
+        "f": 1.0,
+        "r": 0.25,
+        "v": 0.5
+      }
+    },
+    {
+      "id": "A-55",
+      "type": "Activity",
+      "label": "Administración del CRM y base de datos de clientes y prospectos",
+      "properties": {
+        "porter_areas": [
+          "Marketing y Ventas",
+          "Desarrollo Tecnológico"
+        ],
+        "area": "marketing y ventas, desarrollo tecnológico",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Continua",
+        "p": 0.5,
+        "c": 0.75,
+        "f": 0.75,
+        "r": 0.5,
+        "v": 0.65
+      }
+    },
+    {
+      "id": "A-56",
+      "type": "Activity",
+      "label": "Análisis de rentabilidad por cliente, producto y corredor",
+      "properties": {
+        "porter_areas": [
+          "Marketing y Ventas",
+          "Núcleo de Gobernanza"
+        ],
+        "area": "marketing y ventas, núcleo de gobernanza",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Mensual",
+        "p": 0.25,
+        "c": 0.5,
+        "f": 0.5,
+        "r": 0.25,
+        "v": 0.4
+      }
+    },
+    {
+      "id": "A-57",
+      "type": "Activity",
+      "label": "Seguimiento y cierre formal de incidencias abiertas con clientes",
+      "properties": {
+        "porter_areas": [
+          "Servicio Postventa"
+        ],
+        "area": "servicio postventa",
+        "team_id": "T-09",
+        "team_label": "Servicio Postventa",
+        "frequency": "Semanal",
+        "p": 0.5,
+        "c": 0.75,
+        "f": 0.5,
+        "r": 0.5,
+        "v": 0.6
+      }
+    },
+    {
+      "id": "A-58",
+      "type": "Activity",
+      "label": "Encuesta de satisfacción post-entrega a clientes activos",
+      "properties": {
+        "porter_areas": [
+          "Servicio Postventa"
+        ],
+        "area": "servicio postventa",
+        "team_id": "T-09",
+        "team_label": "Servicio Postventa",
+        "frequency": "Mensual",
+        "p": 0.25,
+        "c": 0.5,
+        "f": 0.5,
+        "r": 0.25,
+        "v": 0.4
+      }
+    },
+    {
+      "id": "A-59",
+      "type": "Activity",
+      "label": "Inspección semanal de presentación y limpieza de flota de pipas",
+      "properties": {
+        "porter_areas": [
+          "Operaciones",
+          "Logística Externa"
+        ],
+        "area": "operaciones, logística externa",
+        "team_id": "T-06",
+        "team_label": "Operaciones",
+        "frequency": "Semanal",
+        "p": 0.25,
+        "c": 0.25,
+        "f": 0.75,
+        "r": 0.25,
+        "v": 0.35
+      }
+    },
+    {
+      "id": "A-60",
+      "type": "Activity",
+      "label": "Programa \"operador del mes\" con criterios de imagen y presentación personal",
+      "properties": {
+        "porter_areas": [
+          "Gestión de RRHH"
+        ],
+        "area": "gestión de rrhh",
+        "team_id": "T-02",
+        "team_label": "Gestión de RRHH",
+        "frequency": "Mensual",
+        "p": 0.25,
+        "c": 0.25,
+        "f": 0.5,
+        "r": 0.25,
+        "v": 0.3
+      }
+    },
+    {
+      "id": "A-61",
+      "type": "Activity",
+      "label": "Diseño y producción periódica de uniformes e imagen corporativa para flota",
+      "properties": {
+        "porter_areas": [
+          "Gestión de RRHH",
+          "Marketing y Ventas"
+        ],
+        "area": "gestión de rrhh, marketing y ventas",
+        "team_id": "T-02",
+        "team_label": "Gestión de RRHH",
+        "frequency": "Anual",
+        "p": 0.25,
+        "c": 0.25,
+        "f": 0.25,
+        "r": 0.25,
+        "v": 0.25
+      }
+    },
+    {
+      "id": "A-62",
+      "type": "Activity",
+      "label": "Proceso de aprobación multinivel para pedidos estándar de clientes activos",
+      "properties": {
+        "porter_areas": [
+          "Núcleo de Gobernanza"
+        ],
+        "area": "núcleo de gobernanza",
+        "team_id": "T-01",
+        "team_label": "Núcleo de Gobernanza",
+        "frequency": "Por pedido",
+        "p": 0.75,
+        "c": 0.5,
+        "f": 1.0,
+        "r": 0.5,
+        "v": 0.68
+      }
+    },
+    {
+      "id": "A-63",
+      "type": "Activity",
+      "label": "Reunión diaria de liberación de despachos con gerencia",
+      "properties": {
+        "porter_areas": [
+          "Núcleo de Gobernanza",
+          "Logística Externa"
+        ],
+        "area": "núcleo de gobernanza, logística externa",
+        "team_id": "T-01",
+        "team_label": "Núcleo de Gobernanza",
+        "frequency": "Diaria",
+        "p": 0.5,
+        "c": 0.5,
+        "f": 1.0,
+        "r": 0.5,
+        "v": 0.6
+      }
+    },
+    {
+      "id": "A-64",
+      "type": "Activity",
+      "label": "Generación de reporte diario de pedidos pendientes de autorización para gerencia",
+      "properties": {
+        "porter_areas": [
+          "Núcleo de Gobernanza"
+        ],
+        "area": "núcleo de gobernanza",
+        "team_id": "T-01",
+        "team_label": "Núcleo de Gobernanza",
+        "frequency": "Diaria",
+        "p": 0.25,
+        "c": 0.25,
+        "f": 1.0,
+        "r": 0.25,
+        "v": 0.4
+      }
+    },
+    {
+      "id": "A-65",
+      "type": "Activity",
+      "label": "Visita de cortesía trimestral al cliente sin agenda operativa",
+      "properties": {
+        "porter_areas": [
+          "Servicio Postventa",
+          "Marketing y Ventas"
+        ],
+        "area": "servicio postventa, marketing y ventas",
+        "team_id": "T-09",
+        "team_label": "Servicio Postventa",
+        "frequency": "Trimestral",
+        "p": 0.25,
+        "c": 0.25,
+        "f": 0.5,
+        "r": 0.25,
+        "v": 0.3
+      }
+    },
+    {
+      "id": "A-66",
+      "type": "Activity",
+      "label": "Elaboración de presentación trimestral de resultados para clientes",
+      "properties": {
+        "porter_areas": [
+          "Marketing y Ventas"
+        ],
+        "area": "marketing y ventas",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Trimestral",
+        "p": 0.25,
+        "c": 0.25,
+        "f": 0.25,
+        "r": 0.25,
+        "v": 0.25
+      }
+    },
+    {
+      "id": "A-67",
+      "type": "Activity",
+      "label": "Programa de atenciones y regalos a clientes en fechas especiales",
+      "properties": {
+        "porter_areas": [
+          "Marketing y Ventas",
+          "Servicio Postventa"
+        ],
+        "area": "marketing y ventas, servicio postventa",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Según fecha",
+        "p": 0.25,
+        "c": 0.25,
+        "f": 0.25,
+        "r": 0.25,
+        "v": 0.25
+      }
+    },
+    {
+      "id": "A-68",
+      "type": "Activity",
+      "label": "Elaboración de reporte mensual de desempeño interno para dirección",
+      "properties": {
+        "porter_areas": [
+          "Núcleo de Gobernanza"
+        ],
+        "area": "núcleo de gobernanza",
+        "team_id": "T-01",
+        "team_label": "Núcleo de Gobernanza",
+        "frequency": "Mensual",
+        "p": 0.25,
+        "c": 0.25,
+        "f": 0.5,
+        "r": 0.25,
+        "v": 0.3
+      }
+    },
+    {
+      "id": "A-69",
+      "type": "Activity",
+      "label": "Actualización manual de bitácora de rutas en hoja de cálculo",
+      "properties": {
+        "porter_areas": [
+          "Logística Externa"
+        ],
+        "area": "logística externa",
+        "team_id": "T-07",
+        "team_label": "Logística Externa",
+        "frequency": "Diaria",
+        "p": 0.25,
+        "c": 0.25,
+        "f": 1.0,
+        "r": 0.25,
+        "v": 0.4
+      }
+    },
+    {
+      "id": "A-70",
+      "type": "Activity",
+      "label": "Proceso de cotización formal para clientes con contrato marco vigente",
+      "properties": {
+        "porter_areas": [
+          "Marketing y Ventas"
+        ],
+        "area": "marketing y ventas",
+        "team_id": "T-08",
+        "team_label": "Marketing y Ventas",
+        "frequency": "Según evento",
+        "p": 0.5,
+        "c": 0.25,
+        "f": 0.75,
+        "r": 0.25,
+        "v": 0.43
+      }
+    },
+    {
+      "id": "T-01",
+      "type": "Team",
+      "label": "Núcleo de Gobernanza",
+      "properties": {
+        "role": "Dirección general, finanzas, legal, compliance, riesgos, permisos CRE/SCT y relaciones regulatorias"
+      }
+    },
+    {
+      "id": "T-02",
+      "type": "Team",
+      "label": "Gestión de RRHH",
+      "properties": {
+        "role": "Reclutamiento, certificación, capacitación y evaluación del capital humano operativo y comercial"
+      }
+    },
+    {
+      "id": "T-03",
+      "type": "Team",
+      "label": "Desarrollo Tecnológico",
+      "properties": {
+        "role": "Administración de sistemas (ERP, GPS, portales CRE/SAT), integraciones y soporte técnico"
+      }
+    },
+    {
+      "id": "T-04",
+      "type": "Team",
+      "label": "Abastecimiento",
+      "properties": {
+        "role": "Negociación de cupo con PEMEX TI, proveedores alternativos y conciliación de facturas de suministro"
+      }
+    },
+    {
+      "id": "T-05",
+      "type": "Team",
+      "label": "Logística Interna",
+      "properties": {
+        "role": "Interfaz con terminales TAR: programación de cargas, control de inventario en tránsito y diferencias de aforo"
+      }
+    },
+    {
+      "id": "T-06",
+      "type": "Team",
+      "label": "Operaciones",
+      "properties": {
+        "role": "Control de calidad NOM-016, mantenimiento de flota, gestión de refacciones y seguridad operativa ASEA"
+      }
+    },
+    {
+      "id": "T-07",
+      "type": "Team",
+      "label": "Logística Externa",
+      "properties": {
+        "role": "Planeación de rutas, asignación de operadores, monitoreo GPS y gestión del último kilómetro"
+      }
+    },
+    {
+      "id": "T-08",
+      "type": "Team",
+      "label": "Marketing y Ventas",
+      "properties": {
+        "role": "Inteligencia de mercado, prospección, negociación, gestión de cuentas, CRM y análisis de rentabilidad"
+      }
+    },
+    {
+      "id": "T-09",
+      "type": "Team",
+      "label": "Servicio Postventa",
+      "properties": {
+        "role": "Atención de incidencias, revisiones comerciales, retención y gestión de satisfacción del cliente"
+      }
+    },
+    {
+      "id": "CAP-01",
+      "type": "Capability",
+      "label": "Gobernanza Corporativa y Gestión Regulatoria",
+      "properties": {
+        "description": "Operar con permisos vigentes, finanzas sanas y gestión de riesgos integrada"
+      }
+    },
+    {
+      "id": "CAP-02",
+      "type": "Capability",
+      "label": "Gestión de Talento Operativo",
+      "properties": {
+        "description": "Reclutar, certificar y retener operadores con licencia federal de materiales peligrosos"
+      }
+    },
+    {
+      "id": "CAP-03",
+      "type": "Capability",
+      "label": "Capacidades Digitales y Trazabilidad",
+      "properties": {
+        "description": "Operar sistemas integrados que dan visibilidad en tiempo real del ciclo pedido-entrega-cobro"
+      }
+    },
+    {
+      "id": "CAP-04",
+      "type": "Capability",
+      "label": "Gestión de Abastecimiento y Suministro",
+      "properties": {
+        "description": "Asegurar volumen competitivo en terminales PEMEX y fuentes alternativas con mínima interrupción"
+      }
+    },
+    {
+      "id": "CAP-05",
+      "type": "Capability",
+      "label": "Control de Inventario y Operaciones en Terminal",
+      "properties": {
+        "description": "Gestionar la interfaz TAR con precisión: cargas, aforo, calidad y documentación en origen"
+      }
+    },
+    {
+      "id": "CAP-06",
+      "type": "Capability",
+      "label": "Excelencia Operativa y Seguridad de Flota",
+      "properties": {
+        "description": "Mantener la flota disponible y operar sin incidentes de seguridad ni calidad"
+      }
+    },
+    {
+      "id": "CAP-07",
+      "type": "Capability",
+      "label": "Distribución y Entrega Confiable",
+      "properties": {
+        "description": "Entregar combustible en la ventana comprometida, en volumen correcto y con trazabilidad completa"
+      }
+    },
+    {
+      "id": "CAP-08",
+      "type": "Capability",
+      "label": "Inteligencia Comercial y Gestión de Clientes",
+      "properties": {
+        "description": "Identificar oportunidades, adquirir clientes y gestionar el portafolio comercial con datos"
+      }
+    },
+    {
+      "id": "CAP-09",
+      "type": "Capability",
+      "label": "Gestión de Experiencia del Cliente",
+      "properties": {
+        "description": "Resolver incidencias, sostener relaciones de largo plazo y convertir clientes en promotores"
+      }
+    },
+    {
+      "id": "S-01",
+      "type": "System",
+      "label": "Sistema de Pedidos y Remisiones",
+      "properties": {
+        "function": "Captura de pedidos, generación de remisiones y trazabilidad de entregas"
+      }
+    },
+    {
+      "id": "S-02",
+      "type": "System",
+      "label": "GPS / Plataforma de Rastreo de Flota",
+      "properties": {
+        "function": "Monitoreo satelital de pipas en ruta: posición, alertas y bitácora de ruta"
+      }
+    },
+    {
+      "id": "S-03",
+      "type": "System",
+      "label": "ERP / Sistema Contable y de Facturación",
+      "properties": {
+        "function": "Gestión financiera, facturación CFDI, cobranza, tesorería y conciliación contable"
+      }
+    },
+    {
+      "id": "S-04",
+      "type": "System",
+      "label": "Portal OPE-CRE",
+      "properties": {
+        "function": "Plataforma oficial para reportes regulatorios y gestión de permisos ante la CRE"
+      }
+    },
+    {
+      "id": "S-05",
+      "type": "System",
+      "label": "Portal SAT / CFDI",
+      "properties": {
+        "function": "Emisión de facturas electrónicas, declaraciones de IEPS y reportes fiscales"
+      }
+    },
+    {
+      "id": "S-06",
+      "type": "System",
+      "label": "Sistema de Control de Calidad NOM-016",
+      "properties": {
+        "function": "Registro de muestras, resultados de pruebas y trazabilidad de lotes de producto"
+      }
+    },
+    {
+      "id": "S-07",
+      "type": "System",
+      "label": "CRM / Base de Datos de Clientes",
+      "properties": {
+        "function": "Gestión de cuentas, historial de clientes, pipeline comercial y seguimiento de contratos"
+      }
+    },
+    {
+      "id": "S-08",
+      "type": "System",
+      "label": "Sistema de Gestión de Mantenimiento",
+      "properties": {
+        "function": "Programación de mantenimiento preventivo, historial de unidades y gestión de refacciones"
+      }
+    },
+    {
+      "id": "EV-D01",
+      "type": "Event",
+      "label": "Pedido de combustible recibido de cliente activo",
+      "properties": {
+        "description": "El cliente solicita volumen concreto; dispara el ciclo de autorización-logística-entrega",
+        "event_type": "demand"
+      }
+    },
+    {
+      "id": "EV-D02",
+      "type": "Event",
+      "label": "Solicitud de onboarding de cliente nuevo",
+      "properties": {
+        "description": "Prospecto calificado solicita operar; dispara el ciclo de adquisición",
+        "event_type": "demand"
+      }
+    },
+    {
+      "id": "EV-D03",
+      "type": "Event",
+      "label": "Falla de suministro detectada o reportada",
+      "properties": {
+        "description": "Interrupción activa en el ciclo de entrega; dispara el protocolo de contingencia",
+        "event_type": "demand"
+      }
+    },
+    {
+      "id": "EV-D04",
+      "type": "Event",
+      "label": "Solicitud de ajuste de crédito o condiciones comerciales",
+      "properties": {
+        "description": "El cliente solicita revisar condiciones; dispara la revisión crediticia",
+        "event_type": "demand"
+      }
+    },
+    {
+      "id": "EV-D05",
+      "type": "Event",
+      "label": "Contrato próximo a vencer — cliente en riesgo",
+      "properties": {
+        "description": "Vencimiento detectado; dispara el ciclo de retención",
+        "event_type": "demand"
+      }
+    },
+    {
+      "id": "EV-V01",
+      "type": "Event",
+      "label": "Entrega realizada dentro de ventana comprometida",
+      "properties": {
+        "description": "El cliente recibió combustible en el horario acordado",
+        "event_type": "value_realization"
+      }
+    },
+    {
+      "id": "EV-V02",
+      "type": "Event",
+      "label": "Cliente notificado con alternativa antes de afectar su operación",
+      "properties": {
+        "description": "La comercializadora respondió a la falla antes de que el cliente lo descubriera",
+        "event_type": "value_realization"
+      }
+    },
+    {
+      "id": "EV-V03",
+      "type": "Event",
+      "label": "Volumen entregado dentro de tolerancia acordada",
+      "properties": {
+        "description": "El cliente recibió exactamente lo que pidió",
+        "event_type": "value_realization"
+      }
+    },
+    {
+      "id": "EV-V04",
+      "type": "Event",
+      "label": "Período cerrado sin sorpresas en costo para el cliente",
+      "properties": {
+        "description": "El cliente cierra su período sin ajustes inesperados",
+        "event_type": "value_realization"
+      }
+    },
+    {
+      "id": "EV-V05",
+      "type": "Event",
+      "label": "Pedido confirmado y documentado sin intervención del cliente",
+      "properties": {
+        "description": "El cliente hizo el pedido y recibió confirmación sin hacer seguimiento",
+        "event_type": "value_realization"
+      }
+    },
+    {
+      "id": "EV-V06",
+      "type": "Event",
+      "label": "Contrato firmado con cliente nuevo",
+      "properties": {
+        "description": "Cierre del ciclo de adquisición",
+        "event_type": "value_realization"
+      }
+    },
+    {
+      "id": "EV-V07",
+      "type": "Event",
+      "label": "Renovación o expansión de contrato confirmada",
+      "properties": {
+        "description": "El cliente decidió continuar — consolidación de la relación",
+        "event_type": "value_realization"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "source": "MD-01",
+      "target": "M-01",
+      "type": "DRIVES",
+      "properties": {}
+    },
+    {
+      "source": "MD-02",
+      "target": "M-01",
+      "type": "DRIVES",
+      "properties": {}
+    },
+    {
+      "source": "MD-03",
+      "target": "M-01",
+      "type": "DRIVES",
+      "properties": {}
+    },
+    {
+      "source": "MD-04",
+      "target": "M-01",
+      "type": "DRIVES",
+      "properties": {}
+    },
+    {
+      "source": "MD-05",
+      "target": "M-02",
+      "type": "DRIVES",
+      "properties": {}
+    },
+    {
+      "source": "MD-06",
+      "target": "M-02",
+      "type": "DRIVES",
+      "properties": {}
+    },
+    {
+      "source": "MD-07",
+      "target": "M-02",
+      "type": "DRIVES",
+      "properties": {}
+    },
+    {
+      "source": "MD-08",
+      "target": "M-03",
+      "type": "DRIVES",
+      "properties": {}
+    },
+    {
+      "source": "MD-09",
+      "target": "M-03",
+      "type": "DRIVES",
+      "properties": {}
+    },
+    {
+      "source": "MD-10",
+      "target": "M-04",
+      "type": "DRIVES",
+      "properties": {}
+    },
+    {
+      "source": "MD-11",
+      "target": "M-04",
+      "type": "DRIVES",
+      "properties": {}
+    },
+    {
+      "source": "MD-12",
+      "target": "M-05",
+      "type": "DRIVES",
+      "properties": {}
+    },
+    {
+      "source": "MD-13",
+      "target": "M-05",
+      "type": "DRIVES",
+      "properties": {}
+    },
+    {
+      "source": "CJS-01",
+      "target": "M-04",
+      "type": "SIGNALS",
+      "properties": {
+        "strength": 0.7,
+        "justification": "Evaluación de proveedor — costo predecible",
+        "synthetic": true
+      }
+    },
+    {
+      "source": "CJS-01",
+      "target": "M-05",
+      "type": "SIGNALS",
+      "properties": {
+        "strength": 0.6,
+        "justification": "Facilidad percibida en onboarding comercial",
+        "synthetic": true
+      }
+    },
+    {
+      "source": "CJS-02",
+      "target": "M-04",
+      "type": "SIGNALS",
+      "properties": {
+        "strength": 0.85,
+        "justification": "Negociación define costo total de abastecimiento",
+        "synthetic": true
+      }
+    },
+    {
+      "source": "CJS-02",
+      "target": "M-05",
+      "type": "SIGNALS",
+      "properties": {
+        "strength": 0.75,
+        "justification": "Condiciones comerciales y fricción inicial",
+        "synthetic": true
+      }
+    },
+    {
+      "source": "CJS-03",
+      "target": "M-01",
+      "type": "SIGNALS",
+      "properties": {
+        "strength": 0.95,
+        "justification": "Primer pedido — ventana de entrega",
+        "synthetic": true
+      }
+    },
+    {
+      "source": "CJS-03",
+      "target": "M-03",
+      "type": "SIGNALS",
+      "properties": {
+        "strength": 0.9,
+        "justification": "Primera entrega — exactitud de volumen",
+        "synthetic": true
+      }
+    },
+    {
+      "source": "CJS-03",
+      "target": "M-05",
+      "type": "SIGNALS",
+      "properties": {
+        "strength": 0.8,
+        "justification": "Primer pedido — fricción administrativa",
+        "synthetic": true
+      }
+    },
+    {
+      "source": "CJS-04",
+      "target": "M-01",
+      "type": "SIGNALS",
+      "properties": {
+        "strength": 0.9,
+        "justification": "Operación recurrente — confiabilidad",
+        "synthetic": true
+      }
+    },
+    {
+      "source": "CJS-04",
+      "target": "M-03",
+      "type": "SIGNALS",
+      "properties": {
+        "strength": 0.85,
+        "justification": "Volumen en ciclo recurrente",
+        "synthetic": true
+      }
+    },
+    {
+      "source": "CJS-04",
+      "target": "M-05",
+      "type": "SIGNALS",
+      "properties": {
+        "strength": 0.7,
+        "justification": "Facilidad operativa continua",
+        "synthetic": true
+      }
+    },
+    {
+      "source": "CJS-05",
+      "target": "M-02",
+      "type": "SIGNALS",
+      "properties": {
+        "strength": 0.95,
+        "justification": "Momento de falla — tiempo de respuesta",
+        "synthetic": true
+      }
+    },
+    {
+      "source": "CJS-05",
+      "target": "M-01",
+      "type": "SIGNALS",
+      "properties": {
+        "strength": 0.75,
+        "justification": "Falla afecta percepción de confiabilidad",
+        "synthetic": true
+      }
+    },
+    {
+      "source": "CJS-06",
+      "target": "M-04",
+      "type": "SIGNALS",
+      "properties": {
+        "strength": 0.7,
+        "justification": "Revisión comercial — costo del período",
+        "synthetic": true
+      }
+    },
+    {
+      "source": "CJS-06",
+      "target": "M-02",
+      "type": "SIGNALS",
+      "properties": {
+        "strength": 0.65,
+        "justification": "Desempeño ante incidentes en revisión",
+        "synthetic": true
+      }
+    },
+    {
+      "source": "CJS-07",
+      "target": "M-04",
+      "type": "SIGNALS",
+      "properties": {
+        "strength": 0.65,
+        "justification": "Renovación — costo predecible",
+        "synthetic": true
+      }
+    },
+    {
+      "source": "CJS-07",
+      "target": "M-01",
+      "type": "SIGNALS",
+      "properties": {
+        "strength": 0.6,
+        "justification": "Retención ligada a confiabilidad histórica",
+        "synthetic": true
+      }
+    },
+    {
+      "source": "A-01",
+      "target": "P-01",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-01",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-07",
+      "target": "A-01",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-02",
+      "target": "P-01",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-02",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-02",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-03",
+      "target": "P-01",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-03",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-04",
+      "target": "P-01",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-04",
+      "target": "A-04",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-05",
+      "target": "A-04",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-05",
+      "target": "P-01",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-07",
+      "target": "A-05",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-06",
+      "target": "P-01",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-05",
+      "target": "A-06",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-07",
+      "target": "A-06",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-07",
+      "target": "P-01",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-06",
+      "target": "A-07",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-07",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-08",
+      "target": "P-01",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-05",
+      "target": "A-08",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-06",
+      "target": "A-08",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-09",
+      "target": "P-01",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-07",
+      "target": "A-09",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-06",
+      "target": "A-09",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-10",
+      "target": "P-01",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-07",
+      "target": "A-10",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-03",
+      "target": "A-10",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-11",
+      "target": "P-01",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-07",
+      "target": "A-11",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-12",
+      "target": "P-01",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-07",
+      "target": "A-12",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-06",
+      "target": "A-12",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-13",
+      "target": "P-01",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-13",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-13",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-14",
+      "target": "P-01",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-14",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-15",
+      "target": "P-01",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-15",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-16",
+      "target": "P-02",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-07",
+      "target": "A-16",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-04",
+      "target": "A-16",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-17",
+      "target": "P-02",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-04",
+      "target": "A-17",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-17",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-18",
+      "target": "P-02",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-18",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-09",
+      "target": "A-18",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-19",
+      "target": "P-02",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-07",
+      "target": "A-19",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-04",
+      "target": "A-19",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-20",
+      "target": "P-03",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-20",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-21",
+      "target": "P-03",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-21",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-22",
+      "target": "P-03",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-22",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-23",
+      "target": "P-03",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-23",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-24",
+      "target": "P-03",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-24",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-24",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-25",
+      "target": "P-03",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-25",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-25",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-26",
+      "target": "P-04",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-09",
+      "target": "A-26",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-26",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-27",
+      "target": "P-04",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-09",
+      "target": "A-27",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-28",
+      "target": "P-04",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-09",
+      "target": "A-28",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-28",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-29",
+      "target": "P-04",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-29",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-30",
+      "target": "P-04",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-30",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-30",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-31",
+      "target": "P-05",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-31",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-31",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-32",
+      "target": "P-05",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-32",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-33",
+      "target": "P-05",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-33",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "A-34",
+      "target": "P-05",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-34",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-34",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-35",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-36",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-37",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-38",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-39",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-02",
+      "target": "A-40",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-02",
+      "target": "A-41",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-02",
+      "target": "A-42",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-07",
+      "target": "A-42",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-03",
+      "target": "A-43",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-03",
+      "target": "A-44",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-03",
+      "target": "A-45",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-04",
+      "target": "A-46",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-04",
+      "target": "A-47",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-04",
+      "target": "A-48",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-05",
+      "target": "A-49",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-05",
+      "target": "A-50",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-04",
+      "target": "A-50",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-06",
+      "target": "A-51",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-06",
+      "target": "A-52",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-06",
+      "target": "A-53",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-53",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-54",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-55",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-03",
+      "target": "A-55",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-56",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-56",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-09",
+      "target": "A-57",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-09",
+      "target": "A-58",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-06",
+      "target": "A-59",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-07",
+      "target": "A-59",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-02",
+      "target": "A-60",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-02",
+      "target": "A-61",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-61",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-62",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-63",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-07",
+      "target": "A-63",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-64",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-09",
+      "target": "A-65",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-65",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-66",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-67",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-09",
+      "target": "A-67",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "A-68",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-07",
+      "target": "A-69",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "A-70",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "P-05",
+      "type": "OWNS",
+      "properties": {}
+    },
+    {
+      "source": "T-01",
+      "target": "CAP-01",
+      "type": "OWNS",
+      "properties": {}
+    },
+    {
+      "source": "T-02",
+      "target": "CAP-02",
+      "type": "OWNS",
+      "properties": {}
+    },
+    {
+      "source": "T-03",
+      "target": "CAP-03",
+      "type": "OWNS",
+      "properties": {}
+    },
+    {
+      "source": "T-04",
+      "target": "CAP-04",
+      "type": "OWNS",
+      "properties": {}
+    },
+    {
+      "source": "T-05",
+      "target": "CAP-05",
+      "type": "OWNS",
+      "properties": {}
+    },
+    {
+      "source": "T-06",
+      "target": "CAP-06",
+      "type": "OWNS",
+      "properties": {}
+    },
+    {
+      "source": "T-07",
+      "target": "P-01",
+      "type": "OWNS",
+      "properties": {}
+    },
+    {
+      "source": "T-07",
+      "target": "P-02",
+      "type": "OWNS",
+      "properties": {}
+    },
+    {
+      "source": "T-07",
+      "target": "CAP-07",
+      "type": "OWNS",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "P-03",
+      "type": "OWNS",
+      "properties": {}
+    },
+    {
+      "source": "T-08",
+      "target": "CAP-08",
+      "type": "OWNS",
+      "properties": {}
+    },
+    {
+      "source": "T-09",
+      "target": "P-04",
+      "type": "OWNS",
+      "properties": {}
+    },
+    {
+      "source": "T-09",
+      "target": "CAP-09",
+      "type": "OWNS",
+      "properties": {}
+    },
+    {
+      "source": "A-03",
+      "target": "M-05",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: la velocidad de autorización determina si el cliente recibe confirmación sin tener que llamar"
+      }
+    },
+    {
+      "source": "A-03",
+      "target": "M-01",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.5,
+        "justification": "Media: sin crédito autorizado el pedido no avanza a logística — puede romper la ventana comprometida"
+      }
+    },
+    {
+      "source": "A-04",
+      "target": "M-01",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: sin producto disponible en TAR la ventana comprometida colapsa"
+      }
+    },
+    {
+      "source": "A-05",
+      "target": "M-01",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: la planeación define si la ventana es alcanzable dado tráfico y distancia real"
+      }
+    },
+    {
+      "source": "A-06",
+      "target": "M-01",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: la programación de ventana de carga es cuello de botella frecuente para el cumplimiento de horario"
+      }
+    },
+    {
+      "source": "A-07",
+      "target": "M-03",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 1.0,
+        "justification": "Crítica: una falla NOM-016 retiene el lote y afecta el volumen entregable"
+      }
+    },
+    {
+      "source": "A-08",
+      "target": "M-03",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: el aforo en carga es el origen del volumen — errores aquí se propagan a la entrega"
+      }
+    },
+    {
+      "source": "A-08",
+      "target": "M-04",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: documentación incorrecta genera discrepancias en factura y sorpresas de costo"
+      }
+    },
+    {
+      "source": "A-09",
+      "target": "M-01",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.5,
+        "justification": "Media: el briefing afecta la capacidad del operador de cumplir la ventana con variaciones en ruta"
+      }
+    },
+    {
+      "source": "A-10",
+      "target": "M-01",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: el monitoreo GPS permite detectar y corregir desvíos antes de que rompan la ventana"
+      }
+    },
+    {
+      "source": "A-10",
+      "target": "M-02",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: es el mecanismo principal para detectar fallas en ruta antes de que el cliente las sienta"
+      }
+    },
+    {
+      "source": "A-11",
+      "target": "M-01",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 1.0,
+        "justification": "Crítica: define si la ventana se cumplió o no"
+      }
+    },
+    {
+      "source": "A-11",
+      "target": "M-04",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: errores en remisión generan discrepancias en factura"
+      }
+    },
+    {
+      "source": "A-12",
+      "target": "M-03",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 1.0,
+        "justification": "Crítica: único control antes de cerrar la entrega — define exactitud del volumen"
+      }
+    },
+    {
+      "source": "A-13",
+      "target": "M-04",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: la factura es el documento que el cliente usa para validar su costo"
+      }
+    },
+    {
+      "source": "A-13",
+      "target": "M-05",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: una factura con error requiere intervención del cliente — fricción directa"
+      }
+    },
+    {
+      "source": "A-14",
+      "target": "M-05",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 1.0,
+        "justification": "Crítica: la confirmación oportuna es el indicador principal de fricción desde la perspectiva del cliente"
+      }
+    },
+    {
+      "source": "A-15",
+      "target": "M-04",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: el estado de cuenta sin ajustes valida que el período cerró sin sorpresas"
+      }
+    },
+    {
+      "source": "A-16",
+      "target": "M-02",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: la velocidad de detección determina el tiempo disponible para preparar una alternativa"
+      }
+    },
+    {
+      "source": "A-17",
+      "target": "M-02",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: sin opciones evaluadas no puede ofrecerse alternativa real al cliente"
+      }
+    },
+    {
+      "source": "A-18",
+      "target": "M-02",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 1.0,
+        "justification": "Crítica: la notificación proactiva con alternativa es el evento de valor de M-02"
+      }
+    },
+    {
+      "source": "A-19",
+      "target": "M-02",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: ejecutar la alternativa cierra el ciclo — si no se ejecuta la notificación no tiene valor"
+      }
+    },
+    {
+      "source": "A-21",
+      "target": "M-04",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: la evaluación crediticia define las condiciones bajo las que se establece el costo del cliente"
+      }
+    },
+    {
+      "source": "A-23",
+      "target": "M-04",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: las condiciones negociadas son la referencia contra la que el cliente mide el costo total"
+      }
+    },
+    {
+      "source": "A-25",
+      "target": "M-05",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.5,
+        "justification": "Media: un contrato bien estructurado reduce fricción futura — pedidos fluyen sin re-negociar"
+      }
+    },
+    {
+      "source": "A-28",
+      "target": "M-02",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.5,
+        "justification": "Media: la revisión comercial permite identificar incidentes y mejorar tiempo de respuesta"
+      }
+    },
+    {
+      "source": "A-33",
+      "target": "M-04",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: el ajuste modifica directamente el costo financiero del cliente"
+      }
+    },
+    {
+      "source": "A-34",
+      "target": "M-04",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Alta: notificar claramente los cambios es parte de la predicibilidad de costo"
+      }
+    },
+    {
+      "source": "A-46",
+      "target": "MD-04",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Negociar cupo con PEMEX TI es lo que mantiene producto disponible en terminal"
+      }
+    },
+    {
+      "source": "A-47",
+      "target": "MD-06",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Las fuentes alternativas pre-calificadas son la disponibilidad de contingencia"
+      }
+    },
+    {
+      "source": "A-49",
+      "target": "MD-04",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "El control de inventario en tránsito informa la disponibilidad real en TAR"
+      }
+    },
+    {
+      "source": "A-51",
+      "target": "MD-01",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "El mantenimiento preventivo es el principal driver de disponibilidad de flota"
+      }
+    },
+    {
+      "source": "A-52",
+      "target": "MD-01",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "El stock de refacciones determina qué tan rápido una unidad vuelve a estar disponible"
+      }
+    },
+    {
+      "source": "A-40",
+      "target": "MD-03",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Operadores bien capacitados planean y ejecutan rutas con mayor precisión"
+      }
+    },
+    {
+      "source": "A-42",
+      "target": "MD-03",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Asignar operadores de mejor desempeño a rutas críticas mejora la precisión"
+      }
+    },
+    {
+      "source": "A-39",
+      "target": "MD-13",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "La política de crédito clara reduce los pedidos que requieren gestión manual adicional"
+      }
+    },
+    {
+      "source": "A-55",
+      "target": "MD-12",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "Un CRM actualizado permite confirmar pedidos más rápido al tener los datos del cliente listos"
+      }
+    },
+    {
+      "source": "A-57",
+      "target": "MD-05",
+      "type": "AFFECTS",
+      "properties": {
+        "confidence": 0.85,
+        "justification": "El cierre formal de incidencias entrena al equipo a detectar y escalar más rápido la próxima vez"
+      }
+    },
+    {
+      "source": "P-01",
+      "target": "M-01",
+      "type": "CONTRIBUTES_TO",
+      "properties": {
+        "confidence": 0.85
+      }
+    },
+    {
+      "source": "P-01",
+      "target": "M-03",
+      "type": "CONTRIBUTES_TO",
+      "properties": {
+        "confidence": 0.85
+      }
+    },
+    {
+      "source": "P-01",
+      "target": "M-04",
+      "type": "CONTRIBUTES_TO",
+      "properties": {
+        "confidence": 0.85
+      }
+    },
+    {
+      "source": "P-01",
+      "target": "M-05",
+      "type": "CONTRIBUTES_TO",
+      "properties": {
+        "confidence": 0.85
+      }
+    },
+    {
+      "source": "P-02",
+      "target": "M-02",
+      "type": "CONTRIBUTES_TO",
+      "properties": {
+        "confidence": 0.85
+      }
+    },
+    {
+      "source": "P-02",
+      "target": "M-01",
+      "type": "CONTRIBUTES_TO",
+      "properties": {
+        "confidence": 0.85
+      }
+    },
+    {
+      "source": "P-03",
+      "target": "M-04",
+      "type": "CONTRIBUTES_TO",
+      "properties": {
+        "confidence": 0.85
+      }
+    },
+    {
+      "source": "P-03",
+      "target": "M-05",
+      "type": "CONTRIBUTES_TO",
+      "properties": {
+        "confidence": 0.85
+      }
+    },
+    {
+      "source": "P-04",
+      "target": "M-02",
+      "type": "CONTRIBUTES_TO",
+      "properties": {
+        "confidence": 0.85
+      }
+    },
+    {
+      "source": "P-04",
+      "target": "M-04",
+      "type": "CONTRIBUTES_TO",
+      "properties": {
+        "confidence": 0.85
+      }
+    },
+    {
+      "source": "P-05",
+      "target": "M-04",
+      "type": "CONTRIBUTES_TO",
+      "properties": {
+        "confidence": 0.85
+      }
+    },
+    {
+      "source": "P-05",
+      "target": "M-05",
+      "type": "CONTRIBUTES_TO",
+      "properties": {
+        "confidence": 0.85
+      }
+    },
+    {
+      "source": "A-20",
+      "target": "CJS-01",
+      "type": "TOUCHES",
+      "properties": {}
+    },
+    {
+      "source": "A-22",
+      "target": "CJS-01",
+      "type": "TOUCHES",
+      "properties": {}
+    },
+    {
+      "source": "A-23",
+      "target": "CJS-02",
+      "type": "TOUCHES",
+      "properties": {}
+    },
+    {
+      "source": "A-25",
+      "target": "CJS-02",
+      "type": "TOUCHES",
+      "properties": {}
+    },
+    {
+      "source": "A-01",
+      "target": "CJS-03",
+      "type": "TOUCHES",
+      "properties": {}
+    },
+    {
+      "source": "A-14",
+      "target": "CJS-03",
+      "type": "TOUCHES",
+      "properties": {}
+    },
+    {
+      "source": "A-11",
+      "target": "CJS-03",
+      "type": "TOUCHES",
+      "properties": {}
+    },
+    {
+      "source": "A-01",
+      "target": "CJS-04",
+      "type": "TOUCHES",
+      "properties": {}
+    },
+    {
+      "source": "A-11",
+      "target": "CJS-04",
+      "type": "TOUCHES",
+      "properties": {}
+    },
+    {
+      "source": "A-13",
+      "target": "CJS-04",
+      "type": "TOUCHES",
+      "properties": {}
+    },
+    {
+      "source": "A-18",
+      "target": "CJS-05",
+      "type": "TOUCHES",
+      "properties": {}
+    },
+    {
+      "source": "A-19",
+      "target": "CJS-05",
+      "type": "TOUCHES",
+      "properties": {}
+    },
+    {
+      "source": "A-57",
+      "target": "CJS-05",
+      "type": "TOUCHES",
+      "properties": {}
+    },
+    {
+      "source": "A-28",
+      "target": "CJS-06",
+      "type": "TOUCHES",
+      "properties": {}
+    },
+    {
+      "source": "A-58",
+      "target": "CJS-06",
+      "type": "TOUCHES",
+      "properties": {}
+    },
+    {
+      "source": "A-29",
+      "target": "CJS-07",
+      "type": "TOUCHES",
+      "properties": {}
+    },
+    {
+      "source": "A-30",
+      "target": "CJS-07",
+      "type": "TOUCHES",
+      "properties": {}
+    },
+    {
+      "source": "A-01",
+      "target": "A-02",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-02",
+      "target": "A-03",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-03",
+      "target": "A-04",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-03",
+      "target": "A-14",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-04",
+      "target": "A-05",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-05",
+      "target": "A-06",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-06",
+      "target": "A-07",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-07",
+      "target": "A-08",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-08",
+      "target": "A-09",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-09",
+      "target": "A-10",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-10",
+      "target": "A-11",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-11",
+      "target": "A-12",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-11",
+      "target": "A-13",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-13",
+      "target": "A-15",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-16",
+      "target": "A-17",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-17",
+      "target": "A-18",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-18",
+      "target": "A-19",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-20",
+      "target": "A-21",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-21",
+      "target": "A-22",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-22",
+      "target": "A-23",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-23",
+      "target": "A-24",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-24",
+      "target": "A-25",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-26",
+      "target": "A-27",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-27",
+      "target": "A-28",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-28",
+      "target": "A-29",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-29",
+      "target": "A-30",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-31",
+      "target": "A-32",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-32",
+      "target": "A-33",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-33",
+      "target": "A-34",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-25",
+      "target": "A-01",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-30",
+      "target": "A-01",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-33",
+      "target": "A-03",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-04",
+      "target": "A-16",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-10",
+      "target": "A-16",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-19",
+      "target": "A-06",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-27",
+      "target": "A-28",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-46",
+      "target": "A-04",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-49",
+      "target": "A-04",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-51",
+      "target": "A-09",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-40",
+      "target": "A-09",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-39",
+      "target": "A-03",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-36",
+      "target": "A-03",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-47",
+      "target": "A-17",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-35",
+      "target": "A-07",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-43",
+      "target": "A-01",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-43",
+      "target": "A-10",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-55",
+      "target": "A-01",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-55",
+      "target": "A-26",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-01",
+      "target": "A-64",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-64",
+      "target": "A-63",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-63",
+      "target": "A-62",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-62",
+      "target": "A-03",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "A-03",
+      "target": "CAP-01",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-13",
+      "target": "CAP-01",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-15",
+      "target": "CAP-01",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-21",
+      "target": "CAP-01",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-35",
+      "target": "CAP-01",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-36",
+      "target": "CAP-01",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-37",
+      "target": "CAP-01",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-38",
+      "target": "CAP-01",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-39",
+      "target": "CAP-01",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-40",
+      "target": "CAP-02",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-41",
+      "target": "CAP-02",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-42",
+      "target": "CAP-02",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-10",
+      "target": "CAP-03",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-43",
+      "target": "CAP-03",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-44",
+      "target": "CAP-03",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-45",
+      "target": "CAP-03",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-04",
+      "target": "CAP-04",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-17",
+      "target": "CAP-04",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-46",
+      "target": "CAP-04",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-47",
+      "target": "CAP-04",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-48",
+      "target": "CAP-04",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-50",
+      "target": "CAP-04",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-06",
+      "target": "CAP-05",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-07",
+      "target": "CAP-05",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-08",
+      "target": "CAP-05",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-49",
+      "target": "CAP-05",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-07",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-09",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-51",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-52",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-53",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-05",
+      "target": "CAP-07",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-06",
+      "target": "CAP-07",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-09",
+      "target": "CAP-07",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-10",
+      "target": "CAP-07",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-11",
+      "target": "CAP-07",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-12",
+      "target": "CAP-07",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-19",
+      "target": "CAP-07",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-01",
+      "target": "CAP-08",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-02",
+      "target": "CAP-08",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-14",
+      "target": "CAP-08",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-20",
+      "target": "CAP-08",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-22",
+      "target": "CAP-08",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-23",
+      "target": "CAP-08",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-54",
+      "target": "CAP-08",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-55",
+      "target": "CAP-08",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-56",
+      "target": "CAP-08",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-18",
+      "target": "CAP-09",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-26",
+      "target": "CAP-09",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-27",
+      "target": "CAP-09",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-28",
+      "target": "CAP-09",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-29",
+      "target": "CAP-09",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-57",
+      "target": "CAP-09",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-58",
+      "target": "CAP-09",
+      "type": "SUPPORTS",
+      "properties": {}
+    },
+    {
+      "source": "A-01",
+      "target": "S-01",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-01",
+      "target": "S-07",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-02",
+      "target": "S-01",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-02",
+      "target": "S-07",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-03",
+      "target": "S-03",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-04",
+      "target": "S-01",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-05",
+      "target": "S-02",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-06",
+      "target": "S-01",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-07",
+      "target": "S-06",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-08",
+      "target": "S-01",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-08",
+      "target": "S-06",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-09",
+      "target": "S-02",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-10",
+      "target": "S-02",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-11",
+      "target": "S-01",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-12",
+      "target": "S-01",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-12",
+      "target": "S-06",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-13",
+      "target": "S-03",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-13",
+      "target": "S-05",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-14",
+      "target": "S-01",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-15",
+      "target": "S-03",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-16",
+      "target": "S-01",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-16",
+      "target": "S-02",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-18",
+      "target": "S-07",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-21",
+      "target": "S-03",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-21",
+      "target": "S-07",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-22",
+      "target": "S-07",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-24",
+      "target": "S-01",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-24",
+      "target": "S-07",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-26",
+      "target": "S-07",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-27",
+      "target": "S-07",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-27",
+      "target": "S-03",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-28",
+      "target": "S-07",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-32",
+      "target": "S-03",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-35",
+      "target": "S-04",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-36",
+      "target": "S-03",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-37",
+      "target": "S-03",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-37",
+      "target": "S-05",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-43",
+      "target": "S-01",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-43",
+      "target": "S-02",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-44",
+      "target": "S-03",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-44",
+      "target": "S-04",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-44",
+      "target": "S-05",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-46",
+      "target": "S-01",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-48",
+      "target": "S-03",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-51",
+      "target": "S-08",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-52",
+      "target": "S-08",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-55",
+      "target": "S-07",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-56",
+      "target": "S-03",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-56",
+      "target": "S-07",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-58",
+      "target": "S-07",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-63",
+      "target": "S-01",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-64",
+      "target": "S-01",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "A-01",
+      "target": "EV-D01",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "responde_a"
+      }
+    },
+    {
+      "source": "EV-D01",
+      "target": "A-01",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "A-20",
+      "target": "EV-D02",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "responde_a"
+      }
+    },
+    {
+      "source": "EV-D02",
+      "target": "A-20",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "A-16",
+      "target": "EV-D03",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "responde_a"
+      }
+    },
+    {
+      "source": "EV-D03",
+      "target": "A-16",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "A-31",
+      "target": "EV-D04",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "responde_a"
+      }
+    },
+    {
+      "source": "EV-D04",
+      "target": "A-31",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "A-26",
+      "target": "EV-D05",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "responde_a"
+      }
+    },
+    {
+      "source": "EV-D05",
+      "target": "A-26",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "A-11",
+      "target": "EV-V01",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce"
+      }
+    },
+    {
+      "source": "A-11",
+      "target": "EV-V01",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "A-18",
+      "target": "EV-V02",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce"
+      }
+    },
+    {
+      "source": "A-18",
+      "target": "EV-V02",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "A-12",
+      "target": "EV-V03",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce"
+      }
+    },
+    {
+      "source": "A-12",
+      "target": "EV-V03",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "A-15",
+      "target": "EV-V04",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce"
+      }
+    },
+    {
+      "source": "A-15",
+      "target": "EV-V04",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "A-14",
+      "target": "EV-V05",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce"
+      }
+    },
+    {
+      "source": "A-14",
+      "target": "EV-V05",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "A-25",
+      "target": "EV-V06",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce"
+      }
+    },
+    {
+      "source": "A-25",
+      "target": "EV-V06",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "A-30",
+      "target": "EV-V07",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce"
+      }
+    },
+    {
+      "source": "A-30",
+      "target": "EV-V07",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "A-34",
+      "target": "EV-V04",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    }
+  ]
+}

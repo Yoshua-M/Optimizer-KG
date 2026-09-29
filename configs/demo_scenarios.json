@@ -21,6 +21,88 @@
         "relevance": "data/processed/demo/energoil_mexico_v2/relevance.json",
         "copy": "data/processed/demo/energoil_mexico_v2/copy.md"
       }
+    },
+    {
+      "id": "energoil_mexico_v3",
+      "title": "Energoil México v3",
+      "description": "Demo v3: simulación con misconceptions, 70 actividades, 8 value streams",
+      "paths": {
+        "graph": "data/processed/demo/energoil_mexico_v3/graph.json",
+        "metrics": "data/processed/demo/energoil_mexico_v3/metrics.json",
+        "relevance": "data/processed/demo/energoil_mexico_v3/relevance.json",
+        "copy": "data/processed/demo/energoil_mexico_v3/copy.md"
+      }
+    },
+    {
+      "id": "eneroil_real_v1",
+      "title": "Eneroil (datos reales) v1",
+      "description": "Experimental: inventario extraído de entrevista interna real — grafo estructural sin métricas de valor (Capa 3 pendiente de investigación JTBD)",
+      "kind": "structural",
+      "paths": {
+        "graph": "data/processed/demo/eneroil_real_v1/graph.json",
+        "metrics": "data/processed/demo/eneroil_real_v1/metrics.json",
+        "relevance": "data/processed/demo/eneroil_real_v1/relevance.json",
+        "copy": "data/processed/demo/eneroil_real_v1/copy.md"
+      }
+    },
+    {
+      "id": "eneroil_real_v2",
+      "title": "Eneroil (datos reales) v2 — AI enhanced",
+      "description": "Experimental: inventario real con llenado generado, métricas abducidas y dimensiones P/C/F/R con confianza — visualización de certidumbre en demo",
+      "kind": "ai_enhanced",
+      "paths": {
+        "graph": "data/processed/demo/eneroil_real_v2/graph.json",
+        "metrics": "data/processed/demo/eneroil_real_v2/metrics.json",
+        "relevance": "data/processed/demo/eneroil_real_v2/relevance.json",
+        "copy": "data/processed/demo/eneroil_real_v2/copy.md"
+      }
+    },
+    {
+      "id": "eneroil_real_v3",
+      "title": "Eneroil (datos reales) v3 — AI enhanced extended",
+      "description": "Experimental: inventario real v2 plus feeders inter-área (ACT-26–31), aristas de insumo y P/C/F/R de actividades generadas (Paso 8, parte simulada / void_on_collapse)",
+      "kind": "ai_enhanced",
+      "paths": {
+        "graph": "data/processed/demo/eneroil_real_v3/graph.json",
+        "metrics": "data/processed/demo/eneroil_real_v3/metrics.json",
+        "relevance": "data/processed/demo/eneroil_real_v3/relevance.json",
+        "copy": "data/processed/demo/eneroil_real_v3/copy.md"
+      }
+    },
+    {
+      "id": "eneroil_real_v4_experiment",
+      "title": "Eneroil (datos reales) v4 — experiment",
+      "description": "Experimental: inventario real v3 validado con transcripción del walkthrough: feeders ACT-24–29 extraídos, facturación al cargar (no al entregar), empresa hermana de logística, Tesorería, Excel, path de merma.",
+      "kind": "ai_enhanced",
+      "paths": {
+        "graph": "data/processed/demo/eneroil_real_v4_experiment/graph.json",
+        "metrics": "data/processed/demo/eneroil_real_v4_experiment/metrics.json",
+        "relevance": "data/processed/demo/eneroil_real_v4_experiment/relevance.json",
+        "copy": "data/processed/demo/eneroil_real_v4_experiment/copy.md"
+      }
+    },
+    {
+      "id": "eneroil_real_v4_oficial",
+      "title": "Eneroil (datos reales) v4 — oficial",
+      "description": "Inventario oficial F2 + corrida CoherenceCheckProtocol v0.3 (topología REALIZES/PRECEDES, renombres de claridad, capa Intent). Métricas abducidas; P/C/F/R de actividades generadas.",
+      "kind": "ai_enhanced",
+      "paths": {
+        "graph": "data/processed/demo/eneroil_real_v4_oficial/graph_coherence_repaired.json",
+        "metrics": "data/processed/demo/eneroil_real_v4_oficial/metrics.json",
+        "relevance": "data/processed/demo/eneroil_real_v4_oficial/relevance.json",
+        "copy": "data/processed/demo/eneroil_real_v4_oficial/copy.md"
+      }
+    },
+    {
+      "id": "oil_trade_simulation",
+      "title": "Oil Trade simulation",
+      "description": "Generic client demo: fuel-trading simulation with misconceptions, 70 activities, 8 value streams (no client brand)",
+      "paths": {
+        "graph": "data/processed/demo/oil_trade_simulation/graph.json",
+        "metrics": "data/processed/demo/oil_trade_simulation/metrics.json",
+        "relevance": "data/processed/demo/oil_trade_simulation/relevance.json",
+        "copy": "data/processed/demo/oil_trade_simulation/copy.md"
+      }
     }
   ]
 }

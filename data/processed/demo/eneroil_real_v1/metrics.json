@@ -1,0 +1,72 @@
+{
+  "scenario_id": "eneroil_real_v1",
+  "metrics": [],
+  "metric_drivers": [
+    {
+      "id": "MDR-01",
+      "parent_metric_id": null,
+      "name": "Puntualidad de emisión de factura (mismo día de entrega)",
+      "description": "",
+      "status": "candidate",
+      "hypothetical_metric": "M?-02"
+    },
+    {
+      "id": "MDR-02",
+      "parent_metric_id": null,
+      "name": "Exactitud de datos fiscales del cliente (catálogo validado)",
+      "description": "",
+      "status": "candidate",
+      "hypothetical_metric": "M?-02"
+    },
+    {
+      "id": "MDR-03",
+      "parent_metric_id": null,
+      "name": "Disciplina de seguimiento diario a cartera",
+      "description": "",
+      "status": "candidate",
+      "hypothetical_metric": "M?-03"
+    },
+    {
+      "id": "MDR-04",
+      "parent_metric_id": null,
+      "name": "Existencia y aplicación de política de crédito y cobranza",
+      "description": "",
+      "status": "candidate",
+      "hypothetical_metric": "M?-03"
+    },
+    {
+      "id": "MDR-05",
+      "parent_metric_id": null,
+      "name": "Puntualidad de conciliación (diaria antes de 10am)",
+      "description": "",
+      "status": "candidate",
+      "hypothetical_metric": "M?-03"
+    },
+    {
+      "id": "MDR-06",
+      "parent_metric_id": null,
+      "name": "Grado de integración de sistemas (Smartsheet–SAE/ASPEL–banco)",
+      "description": "",
+      "status": "candidate",
+      "hypothetical_metric": "M?-02, M?-03"
+    }
+  ],
+  "metric_hypotheses": [
+    {
+      "id": "M?-01",
+      "name": "Confiabilidad de entrega",
+      "definition": "Producto correcto, volumen, destino y fecha según lo pactado."
+    },
+    {
+      "id": "M?-02",
+      "name": "Exactitud y puntualidad de facturación percibida",
+      "definition": "El cliente recibe un CFDI correcto y a tiempo (mismo día de entrega en el escenario ideal)."
+    },
+    {
+      "id": "M?-03",
+      "name": "Transparencia de cuenta",
+      "definition": "El cliente recibe estado de cuenta correcto y puntual, sin disputas."
+    }
+  ],
+  "note": "Sin métricas confirmadas: la entrevista es interna y sus KPIs (DSO, cartera vencida) no califican como Metric de valor cliente. Las hipótesis M?-01/02/03 requieren validación JTBD."
+}

@@ -118,6 +118,38 @@ VALUE_STREAMS_V2: list[tuple[str, str, list[str], str]] = [
     ("VS-07", "EV-D06", ["A-40", "A-41", "A-43", "A-22"], "EV-V04"),
 ]
 
+VALUE_STREAMS_V3: list[tuple[str, str, list[str], str]] = [
+    ("VS-01", "EV-D01", ["A-01", "A-02", "A-03", "A-04", "A-05", "A-06", "A-07", "A-08", "A-09", "A-10", "A-11"], "EV-V01"),
+    ("VS-02", "EV-D01", ["A-01", "A-02", "A-03", "A-04", "A-05", "A-06", "A-07", "A-08", "A-09", "A-10", "A-11", "A-12"], "EV-V03"),
+    ("VS-03", "EV-D01", ["A-01", "A-02", "A-03", "A-14"], "EV-V05"),
+    ("VS-04", "EV-D01", ["A-01", "A-02", "A-03", "A-04", "A-05", "A-06", "A-07", "A-08", "A-09", "A-10", "A-11", "A-13", "A-15"], "EV-V04"),
+    ("VS-05", "EV-D03", ["A-16", "A-17", "A-18"], "EV-V02"),
+    ("VS-06", "EV-D02", ["A-20", "A-21", "A-22", "A-23", "A-24", "A-25"], "EV-V06"),
+    ("VS-07", "EV-D05", ["A-26", "A-27", "A-28", "A-29", "A-30"], "EV-V07"),
+    ("VS-08", "EV-D04", ["A-31", "A-32", "A-33", "A-34"], "EV-V04"),
+]
+
+SYNTHETIC_SIGNALS_V3: list[tuple[str, str, float, str]] = [
+    ("CJS-01", "M-04", 0.70, "Evaluación de proveedor — costo predecible"),
+    ("CJS-01", "M-05", 0.60, "Facilidad percibida en onboarding comercial"),
+    ("CJS-02", "M-04", 0.85, "Negociación define costo total de abastecimiento"),
+    ("CJS-02", "M-05", 0.75, "Condiciones comerciales y fricción inicial"),
+    ("CJS-03", "M-01", 0.95, "Primer pedido — ventana de entrega"),
+    ("CJS-03", "M-03", 0.90, "Primera entrega — exactitud de volumen"),
+    ("CJS-03", "M-05", 0.80, "Primer pedido — fricción administrativa"),
+    ("CJS-04", "M-01", 0.90, "Operación recurrente — confiabilidad"),
+    ("CJS-04", "M-03", 0.85, "Volumen en ciclo recurrente"),
+    ("CJS-04", "M-05", 0.70, "Facilidad operativa continua"),
+    ("CJS-05", "M-02", 0.95, "Momento de falla — tiempo de respuesta"),
+    ("CJS-05", "M-01", 0.75, "Falla afecta percepción de confiabilidad"),
+    ("CJS-06", "M-04", 0.70, "Revisión comercial — costo del período"),
+    ("CJS-06", "M-02", 0.65, "Desempeño ante incidentes en revisión"),
+    ("CJS-07", "M-04", 0.65, "Renovación — costo predecible"),
+    ("CJS-07", "M-01", 0.60, "Retención ligada a confiabilidad histórica"),
+]
+
+PORTER_VERSIONS = frozenset({"v2", "v3"})
+
 
 @dataclass(frozen=True)
 class VersionConfig:
@@ -152,7 +184,104 @@ VERSIONS: dict[str, VersionConfig] = {
         description="Demo v2: áreas Porter, eventos Demanda/Entrega de Valor, PRECEDES cross-proceso",
         copy_fn="v2",
     ),
+    "v3": VersionConfig(
+        version="v3",
+        scenario_id="energoil_mexico_v3",
+        inventory_path=REPO_ROOT / "data/raw/Energoil_Mexico_Graph_Inventory_v3.md",
+        out_dir=REPO_ROOT / "data/processed/demo/energoil_mexico_v3",
+        title="Energoil México v3",
+        graph_title="Energoil México v3 — misconceptions & value streams",
+        description="Demo v3: simulación con misconceptions, 70 actividades, 8 value streams",
+        copy_fn="v3",
+    ),
+    "oil_trade": VersionConfig(
+        version="v3",
+        scenario_id="oil_trade_simulation",
+        inventory_path=REPO_ROOT / "data/raw/Oil_Trade_Simulation_Graph_Inventory.md",
+        out_dir=REPO_ROOT / "data/processed/demo/oil_trade_simulation",
+        title="Oil Trade simulation",
+        graph_title="Oil Trade simulation — misconceptions & value streams",
+        description="Generic client demo: fuel-trading simulation with misconceptions, 70 activities, 8 value streams (no client brand)",
+        copy_fn="oil_trade",
+    ),
 }
+
+
+def _is_porter_version(version: str) -> bool:
+    return version in PORTER_VERSIONS
+
+
+def _value_streams_for_version(version: str) -> list[tuple[str, str, list[str], str]]:
+    if version == "v3":
+        return VALUE_STREAMS_V3
+    return VALUE_STREAMS_V2
+
+
+def _synthetic_signals_for_version(version: str) -> list[tuple[str, str, float, str]]:
+    if version == "v3":
+        return SYNTHETIC_SIGNALS_V3
+    return SYNTHETIC_SIGNALS
+
+
+def _inventory_section_prefix(version: str, key: str) -> str:
+    """Return the ## section title prefix for a logical block."""
+    sections: dict[str, dict[str, str]] = {
+        "v1": {
+            "metrics": "1.1 Metric (6 nodos)",
+            "drivers": "1.2 MetricDriver (15 nodos)",
+            "cjs": "1.3 CustomerJourneyStep (8 nodos)",
+            "process": "1.4 Process — 8 Macroprocesos (8 nodos)",
+            "activity": "1.5 Activity (43 nodos)",
+            "team": "1.6 Team (8 nodos",
+            "capability": "1.7 Capability (8 nodos",
+            "system": "1.8 System (8 nodos)",
+            "event": "1.9 Event (8 nodos",
+            "affects": "2.1 Activity —[AFFECTS]→ Metric (23 relaciones)",
+            "contributes": "2.2 Process —[CONTRIBUTES_TO]→ Metric (16 relaciones)",
+            "touches": "2.3 Activity —[TOUCHES]→ CustomerJourneyStep (11 relaciones)",
+            "precedes": "2.4 Activity —[PRECEDES]→ Activity",
+            "quant": "3.6 Tabla de cuantificación por actividad",
+        },
+        "v2": {
+            "metrics": "1.1 Metric (6 nodos)",
+            "drivers": "1.2 MetricDriver (15 nodos)",
+            "cjs": "1.3 CustomerJourneyStep (8 nodos)",
+            "process": "1.4 Process — 8 Macroprocesos (8 nodos)",
+            "activity": "1.5 Activity (43 nodos)",
+            "team": "1.6 Team (9 nodos",
+            "capability": "1.7 Capability (9 nodos",
+            "system": "1.8 System (8 nodos)",
+            "event": "1.9 Event (14 nodos",
+            "affects": "2.1 Activity —[AFFECTS]→ Metric (25 relaciones)",
+            "contributes": "2.2 Process —[CONTRIBUTES_TO]→ Metric (16 relaciones)",
+            "touches": "2.3 Activity —[TOUCHES]→ CustomerJourneyStep (11 relaciones)",
+            "precedes": "2.4 Activity —[PRECEDES]→ Activity",
+            "involves": "2.5 Activity —[INVOLVES_EVENT]→ Event",
+            "quant": "3.6 Tabla de cuantificación por actividad",
+        },
+        "v3": {
+            "metrics": "1.1 Metric (5 nodos)",
+            "drivers": "1.2 MetricDriver (13 nodos)",
+            "cjs": "1.3 CustomerJourneyStep (7 nodos)",
+            "process": "1.4 Process (5 nodos)",
+            "activity": "1.5 Activity (70 nodos)",
+            "team": "1.6 Team (9 nodos",
+            "capability": "1.7 Capability (9 nodos",
+            "system": "1.8 System (8 nodos)",
+            "event": "1.9 Event (12 nodos",
+            "affects": "2.1 Activity —[AFFECTS]→ Metric (28 relaciones)",
+            "affects_driver": "2.2 Activity —[AFFECTS]→ MetricDriver (10 relaciones)",
+            "contributes": "2.3 Process —[CONTRIBUTES_TO]→ Metric (12 relaciones)",
+            "touches": "2.4 Activity —[TOUCHES]→ CustomerJourneyStep (17 relaciones)",
+            "precedes": "2.5 Activity —[PRECEDES]→ Activity",
+            "involves": "2.6 Activity —[INVOLVES_EVENT]→ Event (12 relaciones)",
+            "owns": "2.8 Team —[OWNS]→ Process / Capability",
+            "supports": "2.9 Activity —[SUPPORTS]→ Capability",
+            "uses_system": "2.10 Activity —[USES_SYSTEM]→ System",
+            "quant": "3.3 Tabla de cuantificación — todas las actividades",
+        },
+    }
+    return sections[version][key]
 
 
 def parse_table_rows(section_text: str) -> list[list[str]]:
@@ -323,12 +452,36 @@ def _add_uses_system_v2(md: str, add_rel_fn) -> None:
                     add_rel_fn(activity_id, system_id, "USES_SYSTEM")
 
 
-def _add_owns_v2(md: str, add_rel_fn) -> None:
-    owns_sec = subsection(
-        section(md, "2.6 Relaciones adicionales de ontología"),
-        "Team —[OWNS]→ Process / Capability",
-    )
-    for row in parse_table_rows(owns_sec):
+def _add_supports_from_table(section_text: str, add_rel_fn) -> None:
+    seen: set[tuple[str, str]] = set()
+    for row in parse_table_rows(section_text):
+        if len(row) < 2:
+            continue
+        activity_spec, cap_cell = row[0], row[1]
+        for activity_id in expand_activity_spec(activity_spec):
+            for cap_id in parse_cap_ids(cap_cell):
+                key = (activity_id, cap_id)
+                if key not in seen:
+                    seen.add(key)
+                    add_rel_fn(activity_id, cap_id, "SUPPORTS")
+
+
+def _add_uses_system_from_table(section_text: str, add_rel_fn) -> None:
+    seen: set[tuple[str, str]] = set()
+    for row in parse_table_rows(section_text):
+        if len(row) < 2:
+            continue
+        activity_spec, system_cell = row[0], row[1]
+        for activity_id in expand_activity_spec(activity_spec):
+            for system_id in parse_system_ids(system_cell):
+                key = (activity_id, system_id)
+                if key not in seen:
+                    seen.add(key)
+                    add_rel_fn(activity_id, system_id, "USES_SYSTEM")
+
+
+def _add_owns_from_table(section_text: str, add_rel_fn) -> None:
+    for row in parse_table_rows(section_text):
         if len(row) < 3:
             continue
         team_id = parse_team_id(row[0])
@@ -336,6 +489,38 @@ def _add_owns_v2(md: str, add_rel_fn) -> None:
             add_rel_fn(team_id, process_id, "OWNS")
         for cap_id in parse_cap_ids(row[2]):
             add_rel_fn(team_id, cap_id, "OWNS")
+
+
+def _add_owns_v2(md: str, add_rel_fn) -> None:
+    owns_sec = subsection(
+        section(md, "2.6 Relaciones adicionales de ontología"),
+        "Team —[OWNS]→ Process / Capability",
+    )
+    _add_owns_from_table(owns_sec, add_rel_fn)
+
+
+def _add_affects_driver_v3(
+    md: str,
+    version: str,
+    add_rel_fn,
+    affects_conf: dict[tuple[str, str], float],
+) -> None:
+    driver_sec = section(md, _inventory_section_prefix(version, "affects_driver"))
+    for row in parse_table_rows(driver_sec):
+        if len(row) < 2:
+            continue
+        activity_id, driver_id = row[0], row[1]
+        if not driver_id.startswith("MD-"):
+            continue
+        conf = 0.85
+        affects_conf[(activity_id, driver_id)] = conf
+        add_rel_fn(
+            activity_id,
+            driver_id,
+            "AFFECTS",
+            confidence=conf,
+            justification=row[2] if len(row) > 2 else "",
+        )
 
 
 def _parse_event_type(raw: str, event_id: str, *, version: str) -> str | None:
@@ -350,9 +535,10 @@ def _parse_event_type(raw: str, event_id: str, *, version: str) -> str | None:
 def _supplement_precedes_from_value_streams(
     add_rel_fn,
     precedes: set[tuple[str, str]],
+    value_streams: list[tuple[str, str, list[str], str]],
 ) -> None:
-    """Add §2.7 path segments missing from parsed inventory PRECEDES."""
-    for _vs_id, demand_event, activity_path, value_event in VALUE_STREAMS_V2:
+    """Add value-stream path segments missing from parsed inventory PRECEDES."""
+    for _vs_id, demand_event, activity_path, value_event in value_streams:
         chain = [demand_event, *activity_path, value_event]
         for left, right in zip(chain, chain[1:]):
             if (left, right) not in precedes:
@@ -360,11 +546,14 @@ def _supplement_precedes_from_value_streams(
                 precedes.add((left, right))
 
 
-def _validate_value_streams_v2(precedes: set[tuple[str, str]]) -> None:
+def _validate_value_streams(
+    precedes: set[tuple[str, str]],
+    value_streams: list[tuple[str, str, list[str], str]],
+) -> None:
     def has_edge(source: str, target: str) -> bool:
         return (source, target) in precedes
 
-    for vs_id, demand_event, activity_path, value_event in VALUE_STREAMS_V2:
+    for vs_id, demand_event, activity_path, value_event in value_streams:
         if not has_edge(demand_event, activity_path[0]):
             raise ValueError(
                 f"{vs_id}: missing PRECEDES {demand_event} → {activity_path[0]}"
@@ -432,8 +621,12 @@ def build(cfg: VersionConfig) -> None:
         if rtype == "PRECEDES":
             precedes_edges.add((source, target))
 
+    version = cfg.version
+    value_streams = _value_streams_for_version(version)
+    synthetic_signals = _synthetic_signals_for_version(version)
+
     # --- Metrics ---
-    for row in parse_table_rows(section(md, "1.1 Metric (6 nodos)")):
+    for row in parse_table_rows(section(md, _inventory_section_prefix(version, "metrics"))):
         mid, name, definition, client_need = row[0], row[1], row[2], row[3]
         metrics.append(
             {
@@ -449,21 +642,21 @@ def build(cfg: VersionConfig) -> None:
 
     # --- Metric drivers ---
     driver_parent: dict[str, str] = {}
-    for row in parse_table_rows(section(md, "1.2 MetricDriver (15 nodos)")):
+    for row in parse_table_rows(section(md, _inventory_section_prefix(version, "drivers"))):
         did, parent, name, desc = row[0], row[1], row[2], row[3]
         driver_parent[did] = parent
         metric_drivers.append(
             {"id": did, "parent_metric_id": parent, "name": name, "description": desc}
         )
         add_node(did, "MetricDriver", name, parent_metric_id=parent, description=desc)
-        add_rel(parent, did, "HAS_DRIVER")
+        add_rel(did, parent, "DRIVES")
 
     # --- Customer journey ---
-    for row in parse_table_rows(section(md, "1.3 CustomerJourneyStep (8 nodos)")):
+    for row in parse_table_rows(section(md, _inventory_section_prefix(version, "cjs"))):
         cid, name, experience = row[0], row[1], row[2]
         add_node(cid, "CustomerJourneyStep", name, experience=experience)
 
-    for cjs, metric, strength, justification in SYNTHETIC_SIGNALS:
+    for cjs, metric, strength, justification in synthetic_signals:
         add_rel(
             cjs,
             metric,
@@ -474,12 +667,12 @@ def build(cfg: VersionConfig) -> None:
         )
 
     # --- Process ---
-    for row in parse_table_rows(section(md, "1.4 Process — 8 Macroprocesos (8 nodos)")):
+    for row in parse_table_rows(section(md, _inventory_section_prefix(version, "process"))):
         pid, name, desc = row[0], row[1], row[2]
         add_node(pid, "Process", name, description=desc)
 
     # --- Activities ---
-    activity_rows = parse_table_rows(section(md, "1.5 Activity (43 nodos)"))
+    activity_rows = parse_table_rows(section(md, _inventory_section_prefix(version, "activity")))
     for row in activity_rows:
         aid, process_id, name, area_cell, frequency = (
             row[0],
@@ -488,7 +681,9 @@ def build(cfg: VersionConfig) -> None:
             row[3],
             row[4],
         )
-        if cfg.version == "v2":
+        if process_id.strip().startswith("—"):
+            process_id = None
+        if _is_porter_version(version):
             porter_areas = parse_porter_areas(area_cell)
             primary_area = porter_areas[0] if porter_areas else area_cell
             team_id = team_id_for_porter_area(primary_area)
@@ -512,7 +707,8 @@ def build(cfg: VersionConfig) -> None:
                 team_label=primary_area,
                 frequency=frequency,
             )
-            add_rel(aid, process_id, "PART_OF")
+            if process_id:
+                add_rel(aid, process_id, "PART_OF")
             for area in porter_areas:
                 add_rel(team_id_for_porter_area(area), aid, "PERFORMS")
         else:
@@ -533,29 +729,26 @@ def build(cfg: VersionConfig) -> None:
                 team_label=team_label,
                 frequency=frequency,
             )
-            add_rel(aid, process_id, "PART_OF")
+            if process_id:
+                add_rel(aid, process_id, "PART_OF")
             add_rel(team_id, aid, "PERFORMS")
             for cap_id in _capability_for_activity_v1(aid):
                 add_rel(aid, cap_id, "SUPPORTS")
 
     # --- Team, Capability, System, Event ---
-    team_header = "1.6 Team (9 nodos" if cfg.version == "v2" else "1.6 Team (8 nodos"
-    cap_header = "1.7 Capability (9 nodos" if cfg.version == "v2" else "1.7 Capability (8 nodos"
-    event_header = "1.9 Event (14 nodos" if cfg.version == "v2" else "1.9 Event (8 nodos"
-
-    for row in parse_table_rows(section(md, team_header)):
+    for row in parse_table_rows(section(md, _inventory_section_prefix(version, "team"))):
         add_node(row[0], "Team", row[1], role=row[2])
-    for row in parse_table_rows(section(md, cap_header)):
+    for row in parse_table_rows(section(md, _inventory_section_prefix(version, "capability"))):
         add_node(row[0], "Capability", row[1], description=row[2])
-    for row in parse_table_rows(section(md, "1.8 System (8 nodos)")):
+    for row in parse_table_rows(section(md, _inventory_section_prefix(version, "system"))):
         add_node(row[0], "System", row[1], function=row[2])
-    for row in parse_table_rows(section(md, event_header)):
+    for row in parse_table_rows(section(md, _inventory_section_prefix(version, "event"))):
         eid, name = row[0], row[1]
-        if cfg.version == "v2":
-            event_type_raw, description = row[2], row[3]
-            event_type = _parse_event_type(event_type_raw, eid, version=cfg.version)
+        if _is_porter_version(version):
+            event_type_raw, description = row[2], row[-1]
+            event_type = _parse_event_type(event_type_raw, eid, version=version)
         elif len(row) >= 4:
-            event_type = _parse_event_type(row[2], eid, version=cfg.version)
+            event_type = _parse_event_type(row[2], eid, version=version)
             description = row[3]
         else:
             event_type = EVENT_TYPES_V1.get(eid)
@@ -569,8 +762,10 @@ def build(cfg: VersionConfig) -> None:
         )
 
     # Team OWNS process/capability
-    if cfg.version == "v2":
+    if version == "v2":
         _add_owns_v2(md, add_rel)
+    elif version == "v3":
+        _add_owns_from_table(section(md, _inventory_section_prefix(version, "owns")), add_rel)
     else:
         owns = parse_table_rows(
             section(md, "2.5 Relaciones adicionales de ontología")
@@ -583,13 +778,8 @@ def build(cfg: VersionConfig) -> None:
                 add_rel(row[0], row[2], "OWNS")
 
     # AFFECTS Activity -> Metric
-    affects_header = (
-        "2.1 Activity —[AFFECTS]→ Metric (25 relaciones)"
-        if cfg.version == "v2"
-        else "2.1 Activity —[AFFECTS]→ Metric (23 relaciones)"
-    )
     affects_conf: dict[tuple[str, str], float] = {}
-    for row in parse_table_rows(section(md, affects_header)):
+    for row in parse_table_rows(section(md, _inventory_section_prefix(version, "affects"))):
         aid, mid, strength_cell = row[0], row[1], row[2]
         conf, justification = causal_confidence(strength_cell)
         affects_conf[(aid, mid)] = conf
@@ -600,49 +790,60 @@ def build(cfg: VersionConfig) -> None:
             confidence=conf,
             justification=justification,
         )
-        for did, parent in driver_parent.items():
-            if parent == mid:
-                add_rel(
-                    aid,
-                    did,
-                    "AFFECTS",
-                    confidence=0.5,
-                    synthetic=True,
-                    justification=f"Inferido: actividad afecta métrica {mid}",
-                )
+        if version != "v3":
+            for did, parent in driver_parent.items():
+                if parent == mid:
+                    add_rel(
+                        aid,
+                        did,
+                        "AFFECTS",
+                        confidence=0.5,
+                        synthetic=True,
+                        justification=f"Inferido: actividad afecta métrica {mid}",
+                    )
+
+    if version == "v3":
+        _add_affects_driver_v3(md, version, add_rel, affects_conf)
 
     # Process CONTRIBUTES_TO Metric
     process_metric: set[tuple[str, str]] = set()
     for row in parse_table_rows(
-        section(md, "2.2 Process —[CONTRIBUTES_TO]→ Metric (16 relaciones)")
+        section(md, _inventory_section_prefix(version, "contributes"))
     ):
         process_metric.add((row[0], row[1]))
         add_rel(row[0], row[1], "CONTRIBUTES_TO", confidence=0.85)
 
     # TOUCHES
     touches: set[tuple[str, str]] = set()
-    for row in parse_table_rows(
-        section(md, "2.3 Activity —[TOUCHES]→ CustomerJourneyStep (11 relaciones)")
-    ):
+    for row in parse_table_rows(section(md, _inventory_section_prefix(version, "touches"))):
         touches.add((row[0], row[1]))
         add_rel(row[0], row[1], "TOUCHES")
 
     # PRECEDES (intra- and cross-process tables)
-    precedes_sec = section(md, "2.4 Activity —[PRECEDES]→ Activity")
+    precedes_sec = section(md, _inventory_section_prefix(version, "precedes"))
     for row in parse_table_rows(precedes_sec):
         if len(row) >= 2 and row[0].startswith("A-") and row[1].startswith("A-"):
             add_rel(row[0], row[1], "PRECEDES")
 
-    # USES_SYSTEM / SUPPORTS (v2)
-    if cfg.version == "v2":
+    # USES_SYSTEM / SUPPORTS
+    if version == "v2":
         _add_supports_v2(md, add_rel)
         _add_uses_system_v2(md, add_rel)
+    elif version == "v3":
+        _add_supports_from_table(
+            section(md, _inventory_section_prefix(version, "supports")),
+            add_rel,
+        )
+        _add_uses_system_from_table(
+            section(md, _inventory_section_prefix(version, "uses_system")),
+            add_rel,
+        )
     else:
         _add_uses_system_v1(add_rel)
 
     # INVOLVES_EVENT
-    if cfg.version == "v2":
-        inv_sec = section(md, "2.5 Activity —[INVOLVES_EVENT]→ Event")
+    if _is_porter_version(version):
+        inv_sec = section(md, _inventory_section_prefix(version, "involves"))
         for row in parse_table_rows(inv_sec):
             if len(row) < 3:
                 continue
@@ -662,12 +863,12 @@ def build(cfg: VersionConfig) -> None:
             if len(row) >= 2:
                 add_rel(row[0], row[1].split()[0], "INVOLVES_EVENT")
 
-    if cfg.version == "v2":
-        _supplement_precedes_from_value_streams(add_rel, precedes_edges)
-        _validate_value_streams_v2(precedes_edges)
+    if _is_porter_version(version):
+        _supplement_precedes_from_value_streams(add_rel, precedes_edges, value_streams)
+        _validate_value_streams(precedes_edges, value_streams)
 
-    # Activity quantification §3.6
-    quant_sec = section(md, "3.6 Tabla de cuantificación por actividad")
+    # Activity quantification
+    quant_sec = section(md, _inventory_section_prefix(version, "quant"))
     for row in parse_table_rows(quant_sec):
         if not row or not row[0].startswith("A-"):
             continue
@@ -679,7 +880,14 @@ def build(cfg: VersionConfig) -> None:
             float(row[4]),
             float(row[5]),
         )
-        metrics_with_b = [m.strip() for m in row[6].split(",") if m.strip() and m.strip() != "—"]
+        metrics_with_b: list[str] = []
+        for part in row[6].split(","):
+            part = part.strip()
+            if not part or part == "—":
+                continue
+            metric_match = re.match(r"(M-\d+)", part)
+            if metric_match:
+                metrics_with_b.append(metric_match.group(1))
         activities[aid].update(
             {
                 "p": p,
@@ -696,7 +904,7 @@ def build(cfg: VersionConfig) -> None:
 
     # Build indexes for bridge scoring
     signals: dict[tuple[str, str], float] = {}
-    for cjs, metric, strength, _ in SYNTHETIC_SIGNALS:
+    for cjs, metric, strength, _ in synthetic_signals:
         signals[(cjs, metric)] = strength
 
     activity_ids = sorted(activities.keys(), key=activity_num)
@@ -775,13 +983,13 @@ def build(cfg: VersionConfig) -> None:
             )
 
     process_rollups: list[dict] = []
-    for pid in sorted({a["process_id"] for a in activities.values()}):
+    for pid in sorted({a["process_id"] for a in activities.values() if a.get("process_id")}):
         for mid in sorted(metric_ids):
             total_rel = sum(
                 cell["relevance"]
                 for cell in matrix
                 if cell["metric_id"] == mid
-                and activities[cell["activity_id"]]["process_id"] == pid
+                and activities[cell["activity_id"]].get("process_id") == pid
             )
             if total_rel > 0:
                 process_rollups.append(
@@ -804,11 +1012,16 @@ def build(cfg: VersionConfig) -> None:
         "node_count": len(nodes),
         "relationship_count": len(relationships),
     }
-    if cfg.version == "v2":
-        graph_meta["inventory_version"] = "v2"
+    if _is_porter_version(version):
+        graph_meta["inventory_version"] = version
         graph_meta["synthetic_event_precedes"] = True
         graph_meta["synthetic_event_precedes_note"] = (
             "Event↔Activity PRECEDES derived from INVOLVES_EVENT event_role for VS discovery."
+        )
+    if version == "v3":
+        graph_meta["misconceptions"] = ["M-A", "M-D", "M-3"]
+        graph_meta["misconception_note"] = (
+            "Activities A-59–A-67 embed organizational misconceptions with high V and B≈0."
         )
 
     graph_doc = {
@@ -839,7 +1052,12 @@ def build(cfg: VersionConfig) -> None:
         "rankings_by_metric": _rankings(matrix, metrics),
     }
 
-    copy_md = _demo_copy_v2() if cfg.version == "v2" else _demo_copy_v1()
+    copy_md = {
+        "v1": _demo_copy_v1,
+        "v2": _demo_copy_v2,
+        "v3": _demo_copy_v3,
+        "oil_trade": _demo_copy_oil_trade,
+    }[cfg.copy_fn]()
 
     (cfg.out_dir / "graph.json").write_text(
         json.dumps(graph_doc, ensure_ascii=False, indent=2), encoding="utf-8"
@@ -884,7 +1102,7 @@ def _g_score(
     if (aid, mid) in affects_conf:
         g = max(g, 1.0 * affects_conf[(aid, mid)])
     pid = activities[aid]["process_id"]
-    if (pid, mid) in process_metric:
+    if pid and (pid, mid) in process_metric:
         g = max(g, 0.7 * 0.85)
     return g
 
@@ -990,6 +1208,68 @@ Cada celda es **Relevancia = B × V**. Actividades con **V alto y B = 0** son ha
 ## Datos
 
 Escenario simulado para demo comercial. Fuente: inventario Energoil México v2 (junio 2026).
+"""
+
+
+def _demo_copy_v3() -> str:
+    return """# Energoil México v3 — demo Optimizer
+
+## Para qué sirve esta herramienta
+
+Optimizer conecta **operaciones internas** (actividades, procesos, equipos) con **métricas de valor percibido por el cliente**, para que dirección priorice inversión en personas, procesos, sistemas y cumplimiento con un ROI defendible.
+
+## Qué hay de nuevo en v3
+
+- **Misconceptions incorporados** — actividades con alto V operativo pero B≈0 hacia métricas cliente (estética de flota, aprobaciones multinivel, visitas de cortesía).
+- **70 actividades** — grafo ampliado con soporte cross-proceso y paths de fricción (M-D) visibles en el value stream de entrega.
+- **5 métricas JTBD** — confiabilidad, respuesta ante falla, exactitud, costo predecible y fricción administrativa.
+- **8 value streams** — desde demanda (EV-D*) hasta entrega de valor (EV-V*).
+
+## Cómo leer el grafo
+
+- **Métricas (M-*)** — anclas de valor del cliente.
+- **Actividades (A-*)** — trabajo operativo; `porter_areas` indica responsabilidad cross-área.
+- **Eventos (EV-D* / EV-V*)** — demanda vs entrega de valor.
+- **Pasos de journey (CJS-*)** — momentos que el cliente vive y asocia con valor.
+
+## Cómo leer la matriz de relevancia
+
+Cada celda es **Relevancia = B × V**. Actividades con **V alto y B = 0** son candidatas a depriorizar o reconectar — en v3 muchas son misconceptions organizacionales explícitas.
+
+## Datos
+
+Escenario simulado para demo comercial. Fuente: inventario Energoil México v3 (junio 2026).
+"""
+
+
+def _demo_copy_oil_trade() -> str:
+    return """# Oil Trade simulation — demo Optimizer
+
+## Para qué sirve esta herramienta
+
+Optimizer conecta **operaciones internas** (actividades, procesos, equipos) con **métricas de valor percibido por el cliente**, para que dirección priorice inversión en personas, procesos, sistemas y cumplimiento con un ROI defendible.
+
+## Qué muestra esta simulación
+
+- **Misconceptions incorporados** — actividades con alto V operativo pero B≈0 hacia métricas cliente (estética de flota, aprobaciones multinivel, visitas de cortesía).
+- **70 actividades** — grafo ampliado con soporte cross-proceso y paths de fricción (M-D) visibles en el value stream de entrega.
+- **5 métricas JTBD** — confiabilidad, respuesta ante falla, exactitud, costo predecible y fricción administrativa.
+- **8 value streams** — desde demanda (EV-D*) hasta entrega de valor (EV-V*).
+
+## Cómo leer el grafo
+
+- **Métricas (M-*)** — anclas de valor del cliente.
+- **Actividades (A-*)** — trabajo operativo; `porter_areas` indica responsabilidad cross-área.
+- **Eventos (EV-D* / EV-V*)** — demanda vs entrega de valor.
+- **Pasos de journey (CJS-*)** — momentos que el cliente vive y asocia con valor.
+
+## Cómo leer la matriz de relevancia
+
+Cada celda es **Relevancia = B × V**. Actividades con **V alto y B = 0** son candidatas a depriorizar o reconectar — muchas son misconceptions organizacionales explícitas.
+
+## Datos
+
+Escenario simulado para demo comercial. Distribución y trading de combustibles; sin marca de cliente.
 """
 
 

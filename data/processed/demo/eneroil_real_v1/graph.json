@@ -1,0 +1,1467 @@
+{
+  "scenario_id": "eneroil_real_v1",
+  "title": "Eneroil S.A. de C.V. — extracción real v1 (sin métricas)",
+  "source": "data/raw/Eneroil_Inventario_Grafo_v1.md",
+  "meta": {
+    "kind": "structural",
+    "source_nature": "real_interview_extraction",
+    "metrics_available": false,
+    "note": "Extracción de entrevista interna real (Eneroil, junio 2026). Sin nodos Metric ni cuantificación P/C/F/R/V — la definición de métricas de valor requiere primero la ruta cliente (JTBD).",
+    "synthetic_event_precedes": true,
+    "synthetic_event_precedes_note": "Event↔Activity PRECEDES derivado de INVOLVES_EVENT event_role para descubrimiento de value streams.",
+    "node_count": 75,
+    "relationship_count": 125
+  },
+  "nodes": [
+    {
+      "id": "PRO-01",
+      "type": "Process",
+      "label": "Monitoreo y Precios (Obtención y Envío de Precios)",
+      "properties": {}
+    },
+    {
+      "id": "PRO-02",
+      "type": "Process",
+      "label": "Cotización al Cliente",
+      "properties": {}
+    },
+    {
+      "id": "PRO-03",
+      "type": "Process",
+      "label": "Planeación de la Operación",
+      "properties": {}
+    },
+    {
+      "id": "PRO-04",
+      "type": "Process",
+      "label": "Compra y Venta de Combustible",
+      "properties": {}
+    },
+    {
+      "id": "PRO-05",
+      "type": "Process",
+      "label": "Facturación",
+      "properties": {}
+    },
+    {
+      "id": "PRO-06",
+      "type": "Process",
+      "label": "Cobranza",
+      "properties": {}
+    },
+    {
+      "id": "PRO-07",
+      "type": "Process",
+      "label": "Control / Trazabilidad Documental",
+      "properties": {}
+    },
+    {
+      "id": "PRO-08",
+      "type": "Process",
+      "label": "Gestión de Quejas y No Conformidades",
+      "properties": {}
+    },
+    {
+      "id": "PRO-09",
+      "type": "Process",
+      "label": "Auditorías internas y a proveedores",
+      "properties": {}
+    },
+    {
+      "id": "ACT-01",
+      "type": "Activity",
+      "label": "Recepción de solicitud del cliente (WhatsApp / correo / llamada)",
+      "properties": {
+        "process_id": "PRO-02",
+        "team_label": "Comercial"
+      }
+    },
+    {
+      "id": "ACT-02",
+      "type": "Activity",
+      "label": "Obtención y publicación diaria de precios de referencia (Pemex, Valero, Repsol)",
+      "properties": {
+        "process_id": "PRO-01",
+        "team_label": "Monitoreo y Precios"
+      }
+    },
+    {
+      "id": "ACT-03",
+      "type": "Activity",
+      "label": "Elaboración y envío de cotización",
+      "properties": {
+        "process_id": "PRO-02",
+        "team_label": "Comercial"
+      }
+    },
+    {
+      "id": "ACT-04",
+      "type": "Activity",
+      "label": "Confirmación del pedido por el cliente",
+      "properties": {
+        "process_id": "PRO-02",
+        "team_label": "Comercial"
+      }
+    },
+    {
+      "id": "ACT-05",
+      "type": "Activity",
+      "label": "Confirmación de disponibilidad de producto y logística",
+      "properties": {
+        "process_id": "PRO-03",
+        "team_label": "Planeación"
+      }
+    },
+    {
+      "id": "ACT-06",
+      "type": "Activity",
+      "label": "Emisión de Orden de Compra al proveedor (con prepago)",
+      "properties": {
+        "process_id": "PRO-03",
+        "team_label": "Planeación"
+      }
+    },
+    {
+      "id": "ACT-07",
+      "type": "Activity",
+      "label": "Emisión de instrucción de carga al transportista",
+      "properties": {
+        "process_id": "PRO-03",
+        "team_label": "Planeación"
+      }
+    },
+    {
+      "id": "ACT-08",
+      "type": "Activity",
+      "label": "Ejecución de la carga y emisión del BOL",
+      "properties": {
+        "process_id": "PRO-04",
+        "team_label": "Proveedor (externo)",
+        "external_owner": true
+      }
+    },
+    {
+      "id": "ACT-09",
+      "type": "Activity",
+      "label": "Registro de la operación en Smartsheet",
+      "properties": {
+        "process_id": "PRO-04",
+        "team_label": "Compras"
+      }
+    },
+    {
+      "id": "ACT-10",
+      "type": "Activity",
+      "label": "Timbrado del CFDI en SAE/ASPEL",
+      "properties": {
+        "process_id": "PRO-05",
+        "team_label": "Facturación"
+      }
+    },
+    {
+      "id": "ACT-11",
+      "type": "Activity",
+      "label": "Envío del CFDI al cliente",
+      "properties": {
+        "process_id": "PRO-05",
+        "team_label": "Facturación"
+      }
+    },
+    {
+      "id": "ACT-12",
+      "type": "Activity",
+      "label": "Seguimiento al pago",
+      "properties": {
+        "process_id": "PRO-06",
+        "team_label": "Cobranza"
+      }
+    },
+    {
+      "id": "ACT-13",
+      "type": "Activity",
+      "label": "Conciliación factura – estado de cuenta bancario – Smartsheet",
+      "properties": {
+        "process_id": "PRO-06",
+        "team_label": "Cobranza"
+      }
+    },
+    {
+      "id": "ACT-14",
+      "type": "Activity",
+      "label": "Registro del pago / saldo en Smartsheet",
+      "properties": {
+        "process_id": "PRO-06",
+        "team_label": "Cobranza"
+      }
+    },
+    {
+      "id": "ACT-15",
+      "type": "Activity",
+      "label": "Contacto al cliente por factura vencida",
+      "properties": {
+        "process_id": "PRO-06",
+        "team_label": "Cobranza"
+      }
+    },
+    {
+      "id": "ACT-16",
+      "type": "Activity",
+      "label": "Generación y envío del estado de cuenta del cliente",
+      "properties": {
+        "process_id": "PRO-06",
+        "team_label": "Cobranza"
+      }
+    },
+    {
+      "id": "ACT-17",
+      "type": "Activity",
+      "label": "Escalamiento a Dirección por cobro vencido",
+      "properties": {
+        "process_id": "PRO-06",
+        "team_label": "Cobranza / Dirección"
+      }
+    },
+    {
+      "id": "ACT-18",
+      "type": "Activity",
+      "label": "Integración del expediente legal por operación (trazabilidad documental)",
+      "properties": {
+        "process_id": "PRO-07",
+        "team_label": "Calidad / Cumplimiento"
+      }
+    },
+    {
+      "id": "ACT-19",
+      "type": "Activity",
+      "label": "Gestión de quejas y no conformidades",
+      "properties": {
+        "process_id": "PRO-08",
+        "team_label": "Calidad / Cumplimiento"
+      }
+    },
+    {
+      "id": "ACT-20",
+      "type": "Activity",
+      "label": "Auditorías internas",
+      "properties": {
+        "process_id": "PRO-09",
+        "team_label": "Calidad / Cumplimiento"
+      }
+    },
+    {
+      "id": "ACT-21",
+      "type": "Activity",
+      "label": "Auditorías a proveedores",
+      "properties": {
+        "process_id": "PRO-09",
+        "team_label": "Calidad / Cumplimiento"
+      }
+    },
+    {
+      "id": "ACT-22",
+      "type": "Activity",
+      "label": "Aprobación de proveedores",
+      "properties": {
+        "team_label": "Dirección General"
+      }
+    },
+    {
+      "id": "ACT-23",
+      "type": "Activity",
+      "label": "Gestión de relación regulatoria y reporte volumétrico (CNE)",
+      "properties": {
+        "team_label": "Dirección / Cumplimiento"
+      }
+    },
+    {
+      "id": "TEA-01",
+      "type": "Team",
+      "label": "Dirección General",
+      "properties": {}
+    },
+    {
+      "id": "TEA-02",
+      "type": "Team",
+      "label": "Monitoreo y Precios",
+      "properties": {}
+    },
+    {
+      "id": "TEA-03",
+      "type": "Team",
+      "label": "Comercial / Ventas",
+      "properties": {}
+    },
+    {
+      "id": "TEA-04",
+      "type": "Team",
+      "label": "Planeación",
+      "properties": {}
+    },
+    {
+      "id": "TEA-05",
+      "type": "Team",
+      "label": "Compras",
+      "properties": {}
+    },
+    {
+      "id": "TEA-06",
+      "type": "Team",
+      "label": "Operaciones / Facturación",
+      "properties": {}
+    },
+    {
+      "id": "TEA-07",
+      "type": "Team",
+      "label": "Calidad / Cumplimiento",
+      "properties": {}
+    },
+    {
+      "id": "TEA-08",
+      "type": "Team",
+      "label": "Cobranza",
+      "properties": {}
+    },
+    {
+      "id": "CAP-01",
+      "type": "Capability",
+      "label": "Inteligencia de precios de mercado",
+      "properties": {}
+    },
+    {
+      "id": "CAP-02",
+      "type": "Capability",
+      "label": "Cotización comercial",
+      "properties": {}
+    },
+    {
+      "id": "CAP-03",
+      "type": "Capability",
+      "label": "Coordinación logística (cliente – proveedor – transportista)",
+      "properties": {}
+    },
+    {
+      "id": "CAP-04",
+      "type": "Capability",
+      "label": "Abastecimiento de combustible",
+      "properties": {}
+    },
+    {
+      "id": "CAP-05",
+      "type": "Capability",
+      "label": "Facturación electrónica (CFDI)",
+      "properties": {}
+    },
+    {
+      "id": "CAP-06",
+      "type": "Capability",
+      "label": "Gestión de cartera / cobranza",
+      "properties": {}
+    },
+    {
+      "id": "CAP-07",
+      "type": "Capability",
+      "label": "Trazabilidad documental y cumplimiento CNE",
+      "properties": {}
+    },
+    {
+      "id": "CAP-08",
+      "type": "Capability",
+      "label": "Gestión de calidad (SGC)",
+      "properties": {}
+    },
+    {
+      "id": "SYS-01",
+      "type": "System",
+      "label": "Smartsheet",
+      "properties": {
+        "function": "Registro de operación, cartera, conciliación"
+      }
+    },
+    {
+      "id": "SYS-02",
+      "type": "System",
+      "label": "SAE/ASPEL",
+      "properties": {
+        "function": "Timbrado de CFDI"
+      }
+    },
+    {
+      "id": "SYS-03",
+      "type": "System",
+      "label": "WhatsApp",
+      "properties": {
+        "function": "Canal de solicitud (informal, sin trazabilidad)"
+      }
+    },
+    {
+      "id": "SYS-04",
+      "type": "System",
+      "label": "Correo electrónico",
+      "properties": {
+        "function": "Solicitud / envío de CFDI"
+      }
+    },
+    {
+      "id": "SYS-05",
+      "type": "System",
+      "label": "Banca / estado de cuenta bancario",
+      "properties": {
+        "function": "Fuente de conciliación"
+      }
+    },
+    {
+      "id": "EVT-01",
+      "type": "Event",
+      "label": "Solicitud de carga recibida",
+      "properties": {
+        "description": "Demanda",
+        "event_type": "demand"
+      }
+    },
+    {
+      "id": "EVT-02",
+      "type": "Event",
+      "label": "Cotización enviada",
+      "properties": {
+        "description": "Hito",
+        "event_type": "milestone"
+      }
+    },
+    {
+      "id": "EVT-03",
+      "type": "Event",
+      "label": "Pedido confirmado por cliente",
+      "properties": {
+        "description": "Hito",
+        "event_type": "milestone"
+      }
+    },
+    {
+      "id": "EVT-04",
+      "type": "Event",
+      "label": "Orden de Compra emitida",
+      "properties": {
+        "description": "Hito",
+        "event_type": "milestone"
+      }
+    },
+    {
+      "id": "EVT-05",
+      "type": "Event",
+      "label": "Carga ejecutada / BOL emitido",
+      "properties": {
+        "description": "Hito",
+        "event_type": "milestone"
+      }
+    },
+    {
+      "id": "EVT-06",
+      "type": "Event",
+      "label": "CFDI timbrado (factura emitida)",
+      "properties": {
+        "description": "Realización parcial de valor",
+        "event_type": "milestone"
+      }
+    },
+    {
+      "id": "EVT-07",
+      "type": "Event",
+      "label": "Pago recibido (cobro)",
+      "properties": {
+        "description": "Realización de valor",
+        "event_type": "value_realization"
+      }
+    },
+    {
+      "id": "EVT-08",
+      "type": "Event",
+      "label": "Factura vencida",
+      "properties": {
+        "description": "Excepción / riesgo",
+        "event_type": "exception"
+      }
+    },
+    {
+      "id": "CJS-01",
+      "type": "CustomerJourneyStep",
+      "label": "Solicita cotización",
+      "properties": {
+        "status": "inferred"
+      }
+    },
+    {
+      "id": "CJS-02",
+      "type": "CustomerJourneyStep",
+      "label": "Recibe y evalúa cotización",
+      "properties": {
+        "status": "inferred"
+      }
+    },
+    {
+      "id": "CJS-03",
+      "type": "CustomerJourneyStep",
+      "label": "Confirma pedido",
+      "properties": {
+        "status": "inferred"
+      }
+    },
+    {
+      "id": "CJS-04",
+      "type": "CustomerJourneyStep",
+      "label": "Recibe la entrega de combustible",
+      "properties": {
+        "status": "inferred"
+      }
+    },
+    {
+      "id": "CJS-05",
+      "type": "CustomerJourneyStep",
+      "label": "Recibe el CFDI",
+      "properties": {
+        "status": "inferred"
+      }
+    },
+    {
+      "id": "CJS-06",
+      "type": "CustomerJourneyStep",
+      "label": "Recibe el estado de cuenta",
+      "properties": {
+        "status": "inferred"
+      }
+    },
+    {
+      "id": "CJS-07",
+      "type": "CustomerJourneyStep",
+      "label": "Paga",
+      "properties": {
+        "status": "inferred"
+      }
+    },
+    {
+      "id": "CJS-08",
+      "type": "CustomerJourneyStep",
+      "label": "Disputa factura / pide ayuda ante error",
+      "properties": {
+        "status": "inferred"
+      }
+    },
+    {
+      "id": "MDR-01",
+      "type": "MetricDriver",
+      "label": "Puntualidad de emisión de factura (mismo día de entrega)",
+      "properties": {
+        "status": "candidate",
+        "hypothetical_metric": "M?-02"
+      }
+    },
+    {
+      "id": "MDR-02",
+      "type": "MetricDriver",
+      "label": "Exactitud de datos fiscales del cliente (catálogo validado)",
+      "properties": {
+        "status": "candidate",
+        "hypothetical_metric": "M?-02"
+      }
+    },
+    {
+      "id": "MDR-03",
+      "type": "MetricDriver",
+      "label": "Disciplina de seguimiento diario a cartera",
+      "properties": {
+        "status": "candidate",
+        "hypothetical_metric": "M?-03"
+      }
+    },
+    {
+      "id": "MDR-04",
+      "type": "MetricDriver",
+      "label": "Existencia y aplicación de política de crédito y cobranza",
+      "properties": {
+        "status": "candidate",
+        "hypothetical_metric": "M?-03"
+      }
+    },
+    {
+      "id": "MDR-05",
+      "type": "MetricDriver",
+      "label": "Puntualidad de conciliación (diaria antes de 10am)",
+      "properties": {
+        "status": "candidate",
+        "hypothetical_metric": "M?-03"
+      }
+    },
+    {
+      "id": "MDR-06",
+      "type": "MetricDriver",
+      "label": "Grado de integración de sistemas (Smartsheet–SAE/ASPEL–banco)",
+      "properties": {
+        "status": "candidate",
+        "hypothetical_metric": "M?-02, M?-03"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "source": "ACT-02",
+      "target": "PRO-01",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-01",
+      "target": "PRO-02",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-03",
+      "target": "PRO-02",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-04",
+      "target": "PRO-02",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-05",
+      "target": "PRO-03",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-06",
+      "target": "PRO-03",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-07",
+      "target": "PRO-03",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-08",
+      "target": "PRO-04",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-09",
+      "target": "PRO-04",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-10",
+      "target": "PRO-05",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-11",
+      "target": "PRO-05",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-12",
+      "target": "PRO-06",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-13",
+      "target": "PRO-06",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-14",
+      "target": "PRO-06",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-15",
+      "target": "PRO-06",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-16",
+      "target": "PRO-06",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-17",
+      "target": "PRO-06",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-18",
+      "target": "PRO-07",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-19",
+      "target": "PRO-08",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-20",
+      "target": "PRO-09",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "ACT-21",
+      "target": "PRO-09",
+      "type": "PART_OF",
+      "properties": {}
+    },
+    {
+      "source": "TEA-03",
+      "target": "ACT-01",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-02",
+      "target": "ACT-02",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-03",
+      "target": "ACT-03",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-03",
+      "target": "ACT-04",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-04",
+      "target": "ACT-05",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-04",
+      "target": "ACT-06",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-04",
+      "target": "ACT-07",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-05",
+      "target": "ACT-09",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-06",
+      "target": "ACT-10",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-06",
+      "target": "ACT-11",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-08",
+      "target": "ACT-12",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-08",
+      "target": "ACT-13",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-08",
+      "target": "ACT-14",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-08",
+      "target": "ACT-15",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-08",
+      "target": "ACT-16",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-08",
+      "target": "ACT-17",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-01",
+      "target": "ACT-17",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-07",
+      "target": "ACT-18",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-07",
+      "target": "ACT-19",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-07",
+      "target": "ACT-20",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-07",
+      "target": "ACT-21",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-01",
+      "target": "ACT-22",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-01",
+      "target": "ACT-23",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "TEA-07",
+      "target": "ACT-23",
+      "type": "PERFORMS",
+      "properties": {}
+    },
+    {
+      "source": "ACT-01",
+      "target": "ACT-03",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "ACT-03",
+      "target": "ACT-04",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "ACT-04",
+      "target": "ACT-05",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "ACT-05",
+      "target": "ACT-06",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "ACT-06",
+      "target": "ACT-07",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "ACT-07",
+      "target": "ACT-08",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "ACT-08",
+      "target": "ACT-09",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "ACT-09",
+      "target": "ACT-10",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "ACT-10",
+      "target": "ACT-11",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "ACT-11",
+      "target": "ACT-12",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "ACT-12",
+      "target": "ACT-13",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "ACT-13",
+      "target": "ACT-14",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "ACT-02",
+      "target": "ACT-03",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "ACT-12",
+      "target": "ACT-15",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "ACT-15",
+      "target": "ACT-16",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "ACT-16",
+      "target": "ACT-17",
+      "type": "PRECEDES",
+      "properties": {}
+    },
+    {
+      "source": "ACT-01",
+      "target": "SYS-03",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "ACT-01",
+      "target": "SYS-04",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "ACT-09",
+      "target": "SYS-01",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "ACT-10",
+      "target": "SYS-02",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "ACT-11",
+      "target": "SYS-04",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "ACT-13",
+      "target": "SYS-01",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "ACT-13",
+      "target": "SYS-05",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "ACT-14",
+      "target": "SYS-01",
+      "type": "USES_SYSTEM",
+      "properties": {}
+    },
+    {
+      "source": "ACT-01",
+      "target": "EVT-01",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "responde_a"
+      }
+    },
+    {
+      "source": "EVT-01",
+      "target": "ACT-01",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-03",
+      "target": "EVT-02",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce"
+      }
+    },
+    {
+      "source": "ACT-03",
+      "target": "EVT-02",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-04",
+      "target": "EVT-03",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce"
+      }
+    },
+    {
+      "source": "ACT-04",
+      "target": "EVT-03",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-06",
+      "target": "EVT-04",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce"
+      }
+    },
+    {
+      "source": "ACT-06",
+      "target": "EVT-04",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-08",
+      "target": "EVT-05",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce"
+      }
+    },
+    {
+      "source": "ACT-08",
+      "target": "EVT-05",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-10",
+      "target": "EVT-06",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce"
+      }
+    },
+    {
+      "source": "ACT-10",
+      "target": "EVT-06",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-14",
+      "target": "EVT-07",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce"
+      }
+    },
+    {
+      "source": "ACT-14",
+      "target": "EVT-07",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-15",
+      "target": "EVT-08",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "responde_a"
+      }
+    },
+    {
+      "source": "EVT-08",
+      "target": "ACT-15",
+      "type": "PRECEDES",
+      "properties": {
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-02",
+      "target": "CAP-01",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-01",
+      "target": "CAP-02",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-03",
+      "target": "CAP-02",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-04",
+      "target": "CAP-02",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-05",
+      "target": "CAP-03",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-07",
+      "target": "CAP-03",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-06",
+      "target": "CAP-04",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-08",
+      "target": "CAP-04",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-09",
+      "target": "CAP-04",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-10",
+      "target": "CAP-05",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-11",
+      "target": "CAP-05",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-12",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-13",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-14",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-15",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-16",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-17",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-18",
+      "target": "CAP-07",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-23",
+      "target": "CAP-07",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-19",
+      "target": "CAP-08",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-20",
+      "target": "CAP-08",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-21",
+      "target": "CAP-08",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "ACT-22",
+      "target": "CAP-08",
+      "type": "SUPPORTS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "TEA-02",
+      "target": "PRO-01",
+      "type": "OWNS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "TEA-02",
+      "target": "CAP-01",
+      "type": "OWNS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "TEA-03",
+      "target": "PRO-02",
+      "type": "OWNS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "TEA-03",
+      "target": "CAP-02",
+      "type": "OWNS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "TEA-04",
+      "target": "PRO-03",
+      "type": "OWNS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "TEA-04",
+      "target": "CAP-03",
+      "type": "OWNS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "TEA-05",
+      "target": "PRO-04",
+      "type": "OWNS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "TEA-05",
+      "target": "CAP-04",
+      "type": "OWNS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "TEA-06",
+      "target": "PRO-05",
+      "type": "OWNS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "TEA-06",
+      "target": "CAP-05",
+      "type": "OWNS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "TEA-08",
+      "target": "PRO-06",
+      "type": "OWNS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "TEA-08",
+      "target": "CAP-06",
+      "type": "OWNS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "TEA-07",
+      "target": "PRO-07",
+      "type": "OWNS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "TEA-07",
+      "target": "PRO-08",
+      "type": "OWNS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "TEA-07",
+      "target": "PRO-09",
+      "type": "OWNS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "TEA-07",
+      "target": "CAP-07",
+      "type": "OWNS",
+      "properties": {
+        "derived": true
+      }
+    },
+    {
+      "source": "TEA-07",
+      "target": "CAP-08",
+      "type": "OWNS",
+      "properties": {
+        "derived": true
+      }
+    }
+  ]
+}

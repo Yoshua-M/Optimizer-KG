@@ -1,0 +1,3578 @@
+{
+  "scenario_id": "energoil_mexico_v3",
+  "formulas": {
+    "v": "0.3*P + 0.4*C + 0.2*F + 0.1*R",
+    "b": "0.4*G + 0.4*J + 0.2*DV",
+    "relevance": "B * V"
+  },
+  "activities": [
+    {
+      "activity_id": "A-01",
+      "activity_name": "Recepción y registro del pedido del cliente",
+      "process_id": "P-01",
+      "team_id": "T-08",
+      "p": 0.25,
+      "c": 0.5,
+      "f": 1.0,
+      "r": 0.25,
+      "v": 0.5,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.595,
+          "j": 0.95,
+          "dv": 0.0,
+          "b": 0.618,
+          "relevance": 0.309,
+          "pct_contribution": 0.0489
+        },
+        {
+          "metric_id": "M-03",
+          "g": 0.595,
+          "j": 0.9,
+          "dv": 0.0,
+          "b": 0.598,
+          "relevance": 0.299,
+          "pct_contribution": 0.084
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.119,
+          "pct_contribution": 0.0188
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.8,
+          "dv": 0.0,
+          "b": 0.558,
+          "relevance": 0.279,
+          "pct_contribution": 0.051
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-02",
+      "activity_name": "Validación del pedido contra contrato activo y condiciones vigentes",
+      "process_id": "P-01",
+      "team_id": "T-08",
+      "p": 0.5,
+      "c": 0.75,
+      "f": 1.0,
+      "r": 0.5,
+      "v": 0.7,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1666,
+          "pct_contribution": 0.0264
+        },
+        {
+          "metric_id": "M-03",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1666,
+          "pct_contribution": 0.0468
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1666,
+          "pct_contribution": 0.0263
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1666,
+          "pct_contribution": 0.0305
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-03",
+      "activity_name": "Autorización de crédito para el despacho",
+      "process_id": "P-01",
+      "team_id": "T-01",
+      "p": 0.75,
+      "c": 0.75,
+      "f": 1.0,
+      "r": 0.75,
+      "v": 0.8,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1904,
+          "pct_contribution": 0.0302
+        },
+        {
+          "metric_id": "M-03",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1904,
+          "pct_contribution": 0.0535
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1904,
+          "pct_contribution": 0.03
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.85,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.34,
+          "relevance": 0.272,
+          "pct_contribution": 0.0497
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-04",
+      "activity_name": "Verificación de disponibilidad de producto en TAR asignada",
+      "process_id": "P-01",
+      "team_id": "T-04",
+      "p": 0.75,
+      "c": 1.0,
+      "f": 1.0,
+      "r": 0.75,
+      "v": 0.9,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.85,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.34,
+          "relevance": 0.306,
+          "pct_contribution": 0.0485
+        },
+        {
+          "metric_id": "M-03",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.2142,
+          "pct_contribution": 0.0602
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.2142,
+          "pct_contribution": 0.0338
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.2142,
+          "pct_contribution": 0.0392
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-05",
+      "activity_name": "Planeación de ruta con ventana de entrega comprometida",
+      "process_id": "P-01",
+      "team_id": "T-07",
+      "p": 0.75,
+      "c": 1.0,
+      "f": 1.0,
+      "r": 0.75,
+      "v": 0.9,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.85,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.34,
+          "relevance": 0.306,
+          "pct_contribution": 0.0485
+        },
+        {
+          "metric_id": "M-03",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.2142,
+          "pct_contribution": 0.0602
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.2142,
+          "pct_contribution": 0.0338
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.2142,
+          "pct_contribution": 0.0392
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-06",
+      "activity_name": "Programación de ventana de carga en terminal TAR",
+      "process_id": "P-01",
+      "team_id": "T-05",
+      "p": 0.75,
+      "c": 0.75,
+      "f": 1.0,
+      "r": 0.75,
+      "v": 0.8,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.85,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.34,
+          "relevance": 0.272,
+          "pct_contribution": 0.0431
+        },
+        {
+          "metric_id": "M-03",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1904,
+          "pct_contribution": 0.0535
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1904,
+          "pct_contribution": 0.03
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1904,
+          "pct_contribution": 0.0348
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-07",
+      "activity_name": "Muestreo y prueba NOM-016 del lote a cargar",
+      "process_id": "P-01",
+      "team_id": "T-06",
+      "p": 0.75,
+      "c": 1.0,
+      "f": 1.0,
+      "r": 1.0,
+      "v": 0.93,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.2213,
+          "pct_contribution": 0.0351
+        },
+        {
+          "metric_id": "M-03",
+          "g": 1.0,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.4,
+          "relevance": 0.372,
+          "pct_contribution": 0.1045
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.2213,
+          "pct_contribution": 0.0349
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.2213,
+          "pct_contribution": 0.0405
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-08",
+      "activity_name": "Supervisión de carga: aforo, sellos y documentación de traslado",
+      "process_id": "P-01",
+      "team_id": "T-05",
+      "p": 0.75,
+      "c": 0.75,
+      "f": 1.0,
+      "r": 0.75,
+      "v": 0.8,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": "Actividad de respaldo; clientes no la perciben directamente",
+      "strategic_b_zero": true
+    },
+    {
+      "activity_id": "A-09",
+      "activity_name": "Asignación de operador y briefing de ruta",
+      "process_id": "P-01",
+      "team_id": "T-07",
+      "p": 0.75,
+      "c": 0.5,
+      "f": 1.0,
+      "r": 0.5,
+      "v": 0.68,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1618,
+          "pct_contribution": 0.0256
+        },
+        {
+          "metric_id": "M-03",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1618,
+          "pct_contribution": 0.0455
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1618,
+          "pct_contribution": 0.0255
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1618,
+          "pct_contribution": 0.0296
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-10",
+      "activity_name": "Monitoreo de ruta en tiempo real (GPS y comunicación con operador)",
+      "process_id": "P-01",
+      "team_id": "T-07",
+      "p": 0.75,
+      "c": 0.75,
+      "f": 1.0,
+      "r": 0.75,
+      "v": 0.8,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.85,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.34,
+          "relevance": 0.272,
+          "pct_contribution": 0.0431
+        },
+        {
+          "metric_id": "M-02",
+          "g": 0.85,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.34,
+          "relevance": 0.272,
+          "pct_contribution": 0.0768
+        },
+        {
+          "metric_id": "M-03",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1904,
+          "pct_contribution": 0.0535
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1904,
+          "pct_contribution": 0.03
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1904,
+          "pct_contribution": 0.0348
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-11",
+      "activity_name": "Entrega en sitio cliente: descarga, aforo final y firma de remisión",
+      "process_id": "P-01",
+      "team_id": "T-07",
+      "p": 1.0,
+      "c": 1.0,
+      "f": 1.0,
+      "r": 0.75,
+      "v": 0.98,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 1.0,
+          "j": 0.95,
+          "dv": 0.0,
+          "b": 0.78,
+          "relevance": 0.7644,
+          "pct_contribution": 0.1211
+        },
+        {
+          "metric_id": "M-03",
+          "g": 0.595,
+          "j": 0.9,
+          "dv": 0.0,
+          "b": 0.598,
+          "relevance": 0.586,
+          "pct_contribution": 0.1647
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.85,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.34,
+          "relevance": 0.3332,
+          "pct_contribution": 0.0525
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.8,
+          "dv": 0.0,
+          "b": 0.558,
+          "relevance": 0.5468,
+          "pct_contribution": 0.1
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-12",
+      "activity_name": "Verificación de aforo final y cierre de remisión con volumen real",
+      "process_id": "P-01",
+      "team_id": "T-07",
+      "p": 1.0,
+      "c": 1.0,
+      "f": 1.0,
+      "r": 0.75,
+      "v": 0.98,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.2332,
+          "pct_contribution": 0.0369
+        },
+        {
+          "metric_id": "M-03",
+          "g": 1.0,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.4,
+          "relevance": 0.392,
+          "pct_contribution": 0.1102
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.2332,
+          "pct_contribution": 0.0368
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.2332,
+          "pct_contribution": 0.0426
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-13",
+      "activity_name": "Generación de factura CFDI post-entrega con condiciones del contrato",
+      "process_id": "P-01",
+      "team_id": "T-01",
+      "p": 0.75,
+      "c": 0.75,
+      "f": 1.0,
+      "r": 0.5,
+      "v": 0.78,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.595,
+          "j": 0.9,
+          "dv": 0.0,
+          "b": 0.598,
+          "relevance": 0.4664,
+          "pct_contribution": 0.0739
+        },
+        {
+          "metric_id": "M-03",
+          "g": 0.595,
+          "j": 0.85,
+          "dv": 0.0,
+          "b": 0.578,
+          "relevance": 0.4508,
+          "pct_contribution": 0.1267
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.85,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.34,
+          "relevance": 0.2652,
+          "pct_contribution": 0.0418
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.85,
+          "j": 0.7,
+          "dv": 0.0,
+          "b": 0.62,
+          "relevance": 0.4836,
+          "pct_contribution": 0.0884
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-14",
+      "activity_name": "Envío de confirmación de pedido al cliente con detalle de entrega",
+      "process_id": "P-01",
+      "team_id": "T-08",
+      "p": 0.75,
+      "c": 0.75,
+      "f": 1.0,
+      "r": 0.25,
+      "v": 0.75,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": "Mecanismo interno de tesorería invisible al cliente",
+      "strategic_b_zero": true
+    },
+    {
+      "activity_id": "A-15",
+      "activity_name": "Envío de estado de cuenta del período sin ajustes pendientes",
+      "process_id": "P-01",
+      "team_id": "T-01",
+      "p": 0.75,
+      "c": 0.5,
+      "f": 0.5,
+      "r": 0.25,
+      "v": 0.55,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1309,
+          "pct_contribution": 0.0207
+        },
+        {
+          "metric_id": "M-03",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1309,
+          "pct_contribution": 0.0368
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.85,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.34,
+          "relevance": 0.187,
+          "pct_contribution": 0.0295
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1309,
+          "pct_contribution": 0.0239
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-16",
+      "activity_name": "Detección de falla de suministro activa (TAR, ruta o documentación)",
+      "process_id": "P-02",
+      "team_id": "T-07",
+      "p": 0.75,
+      "c": 1.0,
+      "f": 0.5,
+      "r": 1.0,
+      "v": 0.83,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1975,
+          "pct_contribution": 0.0313
+        },
+        {
+          "metric_id": "M-02",
+          "g": 0.85,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.34,
+          "relevance": 0.2822,
+          "pct_contribution": 0.0797
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-17",
+      "activity_name": "Evaluación de opciones de contingencia disponibles",
+      "process_id": "P-02",
+      "team_id": "T-04",
+      "p": 0.75,
+      "c": 1.0,
+      "f": 0.5,
+      "r": 0.75,
+      "v": 0.8,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1904,
+          "pct_contribution": 0.0302
+        },
+        {
+          "metric_id": "M-02",
+          "g": 0.85,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.34,
+          "relevance": 0.272,
+          "pct_contribution": 0.0768
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-18",
+      "activity_name": "Notificación proactiva al cliente con alternativa concreta y tiempo estimado",
+      "process_id": "P-02",
+      "team_id": "T-08",
+      "p": 1.0,
+      "c": 1.0,
+      "f": 0.5,
+      "r": 1.0,
+      "v": 0.9,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.595,
+          "j": 0.75,
+          "dv": 0.0,
+          "b": 0.538,
+          "relevance": 0.4842,
+          "pct_contribution": 0.0767
+        },
+        {
+          "metric_id": "M-02",
+          "g": 1.0,
+          "j": 0.95,
+          "dv": 0.0,
+          "b": 0.78,
+          "relevance": 0.702,
+          "pct_contribution": 0.1982
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-19",
+      "activity_name": "Coordinación y ejecución de solución alternativa de suministro",
+      "process_id": "P-02",
+      "team_id": "T-07",
+      "p": 1.0,
+      "c": 1.0,
+      "f": 0.5,
+      "r": 1.0,
+      "v": 0.9,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.595,
+          "j": 0.75,
+          "dv": 0.0,
+          "b": 0.538,
+          "relevance": 0.4842,
+          "pct_contribution": 0.0767
+        },
+        {
+          "metric_id": "M-02",
+          "g": 0.85,
+          "j": 0.95,
+          "dv": 0.0,
+          "b": 0.72,
+          "relevance": 0.648,
+          "pct_contribution": 0.183
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-20",
+      "activity_name": "Calificación y validación del prospecto",
+      "process_id": "P-03",
+      "team_id": "T-08",
+      "p": 0.25,
+      "c": 0.5,
+      "f": 0.5,
+      "r": 0.25,
+      "v": 0.4,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": "Infraestructura regulatoria; clientes no la mencionan",
+      "strategic_b_zero": true
+    },
+    {
+      "activity_id": "A-21",
+      "activity_name": "Evaluación de perfil crediticio del prospecto",
+      "process_id": "P-03",
+      "team_id": "T-01",
+      "p": 0.75,
+      "c": 0.75,
+      "f": 0.5,
+      "r": 0.75,
+      "v": 0.7,
+      "scores": [
+        {
+          "metric_id": "M-04",
+          "g": 0.85,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.34,
+          "relevance": 0.238,
+          "pct_contribution": 0.0375
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1666,
+          "pct_contribution": 0.0305
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-22",
+      "activity_name": "Elaboración de propuesta comercial personalizada",
+      "process_id": "P-03",
+      "team_id": "T-08",
+      "p": 0.5,
+      "c": 0.5,
+      "f": 0.5,
+      "r": 0.25,
+      "v": 0.48,
+      "scores": [
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.7,
+          "dv": 0.0,
+          "b": 0.518,
+          "relevance": 0.2486,
+          "pct_contribution": 0.0392
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.6,
+          "dv": 0.0,
+          "b": 0.478,
+          "relevance": 0.2294,
+          "pct_contribution": 0.0419
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-23",
+      "activity_name": "Presentación y negociación de condiciones comerciales",
+      "process_id": "P-03",
+      "team_id": "T-08",
+      "p": 0.75,
+      "c": 0.75,
+      "f": 0.5,
+      "r": 0.5,
+      "v": 0.68,
+      "scores": [
+        {
+          "metric_id": "M-04",
+          "g": 0.85,
+          "j": 0.85,
+          "dv": 0.0,
+          "b": 0.68,
+          "relevance": 0.4624,
+          "pct_contribution": 0.0729
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.75,
+          "dv": 0.0,
+          "b": 0.538,
+          "relevance": 0.3658,
+          "pct_contribution": 0.0669
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-24",
+      "activity_name": "Documentación y alta del cliente en sistema",
+      "process_id": "P-03",
+      "team_id": "T-08",
+      "p": 0.75,
+      "c": 0.75,
+      "f": 0.5,
+      "r": 0.5,
+      "v": 0.68,
+      "scores": [
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1618,
+          "pct_contribution": 0.0255
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1618,
+          "pct_contribution": 0.0296
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-25",
+      "activity_name": "Firma de contrato de suministro",
+      "process_id": "P-03",
+      "team_id": "T-08",
+      "p": 1.0,
+      "c": 1.0,
+      "f": 0.5,
+      "r": 0.75,
+      "v": 0.88,
+      "scores": [
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.85,
+          "dv": 0.0,
+          "b": 0.578,
+          "relevance": 0.5086,
+          "pct_contribution": 0.0802
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.75,
+          "dv": 0.0,
+          "b": 0.538,
+          "relevance": 0.4734,
+          "pct_contribution": 0.0866
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-26",
+      "activity_name": "Identificación de contratos próximos a vencer",
+      "process_id": "P-04",
+      "team_id": "T-09",
+      "p": 0.25,
+      "c": 0.5,
+      "f": 0.5,
+      "r": 0.75,
+      "v": 0.45,
+      "scores": [
+        {
+          "metric_id": "M-02",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1071,
+          "pct_contribution": 0.0302
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1071,
+          "pct_contribution": 0.0169
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-27",
+      "activity_name": "Revisión del historial operativo del cliente (entregas, incidentes, facturas)",
+      "process_id": "P-04",
+      "team_id": "T-09",
+      "p": 0.5,
+      "c": 0.75,
+      "f": 0.25,
+      "r": 0.5,
+      "v": 0.55,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": "Habilitador silencioso; sólo visible cuando falla",
+      "strategic_b_zero": true
+    },
+    {
+      "activity_id": "A-28",
+      "activity_name": "Revisión comercial con cliente: desempeño del período y satisfacción",
+      "process_id": "P-04",
+      "team_id": "T-09",
+      "p": 0.75,
+      "c": 1.0,
+      "f": 0.25,
+      "r": 0.75,
+      "v": 0.75,
+      "scores": [
+        {
+          "metric_id": "M-02",
+          "g": 0.595,
+          "j": 0.65,
+          "dv": 0.0,
+          "b": 0.498,
+          "relevance": 0.3735,
+          "pct_contribution": 0.1055
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.7,
+          "dv": 0.0,
+          "b": 0.518,
+          "relevance": 0.3885,
+          "pct_contribution": 0.0612
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-29",
+      "activity_name": "Negociación de condiciones de renovación o expansión",
+      "process_id": "P-04",
+      "team_id": "T-08",
+      "p": 0.75,
+      "c": 0.75,
+      "f": 0.25,
+      "r": 0.75,
+      "v": 0.65,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.0,
+          "j": 0.6,
+          "dv": 0.0,
+          "b": 0.24,
+          "relevance": 0.156,
+          "pct_contribution": 0.0247
+        },
+        {
+          "metric_id": "M-02",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1547,
+          "pct_contribution": 0.0437
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.65,
+          "dv": 0.0,
+          "b": 0.498,
+          "relevance": 0.3237,
+          "pct_contribution": 0.051
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-30",
+      "activity_name": "Firma de renovación o expansión de contrato",
+      "process_id": "P-04",
+      "team_id": "T-08",
+      "p": 1.0,
+      "c": 1.0,
+      "f": 0.25,
+      "r": 0.75,
+      "v": 0.83,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.0,
+          "j": 0.6,
+          "dv": 0.0,
+          "b": 0.24,
+          "relevance": 0.1992,
+          "pct_contribution": 0.0316
+        },
+        {
+          "metric_id": "M-02",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1975,
+          "pct_contribution": 0.0558
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.65,
+          "dv": 0.0,
+          "b": 0.498,
+          "relevance": 0.4133,
+          "pct_contribution": 0.0651
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-31",
+      "activity_name": "Recepción y registro de solicitud de ajuste de crédito",
+      "process_id": "P-05",
+      "team_id": "T-01",
+      "p": 0.25,
+      "c": 0.5,
+      "f": 0.25,
+      "r": 0.25,
+      "v": 0.35,
+      "scores": [
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.0833,
+          "pct_contribution": 0.0131
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.0833,
+          "pct_contribution": 0.0152
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-32",
+      "activity_name": "Revisión de historial de pagos y comportamiento crediticio del cliente",
+      "process_id": "P-05",
+      "team_id": "T-01",
+      "p": 0.5,
+      "c": 0.75,
+      "f": 0.25,
+      "r": 0.5,
+      "v": 0.55,
+      "scores": [
+        {
+          "metric_id": "M-04",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1309,
+          "pct_contribution": 0.0206
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1309,
+          "pct_contribution": 0.0239
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-33",
+      "activity_name": "Autorización o ajuste de condiciones crediticias",
+      "process_id": "P-05",
+      "team_id": "T-01",
+      "p": 0.75,
+      "c": 1.0,
+      "f": 0.25,
+      "r": 0.75,
+      "v": 0.78,
+      "scores": [
+        {
+          "metric_id": "M-04",
+          "g": 0.85,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.34,
+          "relevance": 0.2652,
+          "pct_contribution": 0.0418
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1856,
+          "pct_contribution": 0.0339
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-34",
+      "activity_name": "Notificación al cliente de condiciones crediticias actualizadas",
+      "process_id": "P-05",
+      "team_id": "T-08",
+      "p": 0.75,
+      "c": 0.75,
+      "f": 0.25,
+      "r": 0.5,
+      "v": 0.63,
+      "scores": [
+        {
+          "metric_id": "M-04",
+          "g": 0.85,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.34,
+          "relevance": 0.2142,
+          "pct_contribution": 0.0338
+        },
+        {
+          "metric_id": "M-05",
+          "g": 0.595,
+          "j": 0.0,
+          "dv": 0.0,
+          "b": 0.238,
+          "relevance": 0.1499,
+          "pct_contribution": 0.0274
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-35",
+      "activity_name": "Gestión de vigencia y renovación de permisos CRE y SCT",
+      "process_id": null,
+      "team_id": "T-01",
+      "p": 0.75,
+      "c": 1.0,
+      "f": 0.25,
+      "r": 1.0,
+      "v": 0.78,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-36",
+      "activity_name": "Administración y renovación de líneas de crédito bancarias",
+      "process_id": null,
+      "team_id": "T-01",
+      "p": 0.75,
+      "c": 1.0,
+      "f": 0.25,
+      "r": 0.75,
+      "v": 0.75,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-37",
+      "activity_name": "Cierre contable mensual y conciliación de cuentas por cobrar",
+      "process_id": null,
+      "team_id": "T-01",
+      "p": 0.5,
+      "c": 0.5,
+      "f": 0.5,
+      "r": 0.25,
+      "v": 0.48,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-38",
+      "activity_name": "Gestión y renovación de seguros de flota y carga",
+      "process_id": null,
+      "team_id": "T-01",
+      "p": 0.25,
+      "c": 0.5,
+      "f": 0.25,
+      "r": 0.75,
+      "v": 0.4,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": "Infraestructura de riesgo invisible hasta el incidente",
+      "strategic_b_zero": true
+    },
+    {
+      "activity_id": "A-39",
+      "activity_name": "Definición y actualización de política de crédito comercial",
+      "process_id": null,
+      "team_id": "T-01",
+      "p": 0.75,
+      "c": 0.75,
+      "f": 0.25,
+      "r": 0.5,
+      "v": 0.63,
+      "scores": [
+        {
+          "metric_id": "M-05",
+          "g": 0.0,
+          "j": 0.0,
+          "dv": 0.85,
+          "b": 0.17,
+          "relevance": 0.1071,
+          "pct_contribution": 0.0196
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-40",
+      "activity_name": "Capacitación operativa y certificación de operadores de pipa",
+      "process_id": null,
+      "team_id": "T-02",
+      "p": 0.5,
+      "c": 0.75,
+      "f": 0.5,
+      "r": 0.75,
+      "v": 0.63,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.0,
+          "j": 0.0,
+          "dv": 0.85,
+          "b": 0.17,
+          "relevance": 0.1071,
+          "pct_contribution": 0.017
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-41",
+      "activity_name": "Reclutamiento y selección de operadores con licencia federal de materiales peligrosos",
+      "process_id": null,
+      "team_id": "T-02",
+      "p": 0.25,
+      "c": 0.5,
+      "f": 0.25,
+      "r": 0.5,
+      "v": 0.38,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": "Decisión interna estratégica sin contacto con cliente",
+      "strategic_b_zero": true
+    },
+    {
+      "activity_id": "A-42",
+      "activity_name": "Evaluación de desempeño de operadores y asignación de rutas críticas",
+      "process_id": null,
+      "team_id": "T-02",
+      "p": 0.25,
+      "c": 0.5,
+      "f": 0.5,
+      "r": 0.25,
+      "v": 0.4,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": "Exploración futura sin impacto operativo actual",
+      "strategic_b_zero": true
+    },
+    {
+      "activity_id": "A-43",
+      "activity_name": "Administración y mantenimiento del sistema de pedidos y plataforma GPS",
+      "process_id": null,
+      "team_id": "T-03",
+      "p": 0.75,
+      "c": 1.0,
+      "f": 0.5,
+      "r": 0.75,
+      "v": 0.8,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-44",
+      "activity_name": "Mantenimiento y soporte del ERP y portales regulatorios (CRE, SAT)",
+      "process_id": null,
+      "team_id": "T-03",
+      "p": 0.75,
+      "c": 0.75,
+      "f": 0.5,
+      "r": 0.75,
+      "v": 0.7,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-45",
+      "activity_name": "Gestión de integraciones entre GPS, sistema de pedidos y ERP",
+      "process_id": null,
+      "team_id": "T-03",
+      "p": 0.75,
+      "c": 0.75,
+      "f": 0.25,
+      "r": 0.75,
+      "v": 0.65,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-46",
+      "activity_name": "Negociación y contratación de cupo de combustible con PEMEX TI",
+      "process_id": null,
+      "team_id": "T-04",
+      "p": 0.75,
+      "c": 1.0,
+      "f": 0.75,
+      "r": 0.75,
+      "v": 0.85,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.0,
+          "j": 0.0,
+          "dv": 0.85,
+          "b": 0.17,
+          "relevance": 0.1445,
+          "pct_contribution": 0.0229
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-47",
+      "activity_name": "Registro y pre-calificación de fuentes alternativas de suministro",
+      "process_id": null,
+      "team_id": "T-04",
+      "p": 0.5,
+      "c": 0.75,
+      "f": 0.25,
+      "r": 0.75,
+      "v": 0.58,
+      "scores": [
+        {
+          "metric_id": "M-02",
+          "g": 0.0,
+          "j": 0.0,
+          "dv": 0.85,
+          "b": 0.17,
+          "relevance": 0.0986,
+          "pct_contribution": 0.0278
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-48",
+      "activity_name": "Seguimiento y conciliación de facturas de proveedores de combustible",
+      "process_id": null,
+      "team_id": "T-04",
+      "p": 0.5,
+      "c": 0.5,
+      "f": 0.75,
+      "r": 0.5,
+      "v": 0.55,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-49",
+      "activity_name": "Control de inventario de producto en tránsito entre TAR y clientes",
+      "process_id": null,
+      "team_id": "T-05",
+      "p": 0.75,
+      "c": 0.75,
+      "f": 1.0,
+      "r": 0.5,
+      "v": 0.78,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.0,
+          "j": 0.0,
+          "dv": 0.85,
+          "b": 0.17,
+          "relevance": 0.1326,
+          "pct_contribution": 0.021
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-50",
+      "activity_name": "Gestión de diferencias de aforo y reclamaciones ante PEMEX TI",
+      "process_id": null,
+      "team_id": "T-05",
+      "p": 0.5,
+      "c": 0.75,
+      "f": 0.5,
+      "r": 0.5,
+      "v": 0.6,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-51",
+      "activity_name": "Mantenimiento preventivo y correctivo de flota de pipas",
+      "process_id": null,
+      "team_id": "T-06",
+      "p": 0.75,
+      "c": 1.0,
+      "f": 0.5,
+      "r": 0.75,
+      "v": 0.8,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.0,
+          "j": 0.0,
+          "dv": 0.85,
+          "b": 0.17,
+          "relevance": 0.136,
+          "pct_contribution": 0.0215
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-52",
+      "activity_name": "Gestión de stock de refacciones críticas para flota",
+      "process_id": null,
+      "team_id": "T-06",
+      "p": 0.5,
+      "c": 0.75,
+      "f": 0.5,
+      "r": 0.5,
+      "v": 0.6,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.0,
+          "j": 0.0,
+          "dv": 0.85,
+          "b": 0.17,
+          "relevance": 0.102,
+          "pct_contribution": 0.0162
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-53",
+      "activity_name": "Gestión de incidentes de seguridad vial y reporte ASEA",
+      "process_id": null,
+      "team_id": "T-06",
+      "p": 0.25,
+      "c": 0.75,
+      "f": 0.25,
+      "r": 1.0,
+      "v": 0.53,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-54",
+      "activity_name": "Monitoreo de precios rack PEMEX e IEPS por terminal y período",
+      "process_id": null,
+      "team_id": "T-08",
+      "p": 0.25,
+      "c": 0.5,
+      "f": 1.0,
+      "r": 0.25,
+      "v": 0.5,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-55",
+      "activity_name": "Administración del CRM y base de datos de clientes y prospectos",
+      "process_id": null,
+      "team_id": "T-08",
+      "p": 0.5,
+      "c": 0.75,
+      "f": 0.75,
+      "r": 0.5,
+      "v": 0.65,
+      "scores": [
+        {
+          "metric_id": "M-05",
+          "g": 0.0,
+          "j": 0.0,
+          "dv": 0.85,
+          "b": 0.17,
+          "relevance": 0.1105,
+          "pct_contribution": 0.0202
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-56",
+      "activity_name": "Análisis de rentabilidad por cliente, producto y corredor",
+      "process_id": null,
+      "team_id": "T-08",
+      "p": 0.25,
+      "c": 0.5,
+      "f": 0.5,
+      "r": 0.25,
+      "v": 0.4,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-57",
+      "activity_name": "Seguimiento y cierre formal de incidencias abiertas con clientes",
+      "process_id": null,
+      "team_id": "T-09",
+      "p": 0.5,
+      "c": 0.75,
+      "f": 0.5,
+      "r": 0.5,
+      "v": 0.6,
+      "scores": [
+        {
+          "metric_id": "M-01",
+          "g": 0.0,
+          "j": 0.75,
+          "dv": 0.0,
+          "b": 0.3,
+          "relevance": 0.18,
+          "pct_contribution": 0.0285
+        },
+        {
+          "metric_id": "M-02",
+          "g": 0.0,
+          "j": 0.95,
+          "dv": 0.85,
+          "b": 0.55,
+          "relevance": 0.33,
+          "pct_contribution": 0.0932
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-58",
+      "activity_name": "Encuesta de satisfacción post-entrega a clientes activos",
+      "process_id": null,
+      "team_id": "T-09",
+      "p": 0.25,
+      "c": 0.5,
+      "f": 0.5,
+      "r": 0.25,
+      "v": 0.4,
+      "scores": [
+        {
+          "metric_id": "M-02",
+          "g": 0.0,
+          "j": 0.65,
+          "dv": 0.0,
+          "b": 0.26,
+          "relevance": 0.104,
+          "pct_contribution": 0.0294
+        },
+        {
+          "metric_id": "M-04",
+          "g": 0.0,
+          "j": 0.7,
+          "dv": 0.0,
+          "b": 0.28,
+          "relevance": 0.112,
+          "pct_contribution": 0.0177
+        }
+      ],
+      "b_zero_all_metrics": false,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-59",
+      "activity_name": "Inspección semanal de presentación y limpieza de flota de pipas",
+      "process_id": null,
+      "team_id": "T-06",
+      "p": 0.25,
+      "c": 0.25,
+      "f": 0.75,
+      "r": 0.25,
+      "v": 0.35,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-60",
+      "activity_name": "Programa \"operador del mes\" con criterios de imagen y presentación personal",
+      "process_id": null,
+      "team_id": "T-02",
+      "p": 0.25,
+      "c": 0.25,
+      "f": 0.5,
+      "r": 0.25,
+      "v": 0.3,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-61",
+      "activity_name": "Diseño y producción periódica de uniformes e imagen corporativa para flota",
+      "process_id": null,
+      "team_id": "T-02",
+      "p": 0.25,
+      "c": 0.25,
+      "f": 0.25,
+      "r": 0.25,
+      "v": 0.25,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-62",
+      "activity_name": "Proceso de aprobación multinivel para pedidos estándar de clientes activos",
+      "process_id": null,
+      "team_id": "T-01",
+      "p": 0.75,
+      "c": 0.5,
+      "f": 1.0,
+      "r": 0.5,
+      "v": 0.68,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-63",
+      "activity_name": "Reunión diaria de liberación de despachos con gerencia",
+      "process_id": null,
+      "team_id": "T-01",
+      "p": 0.5,
+      "c": 0.5,
+      "f": 1.0,
+      "r": 0.5,
+      "v": 0.6,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-64",
+      "activity_name": "Generación de reporte diario de pedidos pendientes de autorización para gerencia",
+      "process_id": null,
+      "team_id": "T-01",
+      "p": 0.25,
+      "c": 0.25,
+      "f": 1.0,
+      "r": 0.25,
+      "v": 0.4,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-65",
+      "activity_name": "Visita de cortesía trimestral al cliente sin agenda operativa",
+      "process_id": null,
+      "team_id": "T-09",
+      "p": 0.25,
+      "c": 0.25,
+      "f": 0.5,
+      "r": 0.25,
+      "v": 0.3,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-66",
+      "activity_name": "Elaboración de presentación trimestral de resultados para clientes",
+      "process_id": null,
+      "team_id": "T-08",
+      "p": 0.25,
+      "c": 0.25,
+      "f": 0.25,
+      "r": 0.25,
+      "v": 0.25,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-67",
+      "activity_name": "Programa de atenciones y regalos a clientes en fechas especiales",
+      "process_id": null,
+      "team_id": "T-08",
+      "p": 0.25,
+      "c": 0.25,
+      "f": 0.25,
+      "r": 0.25,
+      "v": 0.25,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-68",
+      "activity_name": "Elaboración de reporte mensual de desempeño interno para dirección",
+      "process_id": null,
+      "team_id": "T-01",
+      "p": 0.25,
+      "c": 0.25,
+      "f": 0.5,
+      "r": 0.25,
+      "v": 0.3,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-69",
+      "activity_name": "Actualización manual de bitácora de rutas en hoja de cálculo",
+      "process_id": null,
+      "team_id": "T-07",
+      "p": 0.25,
+      "c": 0.25,
+      "f": 1.0,
+      "r": 0.25,
+      "v": 0.4,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    },
+    {
+      "activity_id": "A-70",
+      "activity_name": "Proceso de cotización formal para clientes con contrato marco vigente",
+      "process_id": null,
+      "team_id": "T-08",
+      "p": 0.5,
+      "c": 0.25,
+      "f": 0.75,
+      "r": 0.25,
+      "v": 0.43,
+      "scores": [],
+      "b_zero_all_metrics": true,
+      "b_zero_reason": null,
+      "strategic_b_zero": false
+    }
+  ],
+  "matrix": [
+    {
+      "activity_id": "A-01",
+      "activity_name": "Recepción y registro del pedido del cliente",
+      "metric_id": "M-01",
+      "relevance": 0.309,
+      "b": 0.618,
+      "v": 0.5,
+      "pct_contribution": 0.0489
+    },
+    {
+      "activity_id": "A-01",
+      "activity_name": "Recepción y registro del pedido del cliente",
+      "metric_id": "M-03",
+      "relevance": 0.299,
+      "b": 0.598,
+      "v": 0.5,
+      "pct_contribution": 0.084
+    },
+    {
+      "activity_id": "A-01",
+      "activity_name": "Recepción y registro del pedido del cliente",
+      "metric_id": "M-04",
+      "relevance": 0.119,
+      "b": 0.238,
+      "v": 0.5,
+      "pct_contribution": 0.0188
+    },
+    {
+      "activity_id": "A-01",
+      "activity_name": "Recepción y registro del pedido del cliente",
+      "metric_id": "M-05",
+      "relevance": 0.279,
+      "b": 0.558,
+      "v": 0.5,
+      "pct_contribution": 0.051
+    },
+    {
+      "activity_id": "A-02",
+      "activity_name": "Validación del pedido contra contrato activo y condiciones vigentes",
+      "metric_id": "M-01",
+      "relevance": 0.1666,
+      "b": 0.238,
+      "v": 0.7,
+      "pct_contribution": 0.0264
+    },
+    {
+      "activity_id": "A-02",
+      "activity_name": "Validación del pedido contra contrato activo y condiciones vigentes",
+      "metric_id": "M-03",
+      "relevance": 0.1666,
+      "b": 0.238,
+      "v": 0.7,
+      "pct_contribution": 0.0468
+    },
+    {
+      "activity_id": "A-02",
+      "activity_name": "Validación del pedido contra contrato activo y condiciones vigentes",
+      "metric_id": "M-04",
+      "relevance": 0.1666,
+      "b": 0.238,
+      "v": 0.7,
+      "pct_contribution": 0.0263
+    },
+    {
+      "activity_id": "A-02",
+      "activity_name": "Validación del pedido contra contrato activo y condiciones vigentes",
+      "metric_id": "M-05",
+      "relevance": 0.1666,
+      "b": 0.238,
+      "v": 0.7,
+      "pct_contribution": 0.0305
+    },
+    {
+      "activity_id": "A-03",
+      "activity_name": "Autorización de crédito para el despacho",
+      "metric_id": "M-01",
+      "relevance": 0.1904,
+      "b": 0.238,
+      "v": 0.8,
+      "pct_contribution": 0.0302
+    },
+    {
+      "activity_id": "A-03",
+      "activity_name": "Autorización de crédito para el despacho",
+      "metric_id": "M-03",
+      "relevance": 0.1904,
+      "b": 0.238,
+      "v": 0.8,
+      "pct_contribution": 0.0535
+    },
+    {
+      "activity_id": "A-03",
+      "activity_name": "Autorización de crédito para el despacho",
+      "metric_id": "M-04",
+      "relevance": 0.1904,
+      "b": 0.238,
+      "v": 0.8,
+      "pct_contribution": 0.03
+    },
+    {
+      "activity_id": "A-03",
+      "activity_name": "Autorización de crédito para el despacho",
+      "metric_id": "M-05",
+      "relevance": 0.272,
+      "b": 0.34,
+      "v": 0.8,
+      "pct_contribution": 0.0497
+    },
+    {
+      "activity_id": "A-04",
+      "activity_name": "Verificación de disponibilidad de producto en TAR asignada",
+      "metric_id": "M-01",
+      "relevance": 0.306,
+      "b": 0.34,
+      "v": 0.9,
+      "pct_contribution": 0.0485
+    },
+    {
+      "activity_id": "A-04",
+      "activity_name": "Verificación de disponibilidad de producto en TAR asignada",
+      "metric_id": "M-03",
+      "relevance": 0.2142,
+      "b": 0.238,
+      "v": 0.9,
+      "pct_contribution": 0.0602
+    },
+    {
+      "activity_id": "A-04",
+      "activity_name": "Verificación de disponibilidad de producto en TAR asignada",
+      "metric_id": "M-04",
+      "relevance": 0.2142,
+      "b": 0.238,
+      "v": 0.9,
+      "pct_contribution": 0.0338
+    },
+    {
+      "activity_id": "A-04",
+      "activity_name": "Verificación de disponibilidad de producto en TAR asignada",
+      "metric_id": "M-05",
+      "relevance": 0.2142,
+      "b": 0.238,
+      "v": 0.9,
+      "pct_contribution": 0.0392
+    },
+    {
+      "activity_id": "A-05",
+      "activity_name": "Planeación de ruta con ventana de entrega comprometida",
+      "metric_id": "M-01",
+      "relevance": 0.306,
+      "b": 0.34,
+      "v": 0.9,
+      "pct_contribution": 0.0485
+    },
+    {
+      "activity_id": "A-05",
+      "activity_name": "Planeación de ruta con ventana de entrega comprometida",
+      "metric_id": "M-03",
+      "relevance": 0.2142,
+      "b": 0.238,
+      "v": 0.9,
+      "pct_contribution": 0.0602
+    },
+    {
+      "activity_id": "A-05",
+      "activity_name": "Planeación de ruta con ventana de entrega comprometida",
+      "metric_id": "M-04",
+      "relevance": 0.2142,
+      "b": 0.238,
+      "v": 0.9,
+      "pct_contribution": 0.0338
+    },
+    {
+      "activity_id": "A-05",
+      "activity_name": "Planeación de ruta con ventana de entrega comprometida",
+      "metric_id": "M-05",
+      "relevance": 0.2142,
+      "b": 0.238,
+      "v": 0.9,
+      "pct_contribution": 0.0392
+    },
+    {
+      "activity_id": "A-06",
+      "activity_name": "Programación de ventana de carga en terminal TAR",
+      "metric_id": "M-01",
+      "relevance": 0.272,
+      "b": 0.34,
+      "v": 0.8,
+      "pct_contribution": 0.0431
+    },
+    {
+      "activity_id": "A-06",
+      "activity_name": "Programación de ventana de carga en terminal TAR",
+      "metric_id": "M-03",
+      "relevance": 0.1904,
+      "b": 0.238,
+      "v": 0.8,
+      "pct_contribution": 0.0535
+    },
+    {
+      "activity_id": "A-06",
+      "activity_name": "Programación de ventana de carga en terminal TAR",
+      "metric_id": "M-04",
+      "relevance": 0.1904,
+      "b": 0.238,
+      "v": 0.8,
+      "pct_contribution": 0.03
+    },
+    {
+      "activity_id": "A-06",
+      "activity_name": "Programación de ventana de carga en terminal TAR",
+      "metric_id": "M-05",
+      "relevance": 0.1904,
+      "b": 0.238,
+      "v": 0.8,
+      "pct_contribution": 0.0348
+    },
+    {
+      "activity_id": "A-07",
+      "activity_name": "Muestreo y prueba NOM-016 del lote a cargar",
+      "metric_id": "M-01",
+      "relevance": 0.2213,
+      "b": 0.238,
+      "v": 0.93,
+      "pct_contribution": 0.0351
+    },
+    {
+      "activity_id": "A-07",
+      "activity_name": "Muestreo y prueba NOM-016 del lote a cargar",
+      "metric_id": "M-03",
+      "relevance": 0.372,
+      "b": 0.4,
+      "v": 0.93,
+      "pct_contribution": 0.1045
+    },
+    {
+      "activity_id": "A-07",
+      "activity_name": "Muestreo y prueba NOM-016 del lote a cargar",
+      "metric_id": "M-04",
+      "relevance": 0.2213,
+      "b": 0.238,
+      "v": 0.93,
+      "pct_contribution": 0.0349
+    },
+    {
+      "activity_id": "A-07",
+      "activity_name": "Muestreo y prueba NOM-016 del lote a cargar",
+      "metric_id": "M-05",
+      "relevance": 0.2213,
+      "b": 0.238,
+      "v": 0.93,
+      "pct_contribution": 0.0405
+    },
+    {
+      "activity_id": "A-09",
+      "activity_name": "Asignación de operador y briefing de ruta",
+      "metric_id": "M-01",
+      "relevance": 0.1618,
+      "b": 0.238,
+      "v": 0.68,
+      "pct_contribution": 0.0256
+    },
+    {
+      "activity_id": "A-09",
+      "activity_name": "Asignación de operador y briefing de ruta",
+      "metric_id": "M-03",
+      "relevance": 0.1618,
+      "b": 0.238,
+      "v": 0.68,
+      "pct_contribution": 0.0455
+    },
+    {
+      "activity_id": "A-09",
+      "activity_name": "Asignación de operador y briefing de ruta",
+      "metric_id": "M-04",
+      "relevance": 0.1618,
+      "b": 0.238,
+      "v": 0.68,
+      "pct_contribution": 0.0255
+    },
+    {
+      "activity_id": "A-09",
+      "activity_name": "Asignación de operador y briefing de ruta",
+      "metric_id": "M-05",
+      "relevance": 0.1618,
+      "b": 0.238,
+      "v": 0.68,
+      "pct_contribution": 0.0296
+    },
+    {
+      "activity_id": "A-10",
+      "activity_name": "Monitoreo de ruta en tiempo real (GPS y comunicación con operador)",
+      "metric_id": "M-01",
+      "relevance": 0.272,
+      "b": 0.34,
+      "v": 0.8,
+      "pct_contribution": 0.0431
+    },
+    {
+      "activity_id": "A-10",
+      "activity_name": "Monitoreo de ruta en tiempo real (GPS y comunicación con operador)",
+      "metric_id": "M-02",
+      "relevance": 0.272,
+      "b": 0.34,
+      "v": 0.8,
+      "pct_contribution": 0.0768
+    },
+    {
+      "activity_id": "A-10",
+      "activity_name": "Monitoreo de ruta en tiempo real (GPS y comunicación con operador)",
+      "metric_id": "M-03",
+      "relevance": 0.1904,
+      "b": 0.238,
+      "v": 0.8,
+      "pct_contribution": 0.0535
+    },
+    {
+      "activity_id": "A-10",
+      "activity_name": "Monitoreo de ruta en tiempo real (GPS y comunicación con operador)",
+      "metric_id": "M-04",
+      "relevance": 0.1904,
+      "b": 0.238,
+      "v": 0.8,
+      "pct_contribution": 0.03
+    },
+    {
+      "activity_id": "A-10",
+      "activity_name": "Monitoreo de ruta en tiempo real (GPS y comunicación con operador)",
+      "metric_id": "M-05",
+      "relevance": 0.1904,
+      "b": 0.238,
+      "v": 0.8,
+      "pct_contribution": 0.0348
+    },
+    {
+      "activity_id": "A-11",
+      "activity_name": "Entrega en sitio cliente: descarga, aforo final y firma de remisión",
+      "metric_id": "M-01",
+      "relevance": 0.7644,
+      "b": 0.78,
+      "v": 0.98,
+      "pct_contribution": 0.1211
+    },
+    {
+      "activity_id": "A-11",
+      "activity_name": "Entrega en sitio cliente: descarga, aforo final y firma de remisión",
+      "metric_id": "M-03",
+      "relevance": 0.586,
+      "b": 0.598,
+      "v": 0.98,
+      "pct_contribution": 0.1647
+    },
+    {
+      "activity_id": "A-11",
+      "activity_name": "Entrega en sitio cliente: descarga, aforo final y firma de remisión",
+      "metric_id": "M-04",
+      "relevance": 0.3332,
+      "b": 0.34,
+      "v": 0.98,
+      "pct_contribution": 0.0525
+    },
+    {
+      "activity_id": "A-11",
+      "activity_name": "Entrega en sitio cliente: descarga, aforo final y firma de remisión",
+      "metric_id": "M-05",
+      "relevance": 0.5468,
+      "b": 0.558,
+      "v": 0.98,
+      "pct_contribution": 0.1
+    },
+    {
+      "activity_id": "A-12",
+      "activity_name": "Verificación de aforo final y cierre de remisión con volumen real",
+      "metric_id": "M-01",
+      "relevance": 0.2332,
+      "b": 0.238,
+      "v": 0.98,
+      "pct_contribution": 0.0369
+    },
+    {
+      "activity_id": "A-12",
+      "activity_name": "Verificación de aforo final y cierre de remisión con volumen real",
+      "metric_id": "M-03",
+      "relevance": 0.392,
+      "b": 0.4,
+      "v": 0.98,
+      "pct_contribution": 0.1102
+    },
+    {
+      "activity_id": "A-12",
+      "activity_name": "Verificación de aforo final y cierre de remisión con volumen real",
+      "metric_id": "M-04",
+      "relevance": 0.2332,
+      "b": 0.238,
+      "v": 0.98,
+      "pct_contribution": 0.0368
+    },
+    {
+      "activity_id": "A-12",
+      "activity_name": "Verificación de aforo final y cierre de remisión con volumen real",
+      "metric_id": "M-05",
+      "relevance": 0.2332,
+      "b": 0.238,
+      "v": 0.98,
+      "pct_contribution": 0.0426
+    },
+    {
+      "activity_id": "A-13",
+      "activity_name": "Generación de factura CFDI post-entrega con condiciones del contrato",
+      "metric_id": "M-01",
+      "relevance": 0.4664,
+      "b": 0.598,
+      "v": 0.78,
+      "pct_contribution": 0.0739
+    },
+    {
+      "activity_id": "A-13",
+      "activity_name": "Generación de factura CFDI post-entrega con condiciones del contrato",
+      "metric_id": "M-03",
+      "relevance": 0.4508,
+      "b": 0.578,
+      "v": 0.78,
+      "pct_contribution": 0.1267
+    },
+    {
+      "activity_id": "A-13",
+      "activity_name": "Generación de factura CFDI post-entrega con condiciones del contrato",
+      "metric_id": "M-04",
+      "relevance": 0.2652,
+      "b": 0.34,
+      "v": 0.78,
+      "pct_contribution": 0.0418
+    },
+    {
+      "activity_id": "A-13",
+      "activity_name": "Generación de factura CFDI post-entrega con condiciones del contrato",
+      "metric_id": "M-05",
+      "relevance": 0.4836,
+      "b": 0.62,
+      "v": 0.78,
+      "pct_contribution": 0.0884
+    },
+    {
+      "activity_id": "A-15",
+      "activity_name": "Envío de estado de cuenta del período sin ajustes pendientes",
+      "metric_id": "M-01",
+      "relevance": 0.1309,
+      "b": 0.238,
+      "v": 0.55,
+      "pct_contribution": 0.0207
+    },
+    {
+      "activity_id": "A-15",
+      "activity_name": "Envío de estado de cuenta del período sin ajustes pendientes",
+      "metric_id": "M-03",
+      "relevance": 0.1309,
+      "b": 0.238,
+      "v": 0.55,
+      "pct_contribution": 0.0368
+    },
+    {
+      "activity_id": "A-15",
+      "activity_name": "Envío de estado de cuenta del período sin ajustes pendientes",
+      "metric_id": "M-04",
+      "relevance": 0.187,
+      "b": 0.34,
+      "v": 0.55,
+      "pct_contribution": 0.0295
+    },
+    {
+      "activity_id": "A-15",
+      "activity_name": "Envío de estado de cuenta del período sin ajustes pendientes",
+      "metric_id": "M-05",
+      "relevance": 0.1309,
+      "b": 0.238,
+      "v": 0.55,
+      "pct_contribution": 0.0239
+    },
+    {
+      "activity_id": "A-16",
+      "activity_name": "Detección de falla de suministro activa (TAR, ruta o documentación)",
+      "metric_id": "M-01",
+      "relevance": 0.1975,
+      "b": 0.238,
+      "v": 0.83,
+      "pct_contribution": 0.0313
+    },
+    {
+      "activity_id": "A-16",
+      "activity_name": "Detección de falla de suministro activa (TAR, ruta o documentación)",
+      "metric_id": "M-02",
+      "relevance": 0.2822,
+      "b": 0.34,
+      "v": 0.83,
+      "pct_contribution": 0.0797
+    },
+    {
+      "activity_id": "A-17",
+      "activity_name": "Evaluación de opciones de contingencia disponibles",
+      "metric_id": "M-01",
+      "relevance": 0.1904,
+      "b": 0.238,
+      "v": 0.8,
+      "pct_contribution": 0.0302
+    },
+    {
+      "activity_id": "A-17",
+      "activity_name": "Evaluación de opciones de contingencia disponibles",
+      "metric_id": "M-02",
+      "relevance": 0.272,
+      "b": 0.34,
+      "v": 0.8,
+      "pct_contribution": 0.0768
+    },
+    {
+      "activity_id": "A-18",
+      "activity_name": "Notificación proactiva al cliente con alternativa concreta y tiempo estimado",
+      "metric_id": "M-01",
+      "relevance": 0.4842,
+      "b": 0.538,
+      "v": 0.9,
+      "pct_contribution": 0.0767
+    },
+    {
+      "activity_id": "A-18",
+      "activity_name": "Notificación proactiva al cliente con alternativa concreta y tiempo estimado",
+      "metric_id": "M-02",
+      "relevance": 0.702,
+      "b": 0.78,
+      "v": 0.9,
+      "pct_contribution": 0.1982
+    },
+    {
+      "activity_id": "A-19",
+      "activity_name": "Coordinación y ejecución de solución alternativa de suministro",
+      "metric_id": "M-01",
+      "relevance": 0.4842,
+      "b": 0.538,
+      "v": 0.9,
+      "pct_contribution": 0.0767
+    },
+    {
+      "activity_id": "A-19",
+      "activity_name": "Coordinación y ejecución de solución alternativa de suministro",
+      "metric_id": "M-02",
+      "relevance": 0.648,
+      "b": 0.72,
+      "v": 0.9,
+      "pct_contribution": 0.183
+    },
+    {
+      "activity_id": "A-21",
+      "activity_name": "Evaluación de perfil crediticio del prospecto",
+      "metric_id": "M-04",
+      "relevance": 0.238,
+      "b": 0.34,
+      "v": 0.7,
+      "pct_contribution": 0.0375
+    },
+    {
+      "activity_id": "A-21",
+      "activity_name": "Evaluación de perfil crediticio del prospecto",
+      "metric_id": "M-05",
+      "relevance": 0.1666,
+      "b": 0.238,
+      "v": 0.7,
+      "pct_contribution": 0.0305
+    },
+    {
+      "activity_id": "A-22",
+      "activity_name": "Elaboración de propuesta comercial personalizada",
+      "metric_id": "M-04",
+      "relevance": 0.2486,
+      "b": 0.518,
+      "v": 0.48,
+      "pct_contribution": 0.0392
+    },
+    {
+      "activity_id": "A-22",
+      "activity_name": "Elaboración de propuesta comercial personalizada",
+      "metric_id": "M-05",
+      "relevance": 0.2294,
+      "b": 0.478,
+      "v": 0.48,
+      "pct_contribution": 0.0419
+    },
+    {
+      "activity_id": "A-23",
+      "activity_name": "Presentación y negociación de condiciones comerciales",
+      "metric_id": "M-04",
+      "relevance": 0.4624,
+      "b": 0.68,
+      "v": 0.68,
+      "pct_contribution": 0.0729
+    },
+    {
+      "activity_id": "A-23",
+      "activity_name": "Presentación y negociación de condiciones comerciales",
+      "metric_id": "M-05",
+      "relevance": 0.3658,
+      "b": 0.538,
+      "v": 0.68,
+      "pct_contribution": 0.0669
+    },
+    {
+      "activity_id": "A-24",
+      "activity_name": "Documentación y alta del cliente en sistema",
+      "metric_id": "M-04",
+      "relevance": 0.1618,
+      "b": 0.238,
+      "v": 0.68,
+      "pct_contribution": 0.0255
+    },
+    {
+      "activity_id": "A-24",
+      "activity_name": "Documentación y alta del cliente en sistema",
+      "metric_id": "M-05",
+      "relevance": 0.1618,
+      "b": 0.238,
+      "v": 0.68,
+      "pct_contribution": 0.0296
+    },
+    {
+      "activity_id": "A-25",
+      "activity_name": "Firma de contrato de suministro",
+      "metric_id": "M-04",
+      "relevance": 0.5086,
+      "b": 0.578,
+      "v": 0.88,
+      "pct_contribution": 0.0802
+    },
+    {
+      "activity_id": "A-25",
+      "activity_name": "Firma de contrato de suministro",
+      "metric_id": "M-05",
+      "relevance": 0.4734,
+      "b": 0.538,
+      "v": 0.88,
+      "pct_contribution": 0.0866
+    },
+    {
+      "activity_id": "A-26",
+      "activity_name": "Identificación de contratos próximos a vencer",
+      "metric_id": "M-02",
+      "relevance": 0.1071,
+      "b": 0.238,
+      "v": 0.45,
+      "pct_contribution": 0.0302
+    },
+    {
+      "activity_id": "A-26",
+      "activity_name": "Identificación de contratos próximos a vencer",
+      "metric_id": "M-04",
+      "relevance": 0.1071,
+      "b": 0.238,
+      "v": 0.45,
+      "pct_contribution": 0.0169
+    },
+    {
+      "activity_id": "A-28",
+      "activity_name": "Revisión comercial con cliente: desempeño del período y satisfacción",
+      "metric_id": "M-02",
+      "relevance": 0.3735,
+      "b": 0.498,
+      "v": 0.75,
+      "pct_contribution": 0.1055
+    },
+    {
+      "activity_id": "A-28",
+      "activity_name": "Revisión comercial con cliente: desempeño del período y satisfacción",
+      "metric_id": "M-04",
+      "relevance": 0.3885,
+      "b": 0.518,
+      "v": 0.75,
+      "pct_contribution": 0.0612
+    },
+    {
+      "activity_id": "A-29",
+      "activity_name": "Negociación de condiciones de renovación o expansión",
+      "metric_id": "M-01",
+      "relevance": 0.156,
+      "b": 0.24,
+      "v": 0.65,
+      "pct_contribution": 0.0247
+    },
+    {
+      "activity_id": "A-29",
+      "activity_name": "Negociación de condiciones de renovación o expansión",
+      "metric_id": "M-02",
+      "relevance": 0.1547,
+      "b": 0.238,
+      "v": 0.65,
+      "pct_contribution": 0.0437
+    },
+    {
+      "activity_id": "A-29",
+      "activity_name": "Negociación de condiciones de renovación o expansión",
+      "metric_id": "M-04",
+      "relevance": 0.3237,
+      "b": 0.498,
+      "v": 0.65,
+      "pct_contribution": 0.051
+    },
+    {
+      "activity_id": "A-30",
+      "activity_name": "Firma de renovación o expansión de contrato",
+      "metric_id": "M-01",
+      "relevance": 0.1992,
+      "b": 0.24,
+      "v": 0.83,
+      "pct_contribution": 0.0316
+    },
+    {
+      "activity_id": "A-30",
+      "activity_name": "Firma de renovación o expansión de contrato",
+      "metric_id": "M-02",
+      "relevance": 0.1975,
+      "b": 0.238,
+      "v": 0.83,
+      "pct_contribution": 0.0558
+    },
+    {
+      "activity_id": "A-30",
+      "activity_name": "Firma de renovación o expansión de contrato",
+      "metric_id": "M-04",
+      "relevance": 0.4133,
+      "b": 0.498,
+      "v": 0.83,
+      "pct_contribution": 0.0651
+    },
+    {
+      "activity_id": "A-31",
+      "activity_name": "Recepción y registro de solicitud de ajuste de crédito",
+      "metric_id": "M-04",
+      "relevance": 0.0833,
+      "b": 0.238,
+      "v": 0.35,
+      "pct_contribution": 0.0131
+    },
+    {
+      "activity_id": "A-31",
+      "activity_name": "Recepción y registro de solicitud de ajuste de crédito",
+      "metric_id": "M-05",
+      "relevance": 0.0833,
+      "b": 0.238,
+      "v": 0.35,
+      "pct_contribution": 0.0152
+    },
+    {
+      "activity_id": "A-32",
+      "activity_name": "Revisión de historial de pagos y comportamiento crediticio del cliente",
+      "metric_id": "M-04",
+      "relevance": 0.1309,
+      "b": 0.238,
+      "v": 0.55,
+      "pct_contribution": 0.0206
+    },
+    {
+      "activity_id": "A-32",
+      "activity_name": "Revisión de historial de pagos y comportamiento crediticio del cliente",
+      "metric_id": "M-05",
+      "relevance": 0.1309,
+      "b": 0.238,
+      "v": 0.55,
+      "pct_contribution": 0.0239
+    },
+    {
+      "activity_id": "A-33",
+      "activity_name": "Autorización o ajuste de condiciones crediticias",
+      "metric_id": "M-04",
+      "relevance": 0.2652,
+      "b": 0.34,
+      "v": 0.78,
+      "pct_contribution": 0.0418
+    },
+    {
+      "activity_id": "A-33",
+      "activity_name": "Autorización o ajuste de condiciones crediticias",
+      "metric_id": "M-05",
+      "relevance": 0.1856,
+      "b": 0.238,
+      "v": 0.78,
+      "pct_contribution": 0.0339
+    },
+    {
+      "activity_id": "A-34",
+      "activity_name": "Notificación al cliente de condiciones crediticias actualizadas",
+      "metric_id": "M-04",
+      "relevance": 0.2142,
+      "b": 0.34,
+      "v": 0.63,
+      "pct_contribution": 0.0338
+    },
+    {
+      "activity_id": "A-34",
+      "activity_name": "Notificación al cliente de condiciones crediticias actualizadas",
+      "metric_id": "M-05",
+      "relevance": 0.1499,
+      "b": 0.238,
+      "v": 0.63,
+      "pct_contribution": 0.0274
+    },
+    {
+      "activity_id": "A-39",
+      "activity_name": "Definición y actualización de política de crédito comercial",
+      "metric_id": "M-05",
+      "relevance": 0.1071,
+      "b": 0.17,
+      "v": 0.63,
+      "pct_contribution": 0.0196
+    },
+    {
+      "activity_id": "A-40",
+      "activity_name": "Capacitación operativa y certificación de operadores de pipa",
+      "metric_id": "M-01",
+      "relevance": 0.1071,
+      "b": 0.17,
+      "v": 0.63,
+      "pct_contribution": 0.017
+    },
+    {
+      "activity_id": "A-46",
+      "activity_name": "Negociación y contratación de cupo de combustible con PEMEX TI",
+      "metric_id": "M-01",
+      "relevance": 0.1445,
+      "b": 0.17,
+      "v": 0.85,
+      "pct_contribution": 0.0229
+    },
+    {
+      "activity_id": "A-47",
+      "activity_name": "Registro y pre-calificación de fuentes alternativas de suministro",
+      "metric_id": "M-02",
+      "relevance": 0.0986,
+      "b": 0.17,
+      "v": 0.58,
+      "pct_contribution": 0.0278
+    },
+    {
+      "activity_id": "A-49",
+      "activity_name": "Control de inventario de producto en tránsito entre TAR y clientes",
+      "metric_id": "M-01",
+      "relevance": 0.1326,
+      "b": 0.17,
+      "v": 0.78,
+      "pct_contribution": 0.021
+    },
+    {
+      "activity_id": "A-51",
+      "activity_name": "Mantenimiento preventivo y correctivo de flota de pipas",
+      "metric_id": "M-01",
+      "relevance": 0.136,
+      "b": 0.17,
+      "v": 0.8,
+      "pct_contribution": 0.0215
+    },
+    {
+      "activity_id": "A-52",
+      "activity_name": "Gestión de stock de refacciones críticas para flota",
+      "metric_id": "M-01",
+      "relevance": 0.102,
+      "b": 0.17,
+      "v": 0.6,
+      "pct_contribution": 0.0162
+    },
+    {
+      "activity_id": "A-55",
+      "activity_name": "Administración del CRM y base de datos de clientes y prospectos",
+      "metric_id": "M-05",
+      "relevance": 0.1105,
+      "b": 0.17,
+      "v": 0.65,
+      "pct_contribution": 0.0202
+    },
+    {
+      "activity_id": "A-57",
+      "activity_name": "Seguimiento y cierre formal de incidencias abiertas con clientes",
+      "metric_id": "M-01",
+      "relevance": 0.18,
+      "b": 0.3,
+      "v": 0.6,
+      "pct_contribution": 0.0285
+    },
+    {
+      "activity_id": "A-57",
+      "activity_name": "Seguimiento y cierre formal de incidencias abiertas con clientes",
+      "metric_id": "M-02",
+      "relevance": 0.33,
+      "b": 0.55,
+      "v": 0.6,
+      "pct_contribution": 0.0932
+    },
+    {
+      "activity_id": "A-58",
+      "activity_name": "Encuesta de satisfacción post-entrega a clientes activos",
+      "metric_id": "M-02",
+      "relevance": 0.104,
+      "b": 0.26,
+      "v": 0.4,
+      "pct_contribution": 0.0294
+    },
+    {
+      "activity_id": "A-58",
+      "activity_name": "Encuesta de satisfacción post-entrega a clientes activos",
+      "metric_id": "M-04",
+      "relevance": 0.112,
+      "b": 0.28,
+      "v": 0.4,
+      "pct_contribution": 0.0177
+    }
+  ],
+  "process_rollups": [
+    {
+      "process_id": "P-01",
+      "metric_id": "M-01",
+      "relevance_sum": 3.8,
+      "pct_contribution": 0.6019
+    },
+    {
+      "process_id": "P-01",
+      "metric_id": "M-02",
+      "relevance_sum": 0.272,
+      "pct_contribution": 0.0768
+    },
+    {
+      "process_id": "P-01",
+      "metric_id": "M-03",
+      "relevance_sum": 3.5587,
+      "pct_contribution": 1.0
+    },
+    {
+      "process_id": "P-01",
+      "metric_id": "M-04",
+      "relevance_sum": 2.6869,
+      "pct_contribution": 0.4235
+    },
+    {
+      "process_id": "P-01",
+      "metric_id": "M-05",
+      "relevance_sum": 3.3044,
+      "pct_contribution": 0.6042
+    },
+    {
+      "process_id": "P-02",
+      "metric_id": "M-01",
+      "relevance_sum": 1.3563,
+      "pct_contribution": 0.2148
+    },
+    {
+      "process_id": "P-02",
+      "metric_id": "M-02",
+      "relevance_sum": 1.9042,
+      "pct_contribution": 0.5377
+    },
+    {
+      "process_id": "P-03",
+      "metric_id": "M-04",
+      "relevance_sum": 1.6194,
+      "pct_contribution": 0.2552
+    },
+    {
+      "process_id": "P-03",
+      "metric_id": "M-05",
+      "relevance_sum": 1.397,
+      "pct_contribution": 0.2555
+    },
+    {
+      "process_id": "P-04",
+      "metric_id": "M-01",
+      "relevance_sum": 0.3552,
+      "pct_contribution": 0.0563
+    },
+    {
+      "process_id": "P-04",
+      "metric_id": "M-02",
+      "relevance_sum": 0.8328,
+      "pct_contribution": 0.2351
+    },
+    {
+      "process_id": "P-04",
+      "metric_id": "M-04",
+      "relevance_sum": 1.2326,
+      "pct_contribution": 0.1943
+    },
+    {
+      "process_id": "P-05",
+      "metric_id": "M-04",
+      "relevance_sum": 0.6936,
+      "pct_contribution": 0.1093
+    },
+    {
+      "process_id": "P-05",
+      "metric_id": "M-05",
+      "relevance_sum": 0.5497,
+      "pct_contribution": 0.1005
+    }
+  ],
+  "rankings_by_metric": {
+    "M-01": [
+      {
+        "rank": 1,
+        "activity_id": "A-11",
+        "activity_name": "Entrega en sitio cliente: descarga, aforo final y firma de remisión",
+        "relevance": 0.7644,
+        "pct_contribution": 0.1211,
+        "metric_name": "Confiabilidad de entrega en ventana comprometida"
+      },
+      {
+        "rank": 2,
+        "activity_id": "A-18",
+        "activity_name": "Notificación proactiva al cliente con alternativa concreta y tiempo estimado",
+        "relevance": 0.4842,
+        "pct_contribution": 0.0767,
+        "metric_name": "Confiabilidad de entrega en ventana comprometida"
+      },
+      {
+        "rank": 3,
+        "activity_id": "A-19",
+        "activity_name": "Coordinación y ejecución de solución alternativa de suministro",
+        "relevance": 0.4842,
+        "pct_contribution": 0.0767,
+        "metric_name": "Confiabilidad de entrega en ventana comprometida"
+      },
+      {
+        "rank": 4,
+        "activity_id": "A-13",
+        "activity_name": "Generación de factura CFDI post-entrega con condiciones del contrato",
+        "relevance": 0.4664,
+        "pct_contribution": 0.0739,
+        "metric_name": "Confiabilidad de entrega en ventana comprometida"
+      },
+      {
+        "rank": 5,
+        "activity_id": "A-01",
+        "activity_name": "Recepción y registro del pedido del cliente",
+        "relevance": 0.309,
+        "pct_contribution": 0.0489,
+        "metric_name": "Confiabilidad de entrega en ventana comprometida"
+      },
+      {
+        "rank": 6,
+        "activity_id": "A-04",
+        "activity_name": "Verificación de disponibilidad de producto en TAR asignada",
+        "relevance": 0.306,
+        "pct_contribution": 0.0485,
+        "metric_name": "Confiabilidad de entrega en ventana comprometida"
+      },
+      {
+        "rank": 7,
+        "activity_id": "A-05",
+        "activity_name": "Planeación de ruta con ventana de entrega comprometida",
+        "relevance": 0.306,
+        "pct_contribution": 0.0485,
+        "metric_name": "Confiabilidad de entrega en ventana comprometida"
+      },
+      {
+        "rank": 8,
+        "activity_id": "A-06",
+        "activity_name": "Programación de ventana de carga en terminal TAR",
+        "relevance": 0.272,
+        "pct_contribution": 0.0431,
+        "metric_name": "Confiabilidad de entrega en ventana comprometida"
+      },
+      {
+        "rank": 9,
+        "activity_id": "A-10",
+        "activity_name": "Monitoreo de ruta en tiempo real (GPS y comunicación con operador)",
+        "relevance": 0.272,
+        "pct_contribution": 0.0431,
+        "metric_name": "Confiabilidad de entrega en ventana comprometida"
+      },
+      {
+        "rank": 10,
+        "activity_id": "A-12",
+        "activity_name": "Verificación de aforo final y cierre de remisión con volumen real",
+        "relevance": 0.2332,
+        "pct_contribution": 0.0369,
+        "metric_name": "Confiabilidad de entrega en ventana comprometida"
+      },
+      {
+        "rank": 11,
+        "activity_id": "A-07",
+        "activity_name": "Muestreo y prueba NOM-016 del lote a cargar",
+        "relevance": 0.2213,
+        "pct_contribution": 0.0351,
+        "metric_name": "Confiabilidad de entrega en ventana comprometida"
+      },
+      {
+        "rank": 12,
+        "activity_id": "A-30",
+        "activity_name": "Firma de renovación o expansión de contrato",
+        "relevance": 0.1992,
+        "pct_contribution": 0.0316,
+        "metric_name": "Confiabilidad de entrega en ventana comprometida"
+      },
+      {
+        "rank": 13,
+        "activity_id": "A-16",
+        "activity_name": "Detección de falla de suministro activa (TAR, ruta o documentación)",
+        "relevance": 0.1975,
+        "pct_contribution": 0.0313,
+        "metric_name": "Confiabilidad de entrega en ventana comprometida"
+      },
+      {
+        "rank": 14,
+        "activity_id": "A-03",
+        "activity_name": "Autorización de crédito para el despacho",
+        "relevance": 0.1904,
+        "pct_contribution": 0.0302,
+        "metric_name": "Confiabilidad de entrega en ventana comprometida"
+      },
+      {
+        "rank": 15,
+        "activity_id": "A-17",
+        "activity_name": "Evaluación de opciones de contingencia disponibles",
+        "relevance": 0.1904,
+        "pct_contribution": 0.0302,
+        "metric_name": "Confiabilidad de entrega en ventana comprometida"
+      }
+    ],
+    "M-03": [
+      {
+        "rank": 1,
+        "activity_id": "A-11",
+        "activity_name": "Entrega en sitio cliente: descarga, aforo final y firma de remisión",
+        "relevance": 0.586,
+        "pct_contribution": 0.1647,
+        "metric_name": "Exactitud de volumen entregado"
+      },
+      {
+        "rank": 2,
+        "activity_id": "A-13",
+        "activity_name": "Generación de factura CFDI post-entrega con condiciones del contrato",
+        "relevance": 0.4508,
+        "pct_contribution": 0.1267,
+        "metric_name": "Exactitud de volumen entregado"
+      },
+      {
+        "rank": 3,
+        "activity_id": "A-12",
+        "activity_name": "Verificación de aforo final y cierre de remisión con volumen real",
+        "relevance": 0.392,
+        "pct_contribution": 0.1102,
+        "metric_name": "Exactitud de volumen entregado"
+      },
+      {
+        "rank": 4,
+        "activity_id": "A-07",
+        "activity_name": "Muestreo y prueba NOM-016 del lote a cargar",
+        "relevance": 0.372,
+        "pct_contribution": 0.1045,
+        "metric_name": "Exactitud de volumen entregado"
+      },
+      {
+        "rank": 5,
+        "activity_id": "A-01",
+        "activity_name": "Recepción y registro del pedido del cliente",
+        "relevance": 0.299,
+        "pct_contribution": 0.084,
+        "metric_name": "Exactitud de volumen entregado"
+      },
+      {
+        "rank": 6,
+        "activity_id": "A-04",
+        "activity_name": "Verificación de disponibilidad de producto en TAR asignada",
+        "relevance": 0.2142,
+        "pct_contribution": 0.0602,
+        "metric_name": "Exactitud de volumen entregado"
+      },
+      {
+        "rank": 7,
+        "activity_id": "A-05",
+        "activity_name": "Planeación de ruta con ventana de entrega comprometida",
+        "relevance": 0.2142,
+        "pct_contribution": 0.0602,
+        "metric_name": "Exactitud de volumen entregado"
+      },
+      {
+        "rank": 8,
+        "activity_id": "A-03",
+        "activity_name": "Autorización de crédito para el despacho",
+        "relevance": 0.1904,
+        "pct_contribution": 0.0535,
+        "metric_name": "Exactitud de volumen entregado"
+      },
+      {
+        "rank": 9,
+        "activity_id": "A-06",
+        "activity_name": "Programación de ventana de carga en terminal TAR",
+        "relevance": 0.1904,
+        "pct_contribution": 0.0535,
+        "metric_name": "Exactitud de volumen entregado"
+      },
+      {
+        "rank": 10,
+        "activity_id": "A-10",
+        "activity_name": "Monitoreo de ruta en tiempo real (GPS y comunicación con operador)",
+        "relevance": 0.1904,
+        "pct_contribution": 0.0535,
+        "metric_name": "Exactitud de volumen entregado"
+      },
+      {
+        "rank": 11,
+        "activity_id": "A-02",
+        "activity_name": "Validación del pedido contra contrato activo y condiciones vigentes",
+        "relevance": 0.1666,
+        "pct_contribution": 0.0468,
+        "metric_name": "Exactitud de volumen entregado"
+      },
+      {
+        "rank": 12,
+        "activity_id": "A-09",
+        "activity_name": "Asignación de operador y briefing de ruta",
+        "relevance": 0.1618,
+        "pct_contribution": 0.0455,
+        "metric_name": "Exactitud de volumen entregado"
+      },
+      {
+        "rank": 13,
+        "activity_id": "A-15",
+        "activity_name": "Envío de estado de cuenta del período sin ajustes pendientes",
+        "relevance": 0.1309,
+        "pct_contribution": 0.0368,
+        "metric_name": "Exactitud de volumen entregado"
+      }
+    ],
+    "M-04": [
+      {
+        "rank": 1,
+        "activity_id": "A-25",
+        "activity_name": "Firma de contrato de suministro",
+        "relevance": 0.5086,
+        "pct_contribution": 0.0802,
+        "metric_name": "Costo total de abastecimiento predecible"
+      },
+      {
+        "rank": 2,
+        "activity_id": "A-23",
+        "activity_name": "Presentación y negociación de condiciones comerciales",
+        "relevance": 0.4624,
+        "pct_contribution": 0.0729,
+        "metric_name": "Costo total de abastecimiento predecible"
+      },
+      {
+        "rank": 3,
+        "activity_id": "A-30",
+        "activity_name": "Firma de renovación o expansión de contrato",
+        "relevance": 0.4133,
+        "pct_contribution": 0.0651,
+        "metric_name": "Costo total de abastecimiento predecible"
+      },
+      {
+        "rank": 4,
+        "activity_id": "A-28",
+        "activity_name": "Revisión comercial con cliente: desempeño del período y satisfacción",
+        "relevance": 0.3885,
+        "pct_contribution": 0.0612,
+        "metric_name": "Costo total de abastecimiento predecible"
+      },
+      {
+        "rank": 5,
+        "activity_id": "A-11",
+        "activity_name": "Entrega en sitio cliente: descarga, aforo final y firma de remisión",
+        "relevance": 0.3332,
+        "pct_contribution": 0.0525,
+        "metric_name": "Costo total de abastecimiento predecible"
+      },
+      {
+        "rank": 6,
+        "activity_id": "A-29",
+        "activity_name": "Negociación de condiciones de renovación o expansión",
+        "relevance": 0.3237,
+        "pct_contribution": 0.051,
+        "metric_name": "Costo total de abastecimiento predecible"
+      },
+      {
+        "rank": 7,
+        "activity_id": "A-13",
+        "activity_name": "Generación de factura CFDI post-entrega con condiciones del contrato",
+        "relevance": 0.2652,
+        "pct_contribution": 0.0418,
+        "metric_name": "Costo total de abastecimiento predecible"
+      },
+      {
+        "rank": 8,
+        "activity_id": "A-33",
+        "activity_name": "Autorización o ajuste de condiciones crediticias",
+        "relevance": 0.2652,
+        "pct_contribution": 0.0418,
+        "metric_name": "Costo total de abastecimiento predecible"
+      },
+      {
+        "rank": 9,
+        "activity_id": "A-22",
+        "activity_name": "Elaboración de propuesta comercial personalizada",
+        "relevance": 0.2486,
+        "pct_contribution": 0.0392,
+        "metric_name": "Costo total de abastecimiento predecible"
+      },
+      {
+        "rank": 10,
+        "activity_id": "A-21",
+        "activity_name": "Evaluación de perfil crediticio del prospecto",
+        "relevance": 0.238,
+        "pct_contribution": 0.0375,
+        "metric_name": "Costo total de abastecimiento predecible"
+      },
+      {
+        "rank": 11,
+        "activity_id": "A-12",
+        "activity_name": "Verificación de aforo final y cierre de remisión con volumen real",
+        "relevance": 0.2332,
+        "pct_contribution": 0.0368,
+        "metric_name": "Costo total de abastecimiento predecible"
+      },
+      {
+        "rank": 12,
+        "activity_id": "A-07",
+        "activity_name": "Muestreo y prueba NOM-016 del lote a cargar",
+        "relevance": 0.2213,
+        "pct_contribution": 0.0349,
+        "metric_name": "Costo total de abastecimiento predecible"
+      },
+      {
+        "rank": 13,
+        "activity_id": "A-04",
+        "activity_name": "Verificación de disponibilidad de producto en TAR asignada",
+        "relevance": 0.2142,
+        "pct_contribution": 0.0338,
+        "metric_name": "Costo total de abastecimiento predecible"
+      },
+      {
+        "rank": 14,
+        "activity_id": "A-05",
+        "activity_name": "Planeación de ruta con ventana de entrega comprometida",
+        "relevance": 0.2142,
+        "pct_contribution": 0.0338,
+        "metric_name": "Costo total de abastecimiento predecible"
+      },
+      {
+        "rank": 15,
+        "activity_id": "A-34",
+        "activity_name": "Notificación al cliente de condiciones crediticias actualizadas",
+        "relevance": 0.2142,
+        "pct_contribution": 0.0338,
+        "metric_name": "Costo total de abastecimiento predecible"
+      }
+    ],
+    "M-05": [
+      {
+        "rank": 1,
+        "activity_id": "A-11",
+        "activity_name": "Entrega en sitio cliente: descarga, aforo final y firma de remisión",
+        "relevance": 0.5468,
+        "pct_contribution": 0.1,
+        "metric_name": "Ausencia de fricción administrativa"
+      },
+      {
+        "rank": 2,
+        "activity_id": "A-13",
+        "activity_name": "Generación de factura CFDI post-entrega con condiciones del contrato",
+        "relevance": 0.4836,
+        "pct_contribution": 0.0884,
+        "metric_name": "Ausencia de fricción administrativa"
+      },
+      {
+        "rank": 3,
+        "activity_id": "A-25",
+        "activity_name": "Firma de contrato de suministro",
+        "relevance": 0.4734,
+        "pct_contribution": 0.0866,
+        "metric_name": "Ausencia de fricción administrativa"
+      },
+      {
+        "rank": 4,
+        "activity_id": "A-23",
+        "activity_name": "Presentación y negociación de condiciones comerciales",
+        "relevance": 0.3658,
+        "pct_contribution": 0.0669,
+        "metric_name": "Ausencia de fricción administrativa"
+      },
+      {
+        "rank": 5,
+        "activity_id": "A-01",
+        "activity_name": "Recepción y registro del pedido del cliente",
+        "relevance": 0.279,
+        "pct_contribution": 0.051,
+        "metric_name": "Ausencia de fricción administrativa"
+      },
+      {
+        "rank": 6,
+        "activity_id": "A-03",
+        "activity_name": "Autorización de crédito para el despacho",
+        "relevance": 0.272,
+        "pct_contribution": 0.0497,
+        "metric_name": "Ausencia de fricción administrativa"
+      },
+      {
+        "rank": 7,
+        "activity_id": "A-12",
+        "activity_name": "Verificación de aforo final y cierre de remisión con volumen real",
+        "relevance": 0.2332,
+        "pct_contribution": 0.0426,
+        "metric_name": "Ausencia de fricción administrativa"
+      },
+      {
+        "rank": 8,
+        "activity_id": "A-22",
+        "activity_name": "Elaboración de propuesta comercial personalizada",
+        "relevance": 0.2294,
+        "pct_contribution": 0.0419,
+        "metric_name": "Ausencia de fricción administrativa"
+      },
+      {
+        "rank": 9,
+        "activity_id": "A-07",
+        "activity_name": "Muestreo y prueba NOM-016 del lote a cargar",
+        "relevance": 0.2213,
+        "pct_contribution": 0.0405,
+        "metric_name": "Ausencia de fricción administrativa"
+      },
+      {
+        "rank": 10,
+        "activity_id": "A-04",
+        "activity_name": "Verificación de disponibilidad de producto en TAR asignada",
+        "relevance": 0.2142,
+        "pct_contribution": 0.0392,
+        "metric_name": "Ausencia de fricción administrativa"
+      },
+      {
+        "rank": 11,
+        "activity_id": "A-05",
+        "activity_name": "Planeación de ruta con ventana de entrega comprometida",
+        "relevance": 0.2142,
+        "pct_contribution": 0.0392,
+        "metric_name": "Ausencia de fricción administrativa"
+      },
+      {
+        "rank": 12,
+        "activity_id": "A-06",
+        "activity_name": "Programación de ventana de carga en terminal TAR",
+        "relevance": 0.1904,
+        "pct_contribution": 0.0348,
+        "metric_name": "Ausencia de fricción administrativa"
+      },
+      {
+        "rank": 13,
+        "activity_id": "A-10",
+        "activity_name": "Monitoreo de ruta en tiempo real (GPS y comunicación con operador)",
+        "relevance": 0.1904,
+        "pct_contribution": 0.0348,
+        "metric_name": "Ausencia de fricción administrativa"
+      },
+      {
+        "rank": 14,
+        "activity_id": "A-33",
+        "activity_name": "Autorización o ajuste de condiciones crediticias",
+        "relevance": 0.1856,
+        "pct_contribution": 0.0339,
+        "metric_name": "Ausencia de fricción administrativa"
+      },
+      {
+        "rank": 15,
+        "activity_id": "A-02",
+        "activity_name": "Validación del pedido contra contrato activo y condiciones vigentes",
+        "relevance": 0.1666,
+        "pct_contribution": 0.0305,
+        "metric_name": "Ausencia de fricción administrativa"
+      }
+    ],
+    "M-02": [
+      {
+        "rank": 1,
+        "activity_id": "A-18",
+        "activity_name": "Notificación proactiva al cliente con alternativa concreta y tiempo estimado",
+        "relevance": 0.702,
+        "pct_contribution": 0.1982,
+        "metric_name": "Tiempo de respuesta ante falla de suministro"
+      },
+      {
+        "rank": 2,
+        "activity_id": "A-19",
+        "activity_name": "Coordinación y ejecución de solución alternativa de suministro",
+        "relevance": 0.648,
+        "pct_contribution": 0.183,
+        "metric_name": "Tiempo de respuesta ante falla de suministro"
+      },
+      {
+        "rank": 3,
+        "activity_id": "A-28",
+        "activity_name": "Revisión comercial con cliente: desempeño del período y satisfacción",
+        "relevance": 0.3735,
+        "pct_contribution": 0.1055,
+        "metric_name": "Tiempo de respuesta ante falla de suministro"
+      },
+      {
+        "rank": 4,
+        "activity_id": "A-57",
+        "activity_name": "Seguimiento y cierre formal de incidencias abiertas con clientes",
+        "relevance": 0.33,
+        "pct_contribution": 0.0932,
+        "metric_name": "Tiempo de respuesta ante falla de suministro"
+      },
+      {
+        "rank": 5,
+        "activity_id": "A-16",
+        "activity_name": "Detección de falla de suministro activa (TAR, ruta o documentación)",
+        "relevance": 0.2822,
+        "pct_contribution": 0.0797,
+        "metric_name": "Tiempo de respuesta ante falla de suministro"
+      },
+      {
+        "rank": 6,
+        "activity_id": "A-10",
+        "activity_name": "Monitoreo de ruta en tiempo real (GPS y comunicación con operador)",
+        "relevance": 0.272,
+        "pct_contribution": 0.0768,
+        "metric_name": "Tiempo de respuesta ante falla de suministro"
+      },
+      {
+        "rank": 7,
+        "activity_id": "A-17",
+        "activity_name": "Evaluación de opciones de contingencia disponibles",
+        "relevance": 0.272,
+        "pct_contribution": 0.0768,
+        "metric_name": "Tiempo de respuesta ante falla de suministro"
+      },
+      {
+        "rank": 8,
+        "activity_id": "A-30",
+        "activity_name": "Firma de renovación o expansión de contrato",
+        "relevance": 0.1975,
+        "pct_contribution": 0.0558,
+        "metric_name": "Tiempo de respuesta ante falla de suministro"
+      },
+      {
+        "rank": 9,
+        "activity_id": "A-29",
+        "activity_name": "Negociación de condiciones de renovación o expansión",
+        "relevance": 0.1547,
+        "pct_contribution": 0.0437,
+        "metric_name": "Tiempo de respuesta ante falla de suministro"
+      },
+      {
+        "rank": 10,
+        "activity_id": "A-26",
+        "activity_name": "Identificación de contratos próximos a vencer",
+        "relevance": 0.1071,
+        "pct_contribution": 0.0302,
+        "metric_name": "Tiempo de respuesta ante falla de suministro"
+      },
+      {
+        "rank": 11,
+        "activity_id": "A-58",
+        "activity_name": "Encuesta de satisfacción post-entrega a clientes activos",
+        "relevance": 0.104,
+        "pct_contribution": 0.0294,
+        "metric_name": "Tiempo de respuesta ante falla de suministro"
+      },
+      {
+        "rank": 12,
+        "activity_id": "A-47",
+        "activity_name": "Registro y pre-calificación de fuentes alternativas de suministro",
+        "relevance": 0.0986,
+        "pct_contribution": 0.0278,
+        "metric_name": "Tiempo de respuesta ante falla de suministro"
+      }
+    ]
+  }
+}

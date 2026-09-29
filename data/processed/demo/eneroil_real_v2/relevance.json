@@ -1,0 +1,144 @@
+{
+  "scenario_id": "eneroil_real_v2",
+  "compose_at_runtime": true,
+  "formulas": {
+    "v": "0.3*P + 0.4*C + 0.2*F + 0.1*R (reweight null dims)",
+    "b": "0.4*G + 0.4*J + 0.2*DV",
+    "relevance": "B * V"
+  },
+  "activities": [
+    {
+      "activity_id": "ACT-01",
+      "activity_name": "Recepción de solicitud del cliente (WhatsApp / correo / llamada)",
+      "process_id": "PRO-02",
+      "p": 0.25,
+      "p_confidence": 0.75,
+      "c": 0.25,
+      "c_confidence": 0.5,
+      "r": 0.25,
+      "r_confidence": 0.5,
+      "f": 1.0,
+      "f_confidence": 0.5
+    },
+    {
+      "activity_id": "ACT-03",
+      "activity_name": "Elaboración y envío de cotización",
+      "process_id": "PRO-02",
+      "p": 0.25,
+      "p_confidence": 0.75,
+      "c": 0.5,
+      "c_confidence": 0.5,
+      "r": 0.5,
+      "r_confidence": 0.5,
+      "f": 1.0,
+      "f_confidence": 0.5
+    },
+    {
+      "activity_id": "ACT-05",
+      "activity_name": "Confirmación de disponibilidad de producto y logística",
+      "process_id": "PRO-03",
+      "p": 0.5,
+      "p_confidence": 0.75,
+      "c": 0.5,
+      "c_confidence": 0.5,
+      "r": 0.5,
+      "r_confidence": 0.5
+    },
+    {
+      "activity_id": "ACT-10",
+      "activity_name": "Timbrado del CFDI en SAE/ASPEL",
+      "process_id": "PRO-05",
+      "p": 0.75,
+      "p_confidence": 0.75,
+      "c": 1.0,
+      "c_confidence": 0.75,
+      "r": 1.0,
+      "r_confidence": 0.75,
+      "f": 1.0,
+      "f_confidence": 0.5
+    },
+    {
+      "activity_id": "ACT-11",
+      "activity_name": "Envío del CFDI al cliente",
+      "process_id": "PRO-05",
+      "p": 0.75,
+      "p_confidence": 0.5,
+      "c": 0.75,
+      "c_confidence": 0.5,
+      "r": 0.5,
+      "r_confidence": 0.5,
+      "f": 1.0,
+      "f_confidence": 0.5
+    },
+    {
+      "activity_id": "ACT-12",
+      "activity_name": "Seguimiento al pago",
+      "process_id": "PRO-06",
+      "p": 0.75,
+      "p_confidence": 0.5,
+      "c": 0.75,
+      "c_confidence": 0.75,
+      "r": 0.75,
+      "r_confidence": 0.75
+    },
+    {
+      "activity_id": "ACT-13",
+      "activity_name": "Conciliación factura – estado de cuenta bancario – Smartsheet",
+      "process_id": "PRO-06",
+      "p": 1.0,
+      "p_confidence": 0.75,
+      "c": 0.75,
+      "c_confidence": 0.75,
+      "r": 0.75,
+      "r_confidence": 0.75
+    },
+    {
+      "activity_id": "ACT-15",
+      "activity_name": "Contacto al cliente por factura vencida",
+      "process_id": "PRO-06",
+      "p": 0.75,
+      "p_confidence": 0.5,
+      "c": 0.5,
+      "c_confidence": 0.5,
+      "r": 0.5,
+      "r_confidence": 0.5
+    },
+    {
+      "activity_id": "ACT-16",
+      "activity_name": "Generación y envío del estado de cuenta del cliente",
+      "process_id": "PRO-06",
+      "p": 0.5,
+      "p_confidence": 0.5,
+      "c": 0.5,
+      "c_confidence": 0.5,
+      "r": 0.5,
+      "r_confidence": 0.5
+    },
+    {
+      "activity_id": "ACT-17",
+      "activity_name": "Escalamiento a Dirección por cobro vencido",
+      "process_id": "PRO-06",
+      "p": 1.0,
+      "p_confidence": 0.5,
+      "c": 0.5,
+      "c_confidence": 0.5,
+      "r": 0.75,
+      "r_confidence": 0.5
+    },
+    {
+      "activity_id": "ACT-25",
+      "activity_name": "Transporte y entrega del producto al destino",
+      "process_id": "PRO-03",
+      "p": 0.75,
+      "p_confidence": 0.75,
+      "c": null,
+      "c_confidence": null,
+      "r": null,
+      "r_confidence": null
+    }
+  ],
+  "matrix": [],
+  "process_rollups": [],
+  "rankings_by_metric": {},
+  "strategic_b_zero": []
+}

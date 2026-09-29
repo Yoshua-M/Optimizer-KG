@@ -1,0 +1,3188 @@
+{
+  "scenario_id": "eneroil_real_v4_experiment",
+  "title": "Eneroil S.A. de C.V. — extracción real v4 experiment (walkthrough)",
+  "source": "data/raw/Eneroil_Inventario_Grafo_v4 (experiment).md",
+  "meta": {
+    "kind": "ai_enhanced",
+    "source_nature": "real_interview_plus_walkthrough_validation",
+    "metrics_available": true,
+    "generated_fill": true,
+    "walkthrough_v4": true,
+    "synthetic_event_precedes": true,
+    "node_count": 106,
+    "relationship_count": 237
+  },
+  "nodes": [
+    {
+      "id": "PRO-01",
+      "type": "Process",
+      "label": "Monitoreo y Precios (Obtención y Envío de Precios)",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "PRO-02",
+      "type": "Process",
+      "label": "Cotización al Cliente",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "PRO-03",
+      "type": "Process",
+      "label": "Planeación y operación logística (empresa hermana)",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "PRO-04",
+      "type": "Process",
+      "label": "Compra y Venta de Combustible",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "PRO-05",
+      "type": "Process",
+      "label": "Facturación",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "PRO-06",
+      "type": "Process",
+      "label": "Cobranza",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "PRO-07",
+      "type": "Process",
+      "label": "Control / Trazabilidad Documental",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "PRO-08",
+      "type": "Process",
+      "label": "Gestión de Quejas y No Conformidades",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "PRO-09",
+      "type": "Process",
+      "label": "Auditorías internas y a proveedores",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "ACT-01",
+      "type": "Activity",
+      "label": "Recepción de solicitud del cliente (WhatsApp / correo / llamada)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-02",
+        "team_label": "Comercial"
+      }
+    },
+    {
+      "id": "ACT-02",
+      "type": "Activity",
+      "label": "Obtención y publicación de precios de referencia (Pemex semanal vie–vie; Valero diario 17:00; terminales Pisa / Pisayucan / Génova / Puebla; contrato Hexia)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-01",
+        "team_label": "Monitoreo y Precios"
+      }
+    },
+    {
+      "id": "ACT-03",
+      "type": "Activity",
+      "label": "Elaboración y envío de cotización (precio + flete + margen; piso 20 ¢/L; a veces a pérdida para no perder al cliente)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-02",
+        "team_label": "Comercial"
+      }
+    },
+    {
+      "id": "ACT-04",
+      "type": "Activity",
+      "label": "Confirmación del pedido por el cliente",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-02",
+        "team_label": "Comercial"
+      }
+    },
+    {
+      "id": "ACT-05",
+      "type": "Activity",
+      "label": "Confirmación de disponibilidad de producto y logística",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-03",
+        "team_label": "Empresa hermana — Planeación y operaciones",
+        "external_owner": true
+      }
+    },
+    {
+      "id": "ACT-06",
+      "type": "Activity",
+      "label": "Emisión de Orden de Compra al proveedor (corte Valero ~9:00)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-04",
+        "team_label": "Compras"
+      }
+    },
+    {
+      "id": "ACT-07",
+      "type": "Activity",
+      "label": "Emisión de instrucción de carga al transportista",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-03",
+        "team_label": "Empresa hermana — Planeación y operaciones",
+        "external_owner": true
+      }
+    },
+    {
+      "id": "ACT-08",
+      "type": "Activity",
+      "label": "Ejecución de la carga y emisión del BOL (dispara facturación; volumen a la hora/temperatura, CFDI a 20 °C)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-04",
+        "team_label": "Proveedor (externo)",
+        "external_owner": true
+      }
+    },
+    {
+      "id": "ACT-09",
+      "type": "Activity",
+      "label": "Registro de la operación en Excel (folio, litros compra/venta, origen, unidad, fecha de cobro)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-04",
+        "team_label": "Operaciones / Facturación"
+      }
+    },
+    {
+      "id": "ACT-10",
+      "type": "Activity",
+      "label": "Timbrado del CFDI en SAE/ASPEL (cuando la pipa carga, no al entregar)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-05",
+        "team_label": "Facturación"
+      }
+    },
+    {
+      "id": "ACT-11",
+      "type": "Activity",
+      "label": "Envío del CFDI al cliente",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-05",
+        "team_label": "Facturación"
+      }
+    },
+    {
+      "id": "ACT-12",
+      "type": "Activity",
+      "label": "Seguimiento al pago (crédito típico 3 días)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-06",
+        "team_label": "Cobranza"
+      }
+    },
+    {
+      "id": "ACT-13",
+      "type": "Activity",
+      "label": "Conciliación factura – estado de cuenta bancario – Excel (paguitos, FIFO a la más vieja, grupo vs estación)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-06",
+        "team_label": "Cobranza"
+      }
+    },
+    {
+      "id": "ACT-14",
+      "type": "Activity",
+      "label": "Registro del pago / saldo en Excel",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-06",
+        "team_label": "Cobranza"
+      }
+    },
+    {
+      "id": "ACT-15",
+      "type": "Activity",
+      "label": "Contacto al cliente por factura vencida",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-06",
+        "team_label": "Cobranza"
+      }
+    },
+    {
+      "id": "ACT-16",
+      "type": "Activity",
+      "label": "Generación y envío del estado de cuenta del cliente",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-06",
+        "team_label": "Cobranza"
+      }
+    },
+    {
+      "id": "ACT-17",
+      "type": "Activity",
+      "label": "Escalamiento a Dirección por cobro vencido",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-06",
+        "team_label": "Cobranza / Dirección"
+      }
+    },
+    {
+      "id": "ACT-18",
+      "type": "Activity",
+      "label": "Integración del expediente legal por operación (trazabilidad documental)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-07",
+        "team_label": "Calidad / Cumplimiento"
+      }
+    },
+    {
+      "id": "ACT-19",
+      "type": "Activity",
+      "label": "Gestión de quejas y no conformidades",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-08",
+        "team_label": "Calidad / Cumplimiento"
+      }
+    },
+    {
+      "id": "ACT-20",
+      "type": "Activity",
+      "label": "Auditorías internas",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-09",
+        "team_label": "Calidad / Cumplimiento"
+      }
+    },
+    {
+      "id": "ACT-21",
+      "type": "Activity",
+      "label": "Auditorías a proveedores",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-09",
+        "team_label": "Calidad / Cumplimiento"
+      }
+    },
+    {
+      "id": "ACT-22",
+      "type": "Activity",
+      "label": "Aprobación de proveedores",
+      "properties": {
+        "generated": false,
+        "team_label": "Dirección General"
+      }
+    },
+    {
+      "id": "ACT-23",
+      "type": "Activity",
+      "label": "Gestión de relación regulatoria y reporte volumétrico (CNE / SAT)",
+      "properties": {
+        "generated": false,
+        "team_label": "Dirección / Cumplimiento"
+      }
+    },
+    {
+      "id": "ACT-24",
+      "type": "Activity",
+      "label": "Ejecución del prepago al proveedor (no liberan producto/crédito hasta que Eneroil paga)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-04",
+        "team_label": "Tesorería"
+      }
+    },
+    {
+      "id": "ACT-25",
+      "type": "Activity",
+      "label": "Transporte y entrega del producto al destino (evidencias: BOL firmado, sellos, fotos)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-03",
+        "team_label": "Empresa hermana — Planeación y operaciones",
+        "external_owner": true
+      }
+    },
+    {
+      "id": "ACT-26",
+      "type": "Activity",
+      "label": "Determinación del costo de transporte para la cotización",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-02",
+        "team_label": "Comercial"
+      }
+    },
+    {
+      "id": "ACT-27",
+      "type": "Activity",
+      "label": "Obtención del estado de cuenta bancario / fecha de pago",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-06",
+        "team_label": "Tesorería"
+      }
+    },
+    {
+      "id": "ACT-28",
+      "type": "Activity",
+      "label": "Consulta de disponibilidad de producto al proveedor (verbal / WhatsApp / tope Valero; sin proceso documentado)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-03",
+        "team_label": "Empresa hermana — Planeación y operaciones",
+        "external_owner": true
+      }
+    },
+    {
+      "id": "ACT-29",
+      "type": "Activity",
+      "label": "Consulta de disponibilidad logística al transportista (verbal, misma handshake)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-03",
+        "team_label": "Empresa hermana — Planeación y operaciones",
+        "external_owner": true
+      }
+    },
+    {
+      "id": "ACT-32",
+      "type": "Activity",
+      "label": "Evaluación CRE / KYC del cliente (permiso vs facturado, paraísos fiscales, cuestionario)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-07",
+        "team_label": "Calidad / Cumplimiento"
+      }
+    },
+    {
+      "id": "ACT-33",
+      "type": "Activity",
+      "label": "Folio y seguimiento de liberación de crédito del proveedor (Excel: no liberado / previo / liberados)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-04",
+        "team_label": "Operaciones / Facturación"
+      }
+    },
+    {
+      "id": "ACT-34",
+      "type": "Activity",
+      "label": "Emisión de complemento de pago (paguitos; lo hace Facturación, no la informante)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-05",
+        "team_label": "Facturación"
+      }
+    },
+    {
+      "id": "ACT-35",
+      "type": "Activity",
+      "label": "Emisión de nota de crédito por merma (cubre 1%; la hermana emite NC espejo a Eneroil)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-05",
+        "team_label": "Facturación"
+      }
+    },
+    {
+      "id": "ACT-36",
+      "type": "Activity",
+      "label": "Revisión mensual de constancia de situación fiscal",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-05",
+        "team_label": "Facturación"
+      }
+    },
+    {
+      "id": "ACT-38",
+      "type": "Activity",
+      "label": "Cancelación / reemisión de OC por cambio de destino o unidad (control volumétrico SAT)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-04",
+        "team_label": "Compras"
+      }
+    },
+    {
+      "id": "ACT-39",
+      "type": "Activity",
+      "label": "Análisis de merma (stub — persona dedicada en la empresa hermana; tirillas, sellos, fotos)",
+      "properties": {
+        "generated": false,
+        "process_id": "PRO-03",
+        "team_label": "Empresa hermana — Planeación y operaciones",
+        "external_owner": true
+      }
+    },
+    {
+      "id": "ACT-30",
+      "type": "Activity",
+      "label": "Autorización de liberación de fondos para prepago",
+      "properties": {
+        "generated": true,
+        "generation_basis": "logical",
+        "confidence": 0.5,
+        "corroboration": 2,
+        "informant_distance": 1,
+        "evidence_pointer": "prepago (ACT-24) exige fondos; dueño Tesorería vs Dirección aún incierto",
+        "fill_flag": "tier_bajo"
+      }
+    },
+    {
+      "id": "ACT-31",
+      "type": "Activity",
+      "label": "Identificación de facturas vencidas",
+      "properties": {
+        "generated": true,
+        "generation_basis": "logical",
+        "confidence": 0.5,
+        "corroboration": 2,
+        "informant_distance": 1,
+        "evidence_pointer": "\"contacto por vencida\" (ACT-15) + crédito típico 3 días",
+        "fill_flag": "contested_external",
+        "process_id": "PRO-06"
+      }
+    },
+    {
+      "id": "TEA-01",
+      "type": "Team",
+      "label": "Dirección General",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "TEA-02",
+      "type": "Team",
+      "label": "Monitoreo y Precios",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "TEA-03",
+      "type": "Team",
+      "label": "Comercial / Ventas",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "TEA-04",
+      "type": "Team",
+      "label": "Empresa hermana — Planeación y operaciones",
+      "properties": {
+        "generated": false,
+        "external": true
+      }
+    },
+    {
+      "id": "TEA-05",
+      "type": "Team",
+      "label": "Compras",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "TEA-06",
+      "type": "Team",
+      "label": "Operaciones / Facturación",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "TEA-07",
+      "type": "Team",
+      "label": "Calidad / Cumplimiento",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "TEA-08",
+      "type": "Team",
+      "label": "Cobranza",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "TEA-10",
+      "type": "Team",
+      "label": "Tesorería",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "CAP-01",
+      "type": "Capability",
+      "label": "Inteligencia de precios de mercado",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "CAP-02",
+      "type": "Capability",
+      "label": "Cotización comercial",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "CAP-03",
+      "type": "Capability",
+      "label": "Coordinación logística (cliente – proveedor – transportista)",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "CAP-04",
+      "type": "Capability",
+      "label": "Abastecimiento de combustible",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "CAP-05",
+      "type": "Capability",
+      "label": "Facturación electrónica (CFDI)",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "CAP-06",
+      "type": "Capability",
+      "label": "Gestión de cartera / cobranza",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "CAP-07",
+      "type": "Capability",
+      "label": "Trazabilidad documental y cumplimiento CNE",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "CAP-08",
+      "type": "Capability",
+      "label": "Gestión de calidad (SGC)",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "CAP-09",
+      "type": "Capability",
+      "label": "Evaluación de riesgo de cliente (CRE / KYC)",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "CAP-10",
+      "type": "Capability",
+      "label": "Gestión de merma (umbral 1%)",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "id": "SYS-01",
+      "type": "System",
+      "label": "Smartsheet",
+      "properties": {
+        "generated": false,
+        "function": "Mencionado en la entrevista inicial; **no** es el sistema de registro operativo"
+      }
+    },
+    {
+      "id": "SYS-02",
+      "type": "System",
+      "label": "SAE/ASPEL",
+      "properties": {
+        "generated": false,
+        "function": "Timbrado de CFDI (actual; migración a Nexus prevista, no viva)"
+      }
+    },
+    {
+      "id": "SYS-03",
+      "type": "System",
+      "label": "WhatsApp",
+      "properties": {
+        "generated": false,
+        "function": "Canal de solicitud (informal)"
+      }
+    },
+    {
+      "id": "SYS-04",
+      "type": "System",
+      "label": "Correo electrónico",
+      "properties": {
+        "generated": false,
+        "function": "Solicitud / envío de CFDI / comprobantes PDF de pago"
+      }
+    },
+    {
+      "id": "SYS-05",
+      "type": "System",
+      "label": "Banca / estado de cuenta bancario",
+      "properties": {
+        "generated": false,
+        "function": "Fuente de conciliación (Tesorería)"
+      }
+    },
+    {
+      "id": "SYS-06",
+      "type": "System",
+      "label": "Excel",
+      "properties": {
+        "generated": false,
+        "function": "Registro de operación: folio, previo, liberados, litros, cobranza"
+      }
+    },
+    {
+      "id": "SYS-07",
+      "type": "System",
+      "label": "WhatsApp (grupos de operaciones / cupo extra Valero)",
+      "properties": {
+        "generated": false,
+        "function": "Handshake verbal de disponibilidad y liberación"
+      }
+    },
+    {
+      "id": "SYS-08",
+      "type": "System",
+      "label": "Portal Valero",
+      "properties": {
+        "generated": false,
+        "function": "Precarga, cupos, control volumétrico, documentación de salida"
+      }
+    },
+    {
+      "id": "EVT-01",
+      "type": "Event",
+      "label": "Solicitud de carga recibida",
+      "properties": {
+        "generated": false,
+        "description": "Demanda",
+        "event_type": "demand"
+      }
+    },
+    {
+      "id": "EVT-02",
+      "type": "Event",
+      "label": "Cotización enviada",
+      "properties": {
+        "generated": false,
+        "description": "Hito",
+        "event_type": "milestone"
+      }
+    },
+    {
+      "id": "EVT-03",
+      "type": "Event",
+      "label": "Pedido confirmado por cliente",
+      "properties": {
+        "generated": false,
+        "description": "Hito",
+        "event_type": "milestone"
+      }
+    },
+    {
+      "id": "EVT-04",
+      "type": "Event",
+      "label": "Orden de Compra emitida",
+      "properties": {
+        "generated": false,
+        "description": "Hito",
+        "event_type": "milestone"
+      }
+    },
+    {
+      "id": "EVT-05",
+      "type": "Event",
+      "label": "Carga ejecutada / BOL emitido",
+      "properties": {
+        "generated": false,
+        "description": "Hito y disparador de facturación",
+        "event_type": "milestone"
+      }
+    },
+    {
+      "id": "EVT-06",
+      "type": "Event",
+      "label": "CFDI timbrado (factura emitida)",
+      "properties": {
+        "generated": false,
+        "description": "Realización parcial de valor",
+        "event_type": "milestone"
+      }
+    },
+    {
+      "id": "EVT-07",
+      "type": "Event",
+      "label": "Pago recibido (cobro)",
+      "properties": {
+        "generated": false,
+        "description": "Milestone (acreditado, no conciliado)",
+        "event_type": "milestone",
+        "note": "Pago acreditado; ya no es terminal de valor."
+      }
+    },
+    {
+      "id": "EVT-08",
+      "type": "Event",
+      "label": "Factura vencida",
+      "properties": {
+        "generated": false,
+        "description": "Excepción / riesgo",
+        "event_type": "exception"
+      }
+    },
+    {
+      "id": "EVT-09",
+      "type": "Event",
+      "label": "Entrega confirmada en destino",
+      "properties": {
+        "generated": false,
+        "description": "Realización de valor (física) — empresa hermana",
+        "event_type": "value_realization"
+      }
+    },
+    {
+      "id": "EVT-10",
+      "type": "Event",
+      "label": "Cobro conciliado (valor asegurado)",
+      "properties": {
+        "generated": false,
+        "description": "Terminal",
+        "event_type": "value_realization"
+      }
+    },
+    {
+      "id": "EVT-11",
+      "type": "Event",
+      "label": "Pago parcial recibido",
+      "properties": {
+        "generated": false,
+        "description": "Excepción / paguitos",
+        "event_type": "exception"
+      }
+    },
+    {
+      "id": "EVT-12",
+      "type": "Event",
+      "label": "Merma fuera de umbral (1%)",
+      "properties": {
+        "generated": false,
+        "description": "Excepción (sustituye «queja» como path real)",
+        "event_type": "exception"
+      }
+    },
+    {
+      "id": "EVT-13",
+      "type": "Event",
+      "label": "Cambio de destino / unidad a media orden",
+      "properties": {
+        "generated": false,
+        "description": "Excepción (control volumétrico)",
+        "event_type": "exception"
+      }
+    },
+    {
+      "id": "CJS-01",
+      "type": "CustomerJourneyStep",
+      "label": "Solicita cotización",
+      "properties": {
+        "generated": false,
+        "status": "inferred"
+      }
+    },
+    {
+      "id": "CJS-02",
+      "type": "CustomerJourneyStep",
+      "label": "Recibe y evalúa cotización",
+      "properties": {
+        "generated": false,
+        "status": "inferred"
+      }
+    },
+    {
+      "id": "CJS-03",
+      "type": "CustomerJourneyStep",
+      "label": "Confirma pedido",
+      "properties": {
+        "generated": false,
+        "status": "inferred"
+      }
+    },
+    {
+      "id": "CJS-04",
+      "type": "CustomerJourneyStep",
+      "label": "Recibe la entrega de combustible",
+      "properties": {
+        "generated": false,
+        "status": "inferred"
+      }
+    },
+    {
+      "id": "CJS-05",
+      "type": "CustomerJourneyStep",
+      "label": "Recibe el CFDI *(puede preceder la entrega física: se timbra al cargar)*",
+      "properties": {
+        "generated": false,
+        "status": "inferred"
+      }
+    },
+    {
+      "id": "CJS-06",
+      "type": "CustomerJourneyStep",
+      "label": "Recibe el estado de cuenta",
+      "properties": {
+        "generated": false,
+        "status": "inferred"
+      }
+    },
+    {
+      "id": "CJS-07",
+      "type": "CustomerJourneyStep",
+      "label": "Paga",
+      "properties": {
+        "generated": false,
+        "status": "inferred"
+      }
+    },
+    {
+      "id": "CJS-08",
+      "type": "CustomerJourneyStep",
+      "label": "Reclamo por merma / nota de crédito",
+      "properties": {
+        "generated": false,
+        "status": "inferred"
+      }
+    },
+    {
+      "id": "MDR-01",
+      "type": "MetricDriver",
+      "label": "Puntualidad de emisión de factura **desde la carga** (no desde la entrega; se cae en fines de semana)",
+      "properties": {
+        "generated": false,
+        "status": "candidate",
+        "hypothetical_metric": "M?-02"
+      }
+    },
+    {
+      "id": "MDR-02",
+      "type": "MetricDriver",
+      "label": "Exactitud de datos fiscales del cliente (catálogo validado)",
+      "properties": {
+        "generated": false,
+        "status": "candidate",
+        "hypothetical_metric": "M?-02"
+      }
+    },
+    {
+      "id": "MDR-03",
+      "type": "MetricDriver",
+      "label": "Disciplina de seguimiento diario a cartera",
+      "properties": {
+        "generated": false,
+        "status": "candidate",
+        "hypothetical_metric": "M?-03 *(interno / cobro; no promover)*"
+      }
+    },
+    {
+      "id": "MDR-04",
+      "type": "MetricDriver",
+      "label": "Existencia y aplicación de política de crédito y cobranza",
+      "properties": {
+        "generated": false,
+        "status": "candidate",
+        "hypothetical_metric": "M?-03"
+      }
+    },
+    {
+      "id": "MDR-05",
+      "type": "MetricDriver",
+      "label": "Puntualidad de conciliación (diaria antes de 10am)",
+      "properties": {
+        "generated": false,
+        "status": "candidate",
+        "hypothetical_metric": "M?-03"
+      }
+    },
+    {
+      "id": "MDR-06",
+      "type": "MetricDriver",
+      "label": "Grado de integración de sistemas (Excel–SAE/ASPEL–banco)",
+      "properties": {
+        "generated": false,
+        "status": "candidate",
+        "hypothetical_metric": "M?-02, M?-03"
+      }
+    },
+    {
+      "id": "MDR-07",
+      "type": "MetricDriver",
+      "label": "Control de merma (umbral 1% vs merma física vs robo)",
+      "properties": {
+        "generated": false,
+        "status": "candidate",
+        "hypothetical_metric": "M?-01"
+      }
+    },
+    {
+      "id": "MDR-08",
+      "type": "MetricDriver",
+      "label": "Vigencia de constancia de situación fiscal (mensual)",
+      "properties": {
+        "generated": false,
+        "status": "candidate",
+        "hypothetical_metric": "M?-02"
+      }
+    },
+    {
+      "id": "MET-01",
+      "type": "Metric",
+      "label": "Confiabilidad de entrega (producto / volumen / destino / fecha)",
+      "properties": {
+        "generated": true,
+        "generation_basis": "abduction",
+        "confidence": 0.5,
+        "informant_distance": 3,
+        "definition": "Producto correcto, volumen, destino y fecha según lo pactado."
+      }
+    },
+    {
+      "id": "MET-02",
+      "type": "Metric",
+      "label": "CFDI correcto y a tiempo",
+      "properties": {
+        "generated": true,
+        "generation_basis": "abduction",
+        "confidence": 0.5,
+        "informant_distance": 3,
+        "definition": "CFDI correcto y oportuno para contabilidad/IVA del cliente."
+      }
+    },
+    {
+      "id": "MET-03",
+      "type": "Metric",
+      "label": "Transparencia / exactitud del estado de cuenta",
+      "properties": {
+        "generated": true,
+        "generation_basis": "abduction",
+        "confidence": 0.5,
+        "informant_distance": 3,
+        "definition": "Estado de cuenta correcto y puntual, sin disputas."
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "source": "ACT-02",
+      "target": "PRO-01",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-01",
+      "target": "PRO-02",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-03",
+      "target": "PRO-02",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-04",
+      "target": "PRO-02",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-26",
+      "target": "PRO-02",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-05",
+      "target": "PRO-03",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-07",
+      "target": "PRO-03",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-25",
+      "target": "PRO-03",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-28",
+      "target": "PRO-03",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-29",
+      "target": "PRO-03",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-39",
+      "target": "PRO-03",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-06",
+      "target": "PRO-04",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-08",
+      "target": "PRO-04",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-09",
+      "target": "PRO-04",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-24",
+      "target": "PRO-04",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-33",
+      "target": "PRO-04",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-38",
+      "target": "PRO-04",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-10",
+      "target": "PRO-05",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-11",
+      "target": "PRO-05",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-34",
+      "target": "PRO-05",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-35",
+      "target": "PRO-05",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-36",
+      "target": "PRO-05",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-12",
+      "target": "PRO-06",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-13",
+      "target": "PRO-06",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-14",
+      "target": "PRO-06",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-15",
+      "target": "PRO-06",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-16",
+      "target": "PRO-06",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-17",
+      "target": "PRO-06",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-27",
+      "target": "PRO-06",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-18",
+      "target": "PRO-07",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-32",
+      "target": "PRO-07",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-19",
+      "target": "PRO-08",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-20",
+      "target": "PRO-09",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-21",
+      "target": "PRO-09",
+      "type": "PART_OF",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-03",
+      "target": "ACT-01",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-02",
+      "target": "ACT-02",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-03",
+      "target": "ACT-03",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-03",
+      "target": "ACT-04",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-04",
+      "target": "ACT-05",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-05",
+      "target": "ACT-06",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-04",
+      "target": "ACT-07",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-06",
+      "target": "ACT-09",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-06",
+      "target": "ACT-10",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-06",
+      "target": "ACT-11",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-08",
+      "target": "ACT-12",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-08",
+      "target": "ACT-13",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-08",
+      "target": "ACT-14",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-08",
+      "target": "ACT-15",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-08",
+      "target": "ACT-16",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-08",
+      "target": "ACT-17",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-01",
+      "target": "ACT-17",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-07",
+      "target": "ACT-18",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-07",
+      "target": "ACT-19",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-07",
+      "target": "ACT-20",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-07",
+      "target": "ACT-21",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-01",
+      "target": "ACT-22",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-01",
+      "target": "ACT-23",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-07",
+      "target": "ACT-23",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-10",
+      "target": "ACT-24",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-04",
+      "target": "ACT-25",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-03",
+      "target": "ACT-26",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-10",
+      "target": "ACT-27",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-04",
+      "target": "ACT-28",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-04",
+      "target": "ACT-29",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-07",
+      "target": "ACT-32",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-06",
+      "target": "ACT-33",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-06",
+      "target": "ACT-34",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-06",
+      "target": "ACT-35",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-06",
+      "target": "ACT-36",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-05",
+      "target": "ACT-38",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-04",
+      "target": "ACT-39",
+      "type": "PERFORMS",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "TEA-10",
+      "target": "ACT-30",
+      "type": "PERFORMS",
+      "properties": {
+        "confidence": 0.5,
+        "generation_basis": "logical",
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-08",
+      "target": "ACT-31",
+      "type": "PERFORMS",
+      "properties": {
+        "confidence": 0.5,
+        "generation_basis": "logical",
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-31",
+      "target": "PRO-06",
+      "type": "PART_OF",
+      "properties": {
+        "confidence": 0.75,
+        "generation_basis": "logical",
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-01",
+      "target": "ACT-03",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-03",
+      "target": "ACT-04",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-04",
+      "target": "ACT-05",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-05",
+      "target": "ACT-06",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-06",
+      "target": "ACT-07",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-07",
+      "target": "ACT-08",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-08",
+      "target": "ACT-09",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-09",
+      "target": "ACT-10",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-10",
+      "target": "ACT-11",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-11",
+      "target": "ACT-12",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-12",
+      "target": "ACT-13",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-13",
+      "target": "ACT-14",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-02",
+      "target": "ACT-03",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-12",
+      "target": "ACT-15",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-15",
+      "target": "ACT-16",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-16",
+      "target": "ACT-17",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-06",
+      "target": "ACT-24",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-24",
+      "target": "ACT-33",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-33",
+      "target": "ACT-08",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-08",
+      "target": "ACT-25",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-08",
+      "target": "ACT-10",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-26",
+      "target": "ACT-03",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-27",
+      "target": "ACT-13",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-28",
+      "target": "ACT-05",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-29",
+      "target": "ACT-05",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-32",
+      "target": "ACT-04",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-36",
+      "target": "ACT-10",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-06",
+      "target": "ACT-38",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-22",
+      "target": "ACT-06",
+      "type": "PRECEDES",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.75,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-06",
+      "target": "ACT-09",
+      "type": "PRECEDES",
+      "properties": {
+        "generation_basis": "logical",
+        "confidence": 0.5,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-09",
+      "target": "ACT-13",
+      "type": "PRECEDES",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-10",
+      "target": "ACT-13",
+      "type": "PRECEDES",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-14",
+      "target": "ACT-16",
+      "type": "PRECEDES",
+      "properties": {
+        "generation_basis": "logical",
+        "confidence": 0.75,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-11",
+      "target": "ACT-18",
+      "type": "PRECEDES",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.75,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-06",
+      "target": "ACT-18",
+      "type": "PRECEDES",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.75,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-08",
+      "target": "ACT-18",
+      "type": "PRECEDES",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.75,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-18",
+      "target": "ACT-20",
+      "type": "PRECEDES",
+      "properties": {
+        "generation_basis": "logical",
+        "confidence": 0.5,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-18",
+      "target": "ACT-23",
+      "type": "PRECEDES",
+      "properties": {
+        "generation_basis": "logical",
+        "confidence": 0.5,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-30",
+      "target": "ACT-24",
+      "type": "PRECEDES",
+      "properties": {
+        "generation_basis": "logical",
+        "confidence": 0.5,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-31",
+      "target": "ACT-15",
+      "type": "PRECEDES",
+      "properties": {
+        "generation_basis": "logical",
+        "confidence": 0.5,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-01",
+      "target": "SYS-03",
+      "type": "USES_SYSTEM",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-01",
+      "target": "SYS-04",
+      "type": "USES_SYSTEM",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-09",
+      "target": "SYS-06",
+      "type": "USES_SYSTEM",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-10",
+      "target": "SYS-02",
+      "type": "USES_SYSTEM",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-11",
+      "target": "SYS-04",
+      "type": "USES_SYSTEM",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-13",
+      "target": "SYS-06",
+      "type": "USES_SYSTEM",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-13",
+      "target": "SYS-05",
+      "type": "USES_SYSTEM",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-14",
+      "target": "SYS-06",
+      "type": "USES_SYSTEM",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-16",
+      "target": "SYS-06",
+      "type": "USES_SYSTEM",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-16",
+      "target": "SYS-04",
+      "type": "USES_SYSTEM",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-27",
+      "target": "SYS-05",
+      "type": "USES_SYSTEM",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-28",
+      "target": "SYS-07",
+      "type": "USES_SYSTEM",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-28",
+      "target": "SYS-08",
+      "type": "USES_SYSTEM",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-33",
+      "target": "SYS-06",
+      "type": "USES_SYSTEM",
+      "properties": {
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-01",
+      "target": "EVT-01",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "responde_a",
+        "generated": false
+      }
+    },
+    {
+      "source": "EVT-01",
+      "target": "ACT-01",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": true,
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-03",
+      "target": "EVT-02",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce",
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-03",
+      "target": "EVT-02",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": true,
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-04",
+      "target": "EVT-03",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce",
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-04",
+      "target": "EVT-03",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": true,
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-06",
+      "target": "EVT-04",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce",
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-06",
+      "target": "EVT-04",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": true,
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-08",
+      "target": "EVT-05",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce",
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-08",
+      "target": "EVT-05",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": true,
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-10",
+      "target": "EVT-06",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce",
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-10",
+      "target": "EVT-06",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": true,
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-14",
+      "target": "EVT-07",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce",
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-14",
+      "target": "EVT-07",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": true,
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-15",
+      "target": "EVT-08",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "responde_a",
+        "generated": false
+      }
+    },
+    {
+      "source": "EVT-08",
+      "target": "ACT-15",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": true,
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-25",
+      "target": "EVT-09",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce",
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-25",
+      "target": "EVT-09",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": true,
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-13",
+      "target": "EVT-10",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce",
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-13",
+      "target": "EVT-10",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": true,
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-34",
+      "target": "EVT-11",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "responde_a",
+        "generated": false
+      }
+    },
+    {
+      "source": "EVT-11",
+      "target": "ACT-34",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": true,
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-35",
+      "target": "EVT-12",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "responde_a",
+        "generated": false
+      }
+    },
+    {
+      "source": "EVT-12",
+      "target": "ACT-35",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": true,
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-38",
+      "target": "EVT-13",
+      "type": "INVOLVES_EVENT",
+      "properties": {
+        "event_role": "produce",
+        "generated": false
+      }
+    },
+    {
+      "source": "ACT-38",
+      "target": "EVT-13",
+      "type": "PRECEDES",
+      "properties": {
+        "generated": true,
+        "synthetic": true
+      }
+    },
+    {
+      "source": "ACT-01",
+      "target": "CAP-02",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-03",
+      "target": "CAP-02",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-04",
+      "target": "CAP-02",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-26",
+      "target": "CAP-02",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-02",
+      "target": "CAP-01",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-05",
+      "target": "CAP-03",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-07",
+      "target": "CAP-03",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-25",
+      "target": "CAP-03",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-28",
+      "target": "CAP-03",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-29",
+      "target": "CAP-03",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-39",
+      "target": "CAP-03",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-06",
+      "target": "CAP-04",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-22",
+      "target": "CAP-04",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-24",
+      "target": "CAP-04",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-33",
+      "target": "CAP-04",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-38",
+      "target": "CAP-04",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-08",
+      "target": "CAP-04",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 0.5,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-09",
+      "target": "CAP-07",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 0.75,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-10",
+      "target": "CAP-05",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-11",
+      "target": "CAP-05",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-34",
+      "target": "CAP-05",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-35",
+      "target": "CAP-05",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-36",
+      "target": "CAP-05",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-12",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-13",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-14",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-15",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-16",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-17",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-27",
+      "target": "CAP-06",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-18",
+      "target": "CAP-07",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-23",
+      "target": "CAP-07",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-19",
+      "target": "CAP-08",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-20",
+      "target": "CAP-08",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-21",
+      "target": "CAP-08",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-32",
+      "target": "CAP-09",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-35",
+      "target": "CAP-10",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-39",
+      "target": "CAP-10",
+      "type": "SUPPORTS",
+      "properties": {
+        "confidence": 1.0,
+        "generation_basis": "evidence",
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-02",
+      "target": "PRO-01",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-03",
+      "target": "PRO-02",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-04",
+      "target": "PRO-03",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-05",
+      "target": "PRO-04",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 0.75,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-06",
+      "target": "PRO-05",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-08",
+      "target": "PRO-06",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-07",
+      "target": "PRO-07",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-07",
+      "target": "PRO-08",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-07",
+      "target": "PRO-09",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-02",
+      "target": "CAP-01",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-03",
+      "target": "CAP-02",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-04",
+      "target": "CAP-03",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-04",
+      "target": "CAP-10",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-05",
+      "target": "CAP-04",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-06",
+      "target": "CAP-05",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-08",
+      "target": "CAP-06",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-07",
+      "target": "CAP-07",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-07",
+      "target": "CAP-08",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "TEA-07",
+      "target": "CAP-09",
+      "type": "OWNS",
+      "properties": {
+        "confidence": 1.0,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "MDR-01",
+      "target": "MET-02",
+      "type": "DRIVES",
+      "properties": {
+        "generation_basis": "abduction",
+        "confidence": 0.5,
+        "informant_distance": 3,
+        "generated": true
+      }
+    },
+    {
+      "source": "MDR-02",
+      "target": "MET-02",
+      "type": "DRIVES",
+      "properties": {
+        "generation_basis": "abduction",
+        "confidence": 0.5,
+        "informant_distance": 3,
+        "generated": true
+      }
+    },
+    {
+      "source": "MDR-06",
+      "target": "MET-02",
+      "type": "DRIVES",
+      "properties": {
+        "generation_basis": "abduction",
+        "confidence": 0.5,
+        "informant_distance": 3,
+        "generated": true
+      }
+    },
+    {
+      "source": "MDR-06",
+      "target": "MET-03",
+      "type": "DRIVES",
+      "properties": {
+        "generation_basis": "abduction",
+        "confidence": 0.5,
+        "informant_distance": 3,
+        "generated": true
+      }
+    },
+    {
+      "source": "MDR-07",
+      "target": "MET-01",
+      "type": "DRIVES",
+      "properties": {
+        "generation_basis": "abduction",
+        "confidence": 0.5,
+        "informant_distance": 3,
+        "generated": true
+      }
+    },
+    {
+      "source": "MDR-08",
+      "target": "MET-02",
+      "type": "DRIVES",
+      "properties": {
+        "generation_basis": "abduction",
+        "confidence": 0.5,
+        "informant_distance": 3,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-10",
+      "target": "MDR-01",
+      "type": "AFFECTS",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.75,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-13",
+      "target": "MDR-05",
+      "type": "AFFECTS",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.75,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-12",
+      "target": "MDR-03",
+      "type": "AFFECTS",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.75,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-36",
+      "target": "MDR-08",
+      "type": "AFFECTS",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.75,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-35",
+      "target": "MDR-07",
+      "type": "AFFECTS",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.75,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-39",
+      "target": "MDR-07",
+      "type": "AFFECTS",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.75,
+        "informant_distance": 1,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-05",
+      "target": "MET-01",
+      "type": "AFFECTS",
+      "properties": {
+        "generation_basis": "abduction",
+        "confidence": 0.5,
+        "informant_distance": 2,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-25",
+      "target": "MET-01",
+      "type": "AFFECTS",
+      "properties": {
+        "generation_basis": "abduction",
+        "confidence": 0.5,
+        "informant_distance": 2,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-16",
+      "target": "MET-03",
+      "type": "AFFECTS",
+      "properties": {
+        "generation_basis": "abduction",
+        "confidence": 0.5,
+        "informant_distance": 2,
+        "generated": true
+      }
+    },
+    {
+      "source": "PRO-05",
+      "target": "MET-02",
+      "type": "CONTRIBUTES_TO",
+      "properties": {
+        "generation_basis": "abduction",
+        "confidence": 0.5,
+        "informant_distance": 2,
+        "generated": true
+      }
+    },
+    {
+      "source": "PRO-06",
+      "target": "MET-03",
+      "type": "CONTRIBUTES_TO",
+      "properties": {
+        "generation_basis": "abduction",
+        "confidence": 0.5,
+        "informant_distance": 2,
+        "generated": true
+      }
+    },
+    {
+      "source": "PRO-03",
+      "target": "MET-01",
+      "type": "CONTRIBUTES_TO",
+      "properties": {
+        "generation_basis": "abduction",
+        "confidence": 0.5,
+        "informant_distance": 2,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-01",
+      "target": "CJS-01",
+      "type": "TOUCHES",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.75,
+        "informant_distance": 2,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-03",
+      "target": "CJS-02",
+      "type": "TOUCHES",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.75,
+        "informant_distance": 2,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-04",
+      "target": "CJS-03",
+      "type": "TOUCHES",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.75,
+        "informant_distance": 2,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-25",
+      "target": "CJS-04",
+      "type": "TOUCHES",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.75,
+        "informant_distance": 2,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-11",
+      "target": "CJS-05",
+      "type": "TOUCHES",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.75,
+        "informant_distance": 2,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-16",
+      "target": "CJS-06",
+      "type": "TOUCHES",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.75,
+        "informant_distance": 2,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-19",
+      "target": "CJS-08",
+      "type": "TOUCHES",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.25,
+        "informant_distance": 2,
+        "generated": true
+      }
+    },
+    {
+      "source": "ACT-35",
+      "target": "CJS-08",
+      "type": "TOUCHES",
+      "properties": {
+        "generation_basis": "evidence",
+        "confidence": 0.75,
+        "informant_distance": 2,
+        "generated": true
+      }
+    }
+  ]
+}

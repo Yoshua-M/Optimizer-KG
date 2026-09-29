@@ -7,7 +7,7 @@
     "synthetic_note": "CJS—[SIGNALS]→Metric strengths not in inventory; added for J(A,M) per bridge protocol.",
     "inferred_driver_affects": true,
     "node_count": 112,
-    "relationship_count": 364
+    "relationship_count": 362
   },
   "nodes": [
     {
@@ -1239,93 +1239,93 @@
   ],
   "relationships": [
     {
-      "source": "M-01",
-      "target": "MD-01",
-      "type": "HAS_DRIVER",
+      "source": "MD-01",
+      "target": "M-01",
+      "type": "DRIVES",
       "properties": {}
     },
     {
-      "source": "M-01",
-      "target": "MD-02",
-      "type": "HAS_DRIVER",
+      "source": "MD-02",
+      "target": "M-01",
+      "type": "DRIVES",
       "properties": {}
     },
     {
-      "source": "M-01",
-      "target": "MD-03",
-      "type": "HAS_DRIVER",
+      "source": "MD-03",
+      "target": "M-01",
+      "type": "DRIVES",
       "properties": {}
     },
     {
-      "source": "M-01",
-      "target": "MD-04",
-      "type": "HAS_DRIVER",
+      "source": "MD-04",
+      "target": "M-01",
+      "type": "DRIVES",
       "properties": {}
     },
     {
-      "source": "M-02",
-      "target": "MD-05",
-      "type": "HAS_DRIVER",
+      "source": "MD-05",
+      "target": "M-02",
+      "type": "DRIVES",
       "properties": {}
     },
     {
-      "source": "M-02",
-      "target": "MD-06",
-      "type": "HAS_DRIVER",
+      "source": "MD-06",
+      "target": "M-02",
+      "type": "DRIVES",
       "properties": {}
     },
     {
-      "source": "M-03",
-      "target": "MD-07",
-      "type": "HAS_DRIVER",
+      "source": "MD-07",
+      "target": "M-03",
+      "type": "DRIVES",
       "properties": {}
     },
     {
-      "source": "M-03",
-      "target": "MD-08",
-      "type": "HAS_DRIVER",
+      "source": "MD-08",
+      "target": "M-03",
+      "type": "DRIVES",
       "properties": {}
     },
     {
-      "source": "M-03",
-      "target": "MD-09",
-      "type": "HAS_DRIVER",
+      "source": "MD-09",
+      "target": "M-03",
+      "type": "DRIVES",
       "properties": {}
     },
     {
-      "source": "M-04",
-      "target": "MD-10",
-      "type": "HAS_DRIVER",
+      "source": "MD-10",
+      "target": "M-04",
+      "type": "DRIVES",
       "properties": {}
     },
     {
-      "source": "M-04",
-      "target": "MD-11",
-      "type": "HAS_DRIVER",
+      "source": "MD-11",
+      "target": "M-04",
+      "type": "DRIVES",
       "properties": {}
     },
     {
-      "source": "M-05",
-      "target": "MD-12",
-      "type": "HAS_DRIVER",
+      "source": "MD-12",
+      "target": "M-05",
+      "type": "DRIVES",
       "properties": {}
     },
     {
-      "source": "M-05",
-      "target": "MD-13",
-      "type": "HAS_DRIVER",
+      "source": "MD-13",
+      "target": "M-05",
+      "type": "DRIVES",
       "properties": {}
     },
     {
-      "source": "M-06",
-      "target": "MD-14",
-      "type": "HAS_DRIVER",
+      "source": "MD-14",
+      "target": "M-06",
+      "type": "DRIVES",
       "properties": {}
     },
     {
-      "source": "M-06",
-      "target": "MD-15",
-      "type": "HAS_DRIVER",
+      "source": "MD-15",
+      "target": "M-06",
+      "type": "DRIVES",
       "properties": {}
     },
     {
@@ -2350,18 +2350,6 @@
       "source": "A-43",
       "target": "CAP-08",
       "type": "SUPPORTS",
-      "properties": {}
-    },
-    {
-      "source": "Equipo",
-      "target": "Process",
-      "type": "OWNS",
-      "properties": {}
-    },
-    {
-      "source": "Equipo",
-      "target": "Capability",
-      "type": "OWNS",
       "properties": {}
     },
     {

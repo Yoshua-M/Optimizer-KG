@@ -1,0 +1,67 @@
+{
+  "scenario_id": "eneroil_real_v3",
+  "metrics": [
+    {
+      "id": "MET-01",
+      "name": "Confiabilidad de entrega (producto / volumen / destino / fecha)",
+      "definition": "Producto correcto, volumen, destino y fecha según lo pactado.",
+      "client_need": "Recibir lo acordado en destino y fecha."
+    },
+    {
+      "id": "MET-02",
+      "name": "CFDI correcto y a tiempo",
+      "definition": "CFDI correcto y oportuno para contabilidad/IVA del cliente.",
+      "client_need": "Facturación percibida exacta y puntual."
+    },
+    {
+      "id": "MET-03",
+      "name": "Transparencia / exactitud del estado de cuenta",
+      "definition": "Estado de cuenta correcto y puntual, sin disputas.",
+      "client_need": "Claridad de cuenta y saldos."
+    }
+  ],
+  "metric_drivers": [
+    {
+      "id": "MDR-01",
+      "parent_metric_id": null,
+      "name": "Puntualidad de emisión de factura (mismo día de entrega)",
+      "description": "",
+      "status": "linked"
+    },
+    {
+      "id": "MDR-02",
+      "parent_metric_id": null,
+      "name": "Exactitud de datos fiscales del cliente (catálogo validado)",
+      "description": "",
+      "status": "linked"
+    },
+    {
+      "id": "MDR-03",
+      "parent_metric_id": null,
+      "name": "Disciplina de seguimiento diario a cartera",
+      "description": "",
+      "status": "linked"
+    },
+    {
+      "id": "MDR-04",
+      "parent_metric_id": null,
+      "name": "Existencia y aplicación de política de crédito y cobranza",
+      "description": "",
+      "status": "linked"
+    },
+    {
+      "id": "MDR-05",
+      "parent_metric_id": null,
+      "name": "Puntualidad de conciliación (diaria antes de 10am)",
+      "description": "",
+      "status": "linked"
+    },
+    {
+      "id": "MDR-06",
+      "parent_metric_id": null,
+      "name": "Grado de integración de sistemas (Smartsheet–SAE/ASPEL–banco)",
+      "description": "",
+      "status": "linked"
+    }
+  ]
+}
