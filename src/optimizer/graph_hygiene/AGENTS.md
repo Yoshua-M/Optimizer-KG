@@ -2,38 +2,33 @@
 
 ## Responsibility
 
-Own **quality operations on an existing organizational graph**: deduplication, pruning low-value nodes/edges, and resolving conflicts after `graph_building` has produced a graph document. Improves trust and clarity of the single org graph; does not re-extract from raw text or define ontology types.
+Own **quality operations on an existing organizational graph**: structural coherence (checks 1–7), Intent-layer protocol checks C1–C14, deterministic repairs (R1/R2 Intent; R6 topology auto; R3 means-to-end when authorized), protocol cycle + Salidas report, and label sanitization. Does not re-extract from raw text (see `ontology/` for vocabulary).
 
 ## Boundaries
 
 | In | Out |
 |----|-----|
-| Dedup, merge-collapse, conflict resolution rules | Initial LLM extraction → `graph_building/` |
-| Hygiene passes over in-memory / graph documents | Neo4j persistence → `infrastructure/graph_store/` |
-| Facade `clean_graph(doc) → doc` (names TBD) | Client metrics → `client_value/` |
-| | UI for hygiene review → `presentation/` |
-| | Workflow trigger → `application/run_hygiene_pass.py` |
+| Topology / Intent checks; Intent merges when authorized; topology wiring always | Initial LLM extraction → `graph_building/` |
+| Move evidence notes out of display labels into `evidence_pointer` | Neo4j persistence → `infrastructure/graph_store/` |
+| | UI → `presentation/` |
+| | Load fixture / write report → `application/run_coherence_*.py` |
 
-**Callers:** `application/` (planned). **Callees:** `graph_building/` graph types/API, optional `ontology/` for rule checks.
+**Callers:** `application/run_coherence_audit.py`, `application/run_coherence_protocol.py`. **Callees:** LangChain `GraphDocument`, `ontology.schema`.
 
 ## Files
 
 | File | Why it lives here |
 |------|-------------------|
-| `__init__.py` | Package marker until hygiene facades exist. |
+| `__init__.py` | Facade exports. |
+| `coherence.py` | Structural checks 1–7 + branch-fork classification (acceptable vs pending). |
+| `intent_checks.py` | Protocol C1–C4. |
+| `protocol.py` | C5–C14, R1–R3/R6 repairs (topology auto; ontology gated), cycle, Salidas report. |
+| `sanitize_labels.py` | Evidence notes out of display names. |
 
-*(Empty — PRD hygiene not implemented.)*
+## Facades
 
-## Facades (planned)
-
-- `run_hygiene_pass(graph_documents) → graph_documents` — apply configured hygiene pipeline.
-
-## Planned files
-
-| File | Why it would live here |
-|------|-------------------------|
-| `dedup.py` | Entity/edge deduplication strategies. |
-| `prune.py` | Remove noise by policy (degree, type, confidence). |
-| `conflicts.py` | Detect and resolve contradictory assertions. |
-
-Operate on **graph documents** from `graph_building/`; return same shape for downstream `value_linkage/`.
+- `audit_coherence` / `audit_intent_coherence` / `format_coherence_report`
+- `run_protocol_cycle(document, authorize_ontology=False) → ProtocolResult`
+- `format_protocol_report(result) → str`
+- `propose_r3_means_to_end` / `repair_topology` / `repair_r3_means_to_end`
+- `sanitize_graph_document` / `split_label_evidence`
