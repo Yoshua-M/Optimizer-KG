@@ -61,7 +61,7 @@ If the activity doesn't touch any journey step linked to M, J = 0.
 Does the activity affect a MetricDriver of M?
 
 ```
-DV(A, M) = 1.0 if Activity —[AFFECTS]→ MetricDriver —[HAS_DRIVER]→ M
+DV(A, M) = 1.0 if Activity —[AFFECTS]→ MetricDriver —[DRIVES]→ M
            0.5 if Activity —[PART_OF]→ Process that affects a driver of M
            0   otherwise
 ```

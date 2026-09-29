@@ -5,6 +5,79 @@ Format and update rules: [`changelog_rules.md`](changelog_rules.md).
 
 ---
 
+## 2026-09-15 — Canonical MetricDriver→Metric edge (`DRIVES` only)
+
+**Requirement:** Demo graph hygiene (no feature-dev requirement file) — drop redundant inverse edges so fixtures match the inventory ontology.
+
+**Summary:** Graphs now store one MetricDriver–Metric relation: `MetricDriver —[DRIVES]→ Metric`. `HAS_DRIVER` was the implicit inverse in the Eneroil fill protocol and is no longer materialized. Energoil / Oil Trade fixtures that previously emitted only `HAS_DRIVER` (Metric→Driver) now emit `DRIVES` in the ontology direction.
+
+**Shipped:**
+
+- **Scripts:** Eneroil v2/v3/v4 oficial/experiment builders no longer emit `HAS_DRIVER` alongside `DRIVES`. Energoil demo builder emits `DRIVES` (driver→metric) instead of `HAS_DRIVER`.
+- **Fixtures:** Rebuilt `eneroil_real_v2`/`v3`/`v4_oficial`/`v4_experiment`, `energoil_mexico`/`v2`/`v3`, and `oil_trade_simulation`. Oficially 175→171 rels (four inverse edges removed).
+- **Domain:** `value_streams`, `enhanced_scoring`, and `relevance` follow `DRIVES` only. `docs/bridge_protocol.md` DV path uses `DRIVES`.
+- **Visualization:** VS highlight coloring treats `AFFECTS`/`DRIVES` as metric edges.
+- **Tests:** Oficially fixture asserts `DRIVES` present and `HAS_DRIVER` absent; driver-mediated VS focus uses a single `DRIVES` edge.
+
+**Notes:** Event–activity pairs still carry both `INVOLVES_EVENT` and a synthetic `PRECEDES` so Steiner value-stream discovery can walk flow. Operator accepted this ad-hoc change for the changelog (not a `04_implement` run).
+
+---
+
+## 2026-07-14 — Eneroil real-data scenario + structural scenario kind (experimental)
+
+**Requirement:** Experiment (no feature-dev requirement file) — first demo scenario built from **real client interview data** (Eneroil S.A. de C.V.), which has no Metric nodes and no P/C/F/R/V quantification.
+
+**Summary:** Added the `eneroil_real_v1` demo scenario from `data/raw/Eneroil_Inventario_Grafo_v1.md` (real internal interview extraction, June 2026) and introduced an optional scenario **`kind`** (`"value"` default / `"structural"`) so metrics-less scenarios degrade gracefully in the demo UI. Whether real inventories will stay structural or adopt Metric nodes like the simulated Energoil fixtures is still an open decision.
+
+**Shipped:**
+
+- **Data:** `data/raw/Eneroil_Inventario_Grafo_v1.md`; fixtures under `data/processed/demo/eneroil_real_v1/` (75 nodes, 125 rels; empty `metrics`/`relevance` stubs; `MetricDriver` candidates carry `status: candidate` + hypothetical metric hints, no `HAS_DRIVER` edges).
+- **Script:** `scripts/build_eneroil_real_fixtures.py` — parses the real inventory (ACT-/PRO-/TEA-/CAP-/SYS-/EVT-/CJS-/MDR- ids), hardcodes prose relations (PRECEDES chain, USES_SYSTEM, INVOLVES_EVENT with roles → synthetic Event↔Activity PRECEDES for VS discovery), derives SUPPORTS/OWNS, validates counts and the demanda→cobro path, upserts the manifest with `kind: structural`.
+- **Application/Infrastructure:** `DemoScenario.kind` (default `"value"`); `load_manifest` parses `kind` from `configs/demo_scenarios.json`.
+- **Presentation:** structural banner in `run_demo_app`; Valor tab replaced by `render_structural_value_tab` (explanation + Flujos de valor, which are purely structural); `render_analytics_tab(structural=True)` warns and marks metric-dependent analytics as "no disponible sin métricas de valor".
+- **Visualization:** `NODE_TYPE_COLORS` gained `Team`/`System`/`Event` (previously unstyled in all scenarios).
+- **Tests:** `tests/graph_analytics/test_eneroil_fixture_validation.py` (kind, node counts, no Metric nodes, event types, preflight, VS discovery reaches EVT-07); **179** unittest cases green.
+
+**Notes:** Manual smoke: `streamlit run app_demo.py` → **Eneroil (datos reales) v1** → Grafo renders all 8 node types; VS panel finds the demanda→cobro historia; Valor tab shows the structural explanation. Metric hypotheses (M?-01/02/03) live in `metrics.json` as `metric_hypotheses`, pending JTBD validation. Experiment log: [`docs/experiments/eneroil_real_v1_structural.md`](experiments/eneroil_real_v1_structural.md). Follow-up (same day): Flujos de valor now show `ACT-NN — nombre` from graph nodes when relevance is empty.
+
+---
+
+## 2026-06-18 — Valor tab: plot gradients + Flujos de valor (Cytoscape)
+
+**Requirement:** Demo UI polish (no feature-dev requirement file) — Valor analytics colors and interactive value-stream flow diagrams.
+
+**Summary:** Centralized scatter-plot gradients in `configs/visualization_colors.json` (relevance brown→orange, value brown→blue). Added **Flujos de valor** on the Valor tab: an interactive demand→delivery workflow diagram (Cytoscape + dagre, vendored JS) with **fusionada** stories listed first, per-delivery options second, click-to-expand metrics, white border for **conjunciones**, and a gold **stream-count badge** for activities shared across historias.
+
+**Shipped:**
+
+- **Config:** `configs/visualization_colors.json`; `infrastructure/visualization/colors.py` loads relevance, value, and metric gradients (graph heatmap unchanged).
+- **Domain (`graph_analytics/value_stream_flow.py`):** `build_value_stream_flow_graph` — tree payload with join/backbone flags, metric hits, cumulative relevance coloring.
+- **Application:** `value_stream_flow.py` — `list_flow_story_options` (fused first), `build_flow_graph_for_selection`; `ScenarioViewModel.graph_context` for on-demand flow build.
+- **Presentation:** `static/value_stream_flow.html` + vendored `static/vendor/` (Cytoscape/dagre; fixes broken unpkg CDN); `value_stream_flow_view.py` inlines scripts via `components.html`; `render_value_stream_flow_section` on Valor tab; plot markers use shared gradients.
+- **Tests:** `test_value_stream_flow`, `test_value_stream_flow` (application), `test_value_stream_flow_view`, `test_visualization_colors`; **171** unittest cases green.
+
+**Notes:** Manual smoke: `streamlit run app_demo.py` → **energoil_mexico_v2** → **Valor** → **Flujos de valor** → default **Fusionada** diagram; try **Por entrega — EV-V07** for join + badge on shared activities. Restart Streamlit after template updates (HTML cache). Badge customization notes in `presentation/AGENTS.md`.
+
+---
+
+## 2026-06-18 — Grafo UI cleanup: relevance heatmap + sidebar filters
+
+**Requirement:** Demo UI polish (no feature-dev requirement file) — heatmap view and compact sidebar layout.
+
+**Summary:** Added an optional **relevance heatmap** on the Grafo tab: activities colored on a **brown → orange** scale from cumulative normalized relevance; all other nodes and edges stay dimmed. Moved graph controls into two collapsed sidebar expanders (**Controles del grafo** / **Tipos en el grafo**) and made value-stream discovery summaries collapsible sibling expanders on the main Grafo tab.
+
+**Shipped:**
+
+- **Domain (`graph_analytics/relevance.py`):** Extracted `build_cumulative_relevance_scores` (shared with VS Steiner edge costs); exported via `graph_analytics` and `value_insights`.
+- **Application:** `GraphFilter.relevance_heatmap_enabled`; orchestration in `run_scenario_view` via `_build_relevance_heatmap_payload` (mutually exclusive with VS focus, explain, analytic highlight).
+- **Infrastructure (`pyvis_graph.py`):** `HEATMAP_COLOR_LOW` / `HEATMAP_COLOR_HIGH`, `relevance_heatmap_color` (brown `#4A3728` → orange `#FF9800`); reuses grey-out + empty `highlight_edge_keys` to dim all edges.
+- **Presentation:** Split sidebar into **Controles del grafo** (merge §1.2, VS focus, heatmap, relevance pull, explain, isolate) and **Tipos en el grafo** (node/rel multiselects); VS panel as sibling expanders (Resumen, Historias, Backbone, Clasificación); fixed duplicate Streamlit keys and nested-expander constraint.
+- **Tests:** Heatmap PyVis + orchestration + cumulative relevance; **149** unittest cases green.
+
+**Notes:** Manual smoke: `streamlit run app_demo.py` → **energoil_mexico_v2** → sidebar **Controles del grafo** → **Mapa de calor de relevancia**. Production `streamlit_app.py` unchanged.
+
+---
+
 ## 2026-06-15 — Value stream Steiner discovery (`vs_steiner`)
 
 **Requirement:** [VS_Selection_Protocol.md](VS_Selection_Protocol.md) — delivery-anchored grouping + Steiner trees (replaces per-metric linear path discovery).
