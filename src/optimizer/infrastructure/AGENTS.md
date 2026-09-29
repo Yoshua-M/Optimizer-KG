@@ -22,8 +22,9 @@ Own **technical adapters**: configure and call external systems (LLM APIs, visua
 | `llm_client/__init__.py` | Subpackage boundary for LLM-related adapters only. |
 | `llm_client/graph_transformer.py` | One place to construct `ChatOpenAI` + `LLMGraphTransformer` and `load_dotenv`; domains import `graph_transformer` instead of duplicating API keys and model choice. |
 | `visualization/__init__.py` | Subpackage boundary for render/export adapters. |
-| `visualization/pyvis_graph.py` | Maps LangChain `GraphDocument` lists to a PyVis `Network` (layout, styling, invalid-edge filter); `VisualizeOptions` for colors, tooltips, relevance-pull edges, grey-out highlight, `"punto ciego"` synthetic edges, VS `node_color_overrides`, `node_size_overrides` (backbone), `edge_width_overrides` (VS focus); `VS_CATEGORY_COLORS` palette; no Streamlit, no extraction. |
-| `demo_loader.py` | Manifest + JSON fixture load, validation, `graph.json` → `GraphDocument` adapter; repo-root path resolution. |
+| `visualization/colors.py` | Shared gradient palette from `configs/visualization_colors.json`; `relevance_gradient_color` (`#FCE5AB`→`#F8961D`), `value_gradient_color` (brown→blue, V plot), `metric_gradient_color` (gray→blue, reserved). |
+| `visualization/pyvis_graph.py` | Maps LangChain `GraphDocument` lists to a PyVis `Network` (layout, styling, invalid-edge filter); `VisualizeOptions` for colors, tooltips, relevance-pull edges, grey-out highlight, `"punto ciego"` synthetic edges, VS `node_color_overrides`, relevance heatmap via `colors.relevance_heatmap_color`, `node_size_overrides` (backbone), `edge_width_overrides` (VS focus); `VS_CATEGORY_COLORS` palette; tooltips include `evidence_pointer` when present; no Streamlit, no extraction. |
+| `demo_loader.py` | Manifest + JSON fixture load, validation, `graph.json` → `GraphDocument` adapter; repo-root path resolution. Parses optional scenario `kind` (`"value"` default; `"structural"` = no metrics/relevance data, e.g. `eneroil_real_v1`). |
 
 ## Facades
 

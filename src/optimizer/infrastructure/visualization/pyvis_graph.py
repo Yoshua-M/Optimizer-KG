@@ -6,6 +6,12 @@ from typing import Callable
 
 from pyvis.network import Network
 
+from optimizer.infrastructure.visualization.colors import (
+    HEATMAP_COLOR_HIGH,
+    HEATMAP_COLOR_LOW,
+    relevance_heatmap_color,
+)
+
 NODE_TYPE_COLORS: dict[str, str] = {
     "Activity": "#4CAF50",
     "Process": "#2196F3",
@@ -17,6 +23,10 @@ NODE_TYPE_COLORS: dict[str, str] = {
     "Capability": "#795548",
     "CustomerJourneyStep": "#AB47BC",
     "MetricDriver": "#FFB74D",
+    "Team": "#26A69A",
+    "System": "#78909C",
+    "Event": "#EF5350",
+    "Intent": "#8D6E63",
 }
 
 DIM_COLOR = "#555555"
@@ -36,6 +46,10 @@ VS_SUPPORT_EDGE_COLOR = "#2196F3"
 VS_METRIC_NODE_COLOR = "#66BB6A"
 VS_METRIC_DRIVER_NODE_COLOR = "#2E7D32"
 VS_METRIC_EDGE_COLOR = "#4CAF50"
+
+GENERATED_NODE_BORDER_COLOR = "#E040FB"
+GENERATED_EDGE_COLOR = "#FF9800"
+GENERATED_EDGE_DASH_PATTERN = (8, 6)
 
 ACTIVITY_FACTOR_LABELS: dict[str, str] = {
     "p": "Posición",
@@ -58,6 +72,11 @@ class VisualizeOptions:
     node_color_overrides: dict[str, str] = field(default_factory=dict)
     node_size_overrides: dict[str, float] = field(default_factory=dict)
     edge_width_overrides: dict[tuple[str, str, str], float] = field(default_factory=dict)
+    node_opacity_overrides: dict[str, float] = field(default_factory=dict)
+    edge_opacity_overrides: dict[tuple[str, str, str], float] = field(default_factory=dict)
+    generated_node_ids: frozenset[str] = frozenset()
+    generated_edge_keys: frozenset[tuple[str, str, str]] = frozenset()
+    generated_emphasis_active: bool = False
     node_title_builder: Callable | None = None
 
 
@@ -91,6 +110,20 @@ def _default_node_title(node) -> str:
         for key in ("p", "c", "f", "r", "v"):
             if key in properties and properties[key] is not None:
                 parts.append(f"{ACTIVITY_FACTOR_LABELS[key]}: {properties[key]}")
+
+    if properties.get("generated") is True:
+        parts.append("Generado: sí")
+        if properties.get("generation_basis"):
+            parts.append(f"Base: {properties['generation_basis']}")
+    if properties.get("confidence") is not None:
+        parts.append(f"Confianza: {properties['confidence']}")
+    if properties.get("corroboration") is not None:
+        parts.append(f"Corroboración: {properties['corroboration']}")
+    if properties.get("informant_distance") is not None:
+        parts.append(f"Distancia informante: {properties['informant_distance']}")
+    evidence = properties.get("evidence_pointer")
+    if evidence:
+        parts.append(f"Evidencia: {evidence}")
 
     return "\n".join(parts)
 
@@ -160,7 +193,7 @@ def _edge_dim_kwargs(
             style: dict = {"color": override}
             if rel_type.upper() == "PRECEDES":
                 style["width"] = width_override if width_override is not None else 2.5
-            elif rel_type.upper() in ("AFFECTS", "HAS_DRIVER"):
+            elif rel_type.upper() in ("AFFECTS", "DRIVES"):
                 style["width"] = 2.0
             return style
         return {}
@@ -219,7 +252,28 @@ def visualize_graph(graph_documents, options: VisualizeOptions | None = None):
             if color:
                 for index, graph_node in enumerate(net.nodes):
                     if graph_node["id"] == node.id:
-                        net.nodes[index]["color"] = color
+                        is_generated = (
+                            options
+                            and options.generated_emphasis_active
+                            and node_id in options.generated_node_ids
+                        )
+                        opacity = None
+                        if options and options.node_opacity_overrides:
+                            opacity = options.node_opacity_overrides.get(node_id)
+                        if is_generated:
+                            net.nodes[index]["color"] = {
+                                "background": color,
+                                "border": GENERATED_NODE_BORDER_COLOR,
+                                "highlight": {
+                                    "background": color,
+                                    "border": "#FFD700",
+                                },
+                            }
+                            net.nodes[index]["borderWidth"] = 2
+                        else:
+                            net.nodes[index]["color"] = color
+                        if opacity is not None:
+                            net.nodes[index]["opacity"] = opacity
                         break
         except Exception:
             continue
@@ -236,6 +290,37 @@ def visualize_graph(graph_documents, options: VisualizeOptions | None = None):
                 label=rel.type.lower(),
                 **edge_kwargs,
             )
+            if options and options.edge_opacity_overrides:
+                edge_key = (rel.source.id, rel.target.id, rel.type.upper())
+                opacity = options.edge_opacity_overrides.get(edge_key)
+                if opacity is not None:
+                    for index, graph_edge in enumerate(net.edges):
+                        if (
+                            graph_edge["from"] == rel.source.id
+                            and graph_edge["to"] == rel.target.id
+                        ):
+                            existing = graph_edge.get("color")
+                            if isinstance(existing, dict):
+                                graph_edge["color"]["opacity"] = opacity
+                            else:
+                                graph_edge["color"] = {"color": existing or DIM_COLOR, "opacity": opacity}
+                            net.edges[index] = graph_edge
+                            break
+            if (
+                options
+                and options.generated_emphasis_active
+                and (rel.source.id, rel.target.id, rel.type.upper())
+                in options.generated_edge_keys
+            ):
+                for index, graph_edge in enumerate(net.edges):
+                    if (
+                        graph_edge["from"] == rel.source.id
+                        and graph_edge["to"] == rel.target.id
+                    ):
+                        graph_edge["dashes"] = True
+                        graph_edge["color"] = GENERATED_EDGE_COLOR
+                        net.edges[index] = graph_edge
+                        break
         except Exception:
             continue
 

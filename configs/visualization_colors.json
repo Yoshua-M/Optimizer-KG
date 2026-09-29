@@ -1,0 +1,22 @@
+{
+  "relevance_gradient": {
+    "low": "#FCE5AB",
+    "high": "#F8961D",
+    "description": "Cumulative relevance — Grafo heatmap, VS activity fill, relevancia plots, process rollups"
+  },
+  "value_gradient": {
+    "low": "#4A3728",
+    "high": "#2196F3",
+    "description": "Valor interno (V) scatter — brown (low) to blue (high)"
+  },
+    "metric_gradient": {
+        "low": "#9E9E9E",
+        "high": "#2196F3",
+        "description": "Reserved gray-to-blue palette for future plots"
+    },
+    "confidence_gradient": {
+        "low": "#F44336",
+        "high": "#2196F3",
+        "description": "Existence confidence — AI-enhanced scenarios (red low, blue high)"
+    }
+}

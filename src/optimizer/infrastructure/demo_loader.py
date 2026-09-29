@@ -59,6 +59,7 @@ def load_manifest(repo_root: Path | None = None) -> list[DemoScenario]:
                 title=entry.get("title", entry["id"]),
                 description=entry.get("description", ""),
                 paths=dict(entry.get("paths", {})),
+                kind=entry.get("kind", "value"),
             )
         )
     return scenarios

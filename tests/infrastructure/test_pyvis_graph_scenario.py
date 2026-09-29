@@ -117,6 +117,15 @@ class TestVisualizeGraphUi2Options(_TempCwdTestCase):
             self.assertIsNotNone(color_a)
             self.assertEqual(color_a, color_b)
 
+    def test_activity_tooltip_includes_evidence_pointer(self):
+        docs = _labeled_scenario_graph_documents()
+        activity = docs[0].nodes[1]
+        activity.properties["evidence_pointer"] = 'F2: "solo producto"'
+        net = pyvis_graph.visualize_graph(docs)
+        title = self._nodes_by_id(net)["A-01"].get("title", "")
+        self.assertIn("Evidencia:", title)
+        self.assertIn("solo producto", title)
+
     def test_activity_tooltip_includes_frequency_and_v_fields(self):
         docs = _labeled_scenario_graph_documents()
         activity = docs[0].nodes[1]
@@ -315,6 +324,42 @@ class TestVisualizeGraphValueStreamOverlay(unittest.TestCase):
             self.VS_METRIC_EDGE_COLOR,
         )
         self.assertEqual(edges[("A-03", "A-01")].get("color"), pyvis_graph.DIM_COLOR)
+
+
+class TestRelevanceHeatmapVisualization(unittest.TestCase):
+    """Activity-only highlight with blue→orange cumulative relevance colors."""
+
+    @classmethod
+    def setUpClass(cls):
+        from optimizer.infrastructure.visualization.pyvis_graph import (
+            HEATMAP_COLOR_HIGH,
+            HEATMAP_COLOR_LOW,
+            VisualizeOptions,
+            relevance_heatmap_color,
+        )
+
+        cls.VisualizeOptions = VisualizeOptions
+        cls.relevance_heatmap_color = staticmethod(relevance_heatmap_color)
+        cls.HEATMAP_COLOR_LOW = HEATMAP_COLOR_LOW
+        cls.HEATMAP_COLOR_HIGH = HEATMAP_COLOR_HIGH
+        cls.documents = _labeled_scenario_graph_documents()
+
+    def test_relevance_heatmap_color_interpolates_brown_to_orange(self):
+        self.assertEqual(self.relevance_heatmap_color(0.0), self.HEATMAP_COLOR_LOW)
+        self.assertEqual(self.relevance_heatmap_color(1.0), self.HEATMAP_COLOR_HIGH)
+
+    def test_heatmap_dims_non_activity_nodes_and_all_edges(self):
+        options = self.VisualizeOptions(
+            highlight_node_ids=frozenset({"A-01"}),
+            highlight_edge_keys=frozenset(),
+            node_color_overrides={"A-01": self.relevance_heatmap_color(1.0)},
+        )
+        net = pyvis_graph.visualize_graph(self.documents, options=options)
+        nodes = {node["id"]: node for node in net.nodes}
+        edges = {(edge["from"], edge["to"]): edge for edge in net.edges}
+        self.assertEqual(nodes["M-01"].get("color"), pyvis_graph.DIM_COLOR)
+        self.assertEqual(nodes["A-01"].get("color"), self.HEATMAP_COLOR_HIGH)
+        self.assertEqual(edges[("A-01", "M-01")].get("color"), pyvis_graph.DIM_COLOR)
 
 
 if __name__ == "__main__":
