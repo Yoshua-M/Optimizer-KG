@@ -6,6 +6,7 @@ import networkx as nx
 from networkx.algorithms.approximation import steiner_tree
 
 from optimizer.graph_analytics.graph_bridge import GraphContext
+from optimizer.graph_analytics.relevance import build_cumulative_relevance_scores
 from optimizer.graph_analytics.models import (
     ActivityCategory,
     ValueStreamDiscoveryResult,
@@ -88,20 +89,6 @@ def _merge_crossing_groups(
             union_group |= groups[idx]
         merged.append(frozenset(union_group))
     return merged
-
-
-def _cumulative_relevance_normalized(context: GraphContext) -> dict[str, float]:
-    cum = {activity_id: 0.0 for activity_id in context.activity_ids}
-    for metric_id in sorted(context.metric_ids):
-        vals = {
-            activity_id: context.relevance(activity_id, metric_id)
-            for activity_id in context.activity_ids
-        }
-        max_val = max(vals.values()) if vals else 0.0
-        max_val = max_val or 1.0
-        for activity_id in context.activity_ids:
-            cum[activity_id] += vals[activity_id] / max_val
-    return cum
 
 
 def _set_edge_costs(flow: nx.DiGraph, cum_relevance: dict[str, float]) -> None:
@@ -278,32 +265,49 @@ def _metric_affectation_keys(
     context: GraphContext,
     visible_activity_ids: frozenset[str],
 ) -> tuple[frozenset[tuple[str, str, str]], frozenset[str], frozenset[str]]:
-    """AFFECTS from visible activities to metrics + HAS_DRIVER to metric drivers."""
+    """Metric links from visible VS activities: direct AFFECTS and driver-mediated DRIVES."""
     edge_keys: set[tuple[str, str, str]] = set()
     driver_ids: set[str] = set()
     metric_ids: set[str] = set()
     document = context.documents[0]
     node_types = {node.id: node.type for node in document.nodes}
-    for relationship in document.relationships:
-        rel_type = relationship.type.upper()
+    rels = document.relationships
+
+    for relationship in rels:
+        if relationship.type.upper() != "AFFECTS":
+            continue
         source_id = relationship.source.id
+        if source_id not in visible_activity_ids:
+            continue
         target_id = relationship.target.id
-        if (
-            rel_type == "AFFECTS"
-            and source_id in visible_activity_ids
-            and node_types.get(target_id) == "Metric"
-        ):
+        target_type = node_types.get(target_id)
+        if target_type == "Metric":
             edge_keys.add((source_id, target_id, "AFFECTS"))
             metric_ids.add(target_id)
+        elif target_type == "MetricDriver":
+            edge_keys.add((source_id, target_id, "AFFECTS"))
+            driver_ids.add(target_id)
 
-    for relationship in document.relationships:
-        rel_type = relationship.type.upper()
-        source_id = relationship.source.id
-        target_id = relationship.target.id
-        if rel_type == "HAS_DRIVER" and source_id in metric_ids:
-            edge_keys.add((source_id, target_id, "HAS_DRIVER"))
-            if node_types.get(target_id) == "MetricDriver":
-                driver_ids.add(target_id)
+    changed = True
+    while changed:
+        changed = False
+        for relationship in rels:
+            rel_type = relationship.type.upper()
+            source_id = relationship.source.id
+            target_id = relationship.target.id
+            key = (source_id, target_id, rel_type)
+            if key in edge_keys:
+                continue
+            if rel_type != "DRIVES":
+                continue
+            if source_id in driver_ids and node_types.get(target_id) == "Metric":
+                edge_keys.add(key)
+                metric_ids.add(target_id)
+                changed = True
+            elif target_id in metric_ids and node_types.get(source_id) == "MetricDriver":
+                edge_keys.add(key)
+                driver_ids.add(source_id)
+                changed = True
 
     return frozenset(edge_keys), frozenset(driver_ids), frozenset(metric_ids)
 
@@ -362,19 +366,30 @@ def build_value_stream_focus(
                 visible.add(activity_id)
 
     visible_frozen = frozenset(visible)
+    boundary_event_ids = frozenset(
+        tree_result.anchor_event_ids | {tree_result.delivery_event_id}
+    )
+    metric_source_ids = set(visible_frozen)
+    for activity_id, category in classifications.items():
+        if category == ActivityCategory.STRUCTURAL_SUPPORT:
+            metric_source_ids.add(activity_id)
+    metric_edge_keys, driver_ids, metric_ids = _metric_affectation_keys(
+        context,
+        frozenset(metric_source_ids),
+    )
+    linking_activities = {
+        source_id
+        for source_id, _target_id, rel_type in metric_edge_keys
+        if rel_type == "AFFECTS"
+    }
+    visible.update(linking_activities)
+    visible_frozen = frozenset(visible)
     activity_classifications = {
         activity_id: classifications[activity_id]
         for activity_id in visible_frozen
         if activity_id in classifications
     }
 
-    boundary_event_ids = frozenset(
-        tree_result.anchor_event_ids | {tree_result.delivery_event_id}
-    )
-    metric_edge_keys, driver_ids, metric_ids = _metric_affectation_keys(
-        context,
-        visible_frozen,
-    )
     support_ids = frozenset(
         activity_id
         for activity_id in visible_frozen
@@ -419,7 +434,7 @@ def discover_value_streams(
     if merge_crossing:
         groups = _merge_crossing_groups(groups, context, overlap_threshold)
 
-    cum_relevance = _cumulative_relevance_normalized(context)
+    cum_relevance = build_cumulative_relevance_scores(context)
     flow_with_costs = context.flow_graph.copy()
     _set_edge_costs(flow_with_costs, cum_relevance)
 

@@ -96,5 +96,48 @@ class TestEnergoilV2FixtureValidation(_EnergoilFixtureValidationMixin, unittest.
         self.assertIn("value_realization", types)
 
 
+class TestEnergoilV3FixtureValidation(_EnergoilFixtureValidationMixin, unittest.TestCase):
+    """ga-15: energoil v3 fixture has misconceptions graph and 12 classified events."""
+
+    scenario_id = "energoil_mexico_v3"
+    expected_event_count = 12
+
+    def test_seventy_activities_present(self):
+        self.assertEqual(len(self.activity_nodes), 70)
+
+    def test_misconception_activities_have_no_process(self):
+        waste_ids = {"A-59", "A-60", "A-61", "A-62", "A-63", "A-64", "A-65", "A-66", "A-67"}
+        by_id = {node["id"]: node for node in self.activity_nodes}
+        for aid in waste_ids:
+            props = by_id[aid]["properties"]
+            self.assertIsNone(props.get("process_id"))
+
+    def test_demand_and_value_realization_events_present(self):
+        types = {
+            (node.get("properties") or {}).get("event_type")
+            for node in self.event_nodes
+        }
+        self.assertIn("demand", types)
+        self.assertIn("value_realization", types)
+
+
+class TestOilTradeSimulationFixture(_EnergoilFixtureValidationMixin, unittest.TestCase):
+    """Client-facing clone of energoil v3 with brand stripped."""
+
+    scenario_id = "oil_trade_simulation"
+    expected_event_count = 12
+
+    def test_seventy_activities_present(self):
+        self.assertEqual(len(self.activity_nodes), 70)
+
+    def test_no_energoil_brand(self):
+        blob = "".join(
+            (PROJECT_ROOT / path).read_text(encoding="utf-8")
+            for path in self.bundle.scenario.paths.values()
+        )
+        self.assertNotIn("energoil", blob.lower())
+        self.assertEqual(self.bundle.scenario.title, "Oil Trade simulation")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -28,6 +28,7 @@ Own **graph-native analytics** for Optimizer: value stream discovery, Porter-are
 | `relevance.py` | Edge/indirect relevance maps, explain paths, `top_n_by_distance` (ga-04). |
 | `plots.py` | Plot series, labels, top contributions (ga-04). |
 | `value_streams.py` | VS Steiner discovery (`discover_value_streams`) + four-way activity classification (ga-05); per-group focus payload (`build_value_stream_focus`, vs_filter). See `docs/VS_Selection_Protocol.md`. |
+| `value_stream_flow.py` | Valor-tab flow diagram payload: `build_value_stream_flow_graph` from selected `ValueStreamTree`(s), metric flags, P/C/F/R/V evaluation, join/backbone metadata (JSON-serializable). |
 | `runners/_common.py` | Shared runner helpers (paths, scores, findings). |
 | `runners/governance.py` | G-01…G-04 runners (ga-06). |
 | `runners/hr.py` | H-01…H-04 runners (ga-06). |
@@ -48,10 +49,12 @@ Own **graph-native analytics** for Optimizer: value stream discovery, Porter-are
 - `get_analytic_definition(analytic_id) → AnalyticDefinition`
 - `list_analytic_ids() → tuple[str, …]`
 - `get_executive_messages(analytic_id) → ExecutiveMessages`
-- `relevance.build_edge_relevance_map`, `build_indirect_relevance_map`, `build_relevance_explain_paths`
+- `relevance.build_edge_relevance_map`, `build_indirect_relevance_map`, `build_relevance_explain_paths`, `build_cumulative_relevance_scores`
 - `plots.build_plot_series`, `build_top_contributions`, `format_*_label`
 - `discover_value_streams(context, …) → ValueStreamDiscoveryResult` (delivery-anchored groups, Steiner trees, backbone/overlap)
 - `build_value_stream_focus(context, discovery, delivery_event_id, …) → ValueStreamFocus | None`
+- `build_value_stream_flow_graph(context, discovery, delivery_event_ids, …) → ValueStreamFlowGraph | None`
+- `enhanced_scoring.compose_enhanced_value_input`, `compose_v`, `node_confidence`, `relationship_confidence` — AI-enhanced scenarios (`ai_enhanced` kind)
 - `runners.registry.get_runner`, `list_registered_analytic_ids`
 - `run_catalog.run_analytic`, `run_all_analytics`
 

@@ -195,6 +195,103 @@ class TestValueStreamFocus(unittest.TestCase):
         focus = self.build_value_stream_focus(self.ctx, self.discovery, "EV-V99")
         self.assertIsNone(focus)
 
+    def test_includes_metrics_reached_only_through_drivers(self):
+        from langchain_community.graphs.graph_document import (
+            GraphDocument,
+            Node,
+            Relationship,
+        )
+        from langchain_core.documents import Document
+
+        from optimizer.application.scenario_models import (
+            ActivityRow,
+            ActivityScoreRow,
+            MetricRow,
+            ValueScenarioInput,
+        )
+        from optimizer.graph_analytics.graph_bridge import build_graph_context
+        from optimizer.graph_analytics.value_streams import discover_value_streams
+
+        ev_d1 = Node(id="EV-D1", type="Event", properties={"event_type": "demand"})
+        ev_v1 = Node(
+            id="EV-V1", type="Event", properties={"event_type": "value_realization"}
+        )
+        a1 = Node(id="A-01", type="Activity", properties={"label": "Confirmar pedido"})
+        a3 = Node(id="A-03", type="Activity", properties={"label": "Timbrar CFDI"})
+        m1 = Node(id="M-01", type="Metric", properties={"label": "CFDI correcto y a tiempo"})
+        md1 = Node(id="MD-01", type="MetricDriver", properties={"label": "Puntualidad factura"})
+        docs = [
+            GraphDocument(
+                nodes=[ev_d1, ev_v1, a1, a3, m1, md1],
+                relationships=[
+                    Relationship(source=ev_d1, target=a1, type="PRECEDES"),
+                    Relationship(source=a1, target=ev_v1, type="PRECEDES"),
+                    Relationship(source=a3, target=a1, type="PRECEDES"),
+                    Relationship(source=a3, target=md1, type="AFFECTS"),
+                    Relationship(source=md1, target=m1, type="DRIVES"),
+                ],
+                source=Document(page_content="driver-mediated metric"),
+            )
+        ]
+        value_input = ValueScenarioInput(
+            metrics=(MetricRow(id="M-01", name="CFDI correcto y a tiempo", definition="", client_need=""),),
+            activities=(
+                ActivityRow(
+                    activity_id="A-01",
+                    activity_name="Confirmar pedido",
+                    process_id="P-01",
+                    p=0.5,
+                    c=0.5,
+                    f=0.5,
+                    r=0.5,
+                    v=0.6,
+                    scores=(
+                        ActivityScoreRow(
+                            metric_id="M-01",
+                            g=0.0,
+                            j=0.0,
+                            dv=0.0,
+                            b=0.1,
+                            relevance=0.2,
+                            pct_contribution=0.2,
+                        ),
+                    ),
+                ),
+                ActivityRow(
+                    activity_id="A-03",
+                    activity_name="Timbrar CFDI",
+                    process_id="P-01",
+                    p=0.5,
+                    c=0.5,
+                    f=0.5,
+                    r=0.5,
+                    v=0.5,
+                    scores=(
+                        ActivityScoreRow(
+                            metric_id="M-01",
+                            g=0.0,
+                            j=0.0,
+                            dv=0.0,
+                            b=0.3,
+                            relevance=0.8,
+                            pct_contribution=0.8,
+                        ),
+                    ),
+                ),
+            ),
+            process_rollups=(),
+            strategic_b_zero=(),
+        )
+        ctx = build_graph_context(docs, value_input)
+        discovery = discover_value_streams(ctx)
+        focus = self.build_value_stream_focus(ctx, discovery, "EV-V1")
+        self.assertIsNotNone(focus)
+        self.assertIn("M-01", focus.metric_ids)
+        self.assertIn("MD-01", focus.metric_driver_ids)
+        self.assertIn("A-03", focus.highlight_node_ids)
+        self.assertIn(("A-03", "MD-01", "AFFECTS"), focus.highlight_edge_keys)
+        self.assertIn(("MD-01", "M-01", "DRIVES"), focus.highlight_edge_keys)
+
 
 class TestValueStreamEdgeCases(unittest.TestCase):
     """ga-05 edge: disconnected demand/value returns empty trees."""

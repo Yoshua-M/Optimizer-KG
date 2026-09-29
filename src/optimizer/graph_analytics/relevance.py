@@ -7,6 +7,7 @@ from optimizer.application.scenario_models import (
     RelevanceHighlight,
     ValueScenarioInput,
 )
+from optimizer.graph_analytics.graph_bridge import GraphContext
 
 
 def top_n_by_distance(points: tuple[PlotPoint, ...], *, n: int = 3) -> tuple[PlotPoint, ...]:
@@ -16,6 +17,21 @@ def top_n_by_distance(points: tuple[PlotPoint, ...], *, n: int = 3) -> tuple[Plo
         reverse=True,
     )
     return tuple(ranked[:n])
+
+
+def build_cumulative_relevance_scores(context: GraphContext) -> dict[str, float]:
+    """Per-activity sum of per-metric relevance normalized by metric max (VS Steiner costs)."""
+    cum = {activity_id: 0.0 for activity_id in context.activity_ids}
+    for metric_id in sorted(context.metric_ids):
+        vals = {
+            activity_id: context.relevance(activity_id, metric_id)
+            for activity_id in context.activity_ids
+        }
+        max_val = max(vals.values()) if vals else 0.0
+        max_val = max_val or 1.0
+        for activity_id in context.activity_ids:
+            cum[activity_id] += vals[activity_id] / max_val
+    return cum
 
 
 def build_edge_relevance_map(
@@ -124,15 +140,15 @@ def build_relevance_explain_paths(
                 driver = nodes_by_id.get(driver_id)
                 if driver is None or driver.type == "Metric":
                     continue
-                for has_driver in relationships:
+                for drives in relationships:
                     if (
-                        has_driver.type.upper() == "HAS_DRIVER"
-                        and has_driver.source.id == driver_id
-                        and has_driver.target.id == metric_id
+                        drives.type.upper() == "DRIVES"
+                        and drives.source.id == driver_id
+                        and drives.target.id == metric_id
                     ):
                         node_ids.add(driver_id)
                         edge_keys.add(_edge_key(activity_id, driver_id, "AFFECTS"))
-                        edge_keys.add(_edge_key(driver_id, metric_id, "HAS_DRIVER"))
+                        edge_keys.add(_edge_key(driver_id, metric_id, "DRIVES"))
 
     return RelevanceHighlight(
         node_ids=frozenset(node_ids),

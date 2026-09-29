@@ -65,6 +65,16 @@ class TestRelevanceMigration(unittest.TestCase):
         indirect = self.build_indirect_relevance_map(self.minimal_docs, scenario)
         self.assertIsInstance(indirect, dict)
 
+    def test_cumulative_relevance_scores_normalized_per_metric(self):
+        from optimizer.graph_analytics.graph_bridge import build_graph_context
+        from optimizer.graph_analytics.relevance import build_cumulative_relevance_scores
+
+        scenario = self.multi_metric_value_scenario()
+        context = build_graph_context(self.minimal_docs, scenario)
+        scores = build_cumulative_relevance_scores(context)
+        self.assertIn("A-01", scores)
+        self.assertGreater(scores["A-01"], 0.0)
+
 
 class TestPlotsMigration(unittest.TestCase):
     """ga-04: graph_analytics.plots builds PlotSeries from ValueScenarioInput."""
@@ -96,6 +106,15 @@ class TestApplicationReexportShim(unittest.TestCase):
         self.assertIs(
             value_insights.build_edge_relevance_map,
             domain_relevance.build_edge_relevance_map,
+        )
+
+    def test_value_insights_reexports_build_cumulative_relevance_scores(self):
+        from optimizer.application import value_insights
+        from optimizer.graph_analytics import relevance as domain_relevance
+
+        self.assertIs(
+            value_insights.build_cumulative_relevance_scores,
+            domain_relevance.build_cumulative_relevance_scores,
         )
 
 
