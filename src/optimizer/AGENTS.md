@@ -2,6 +2,8 @@
 
 Load **this file** to choose a module. Load **`<module>/AGENTS.md`** before editing that module.
 
+**Before writing any change here (or in `tests/`, `configs/`, `scripts/`),** read `docs/Protocols/GENERATION-SIGNALS (1).md` and use this module’s `AGENTS.md` as the declared scope. Root `AGENTS.md` states the same rule.
+
 ## Routing — new or moved code
 
 | You are implementing… | Go to |

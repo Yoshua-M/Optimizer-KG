@@ -27,6 +27,7 @@ Hold **human-oriented project documentation**: product intent, structure protoco
 | `ModelWorkspaceProtocol_context.md` | Full protocol spec (load on demand). |
 | `code_filestructure_protocol.md` | How to discover domains and scaffold structure (general protocol). |
 | `directory_contract_info.md` | Generic directory contracts — inspiration only; module `AGENTS.md` wins for code. |
+| `Protocols/GENERATION-SIGNALS (1).md` | Mandatory on every codebase edit (generation-time flags, commit grain, `.signals/log.jsonl`). Root and `src/optimizer/AGENTS.md` point here; do not copy the protocol into module files. |
 | `decisions/` | Architecture decision records (`0001-short-title.md`). |
 | `AGENTS.md` (this file) | Routing for the docs folder itself. |
 

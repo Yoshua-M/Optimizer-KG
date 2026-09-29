@@ -6,6 +6,8 @@ Build **Optimizer**: map client and internal interview material to an **organiza
 
 Load only what your task declares — use the routing table below and the nearest `AGENTS.md` in the tree.
 
+**Before any edit** under this repo (code, tests, configs, scripts, or docs that change behavior), read and follow `docs/Protocols/GENERATION-SIGNALS (1).md`. That pass is mandatory: module contract scope, commit grain, and `.signals/log.jsonl` only when a flag fires. Do not paste the protocol into module `AGENTS.md` files.
+
 ## Folder structure
 
 ```text
@@ -35,7 +37,7 @@ Local-only (gitignored): `workflows/` (feature development pipeline), `workspace
 
 | Task | Go to | Read | Refs |
 |------|-------|------|------|
-| Edit or extend package code | `src/optimizer/AGENTS.md` | Matching `<module>/AGENTS.md` | `docs/architecture.md` if boundaries unclear |
+| Edit or extend package code | `src/optimizer/AGENTS.md` | Matching `<module>/AGENTS.md`; **`docs/Protocols/GENERATION-SIGNALS (1).md` before writing** | `docs/architecture.md` if boundaries unclear |
 | Understand product goals | — | `docs/PRD.md` | — |
 | System architecture | — | `docs/architecture.md` | — |
 | Structure protocols (background) | — | `docs/code_filestructure_protocol.md`, `docs/directory_contract_info.md` | Module `AGENTS.md` wins for code |
@@ -78,6 +80,7 @@ app.py → presentation → application → graph_building → infrastructure
 ## Agent rules
 
 - Load **only** paths named for your task; do not read the whole repo.
+- **Codebase edits:** read `docs/Protocols/GENERATION-SIGNALS (1).md` first (every pass that writes files). Module `AGENTS.md` is the contract for scope flags (`Owns` / boundaries). If a module has no contract, the protocol’s `NO_CONTRACT` applies.
 - **`AGENTS.md` (package):** routing + rules. **`AGENTS.md` (module):** responsibility, boundaries, files, facades.
 - Update the **nearest** `AGENTS.md` when you move code, add public entrypoints, or change routing.
-- Do not duplicate full PRD or long protocol docs inside module agent files.
+- Do not duplicate full PRD or long protocol docs inside module agent files. Contracts and seams the generation-signals protocol requires are not optional.

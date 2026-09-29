@@ -14,6 +14,8 @@ Hold **automated regression tests** that mirror `src/optimizer/` module boundari
 
 **Layout rule:** `tests/<module>/` corresponds to `src/optimizer/<module>/`. New code in a module → add or extend tests in the matching folder.
 
+**Before editing tests or the code they cover,** read `docs/Protocols/GENERATION-SIGNALS (1).md` (also required from root `AGENTS.md`).
+
 ## Subdirs — why here
 
 | Path | Why it exists |
@@ -24,7 +26,8 @@ Hold **automated regression tests** that mirror `src/optimizer/` module boundari
 | `application/` | Demo facade tests (`test_run_demo_scenario.py`). |
 | `presentation/` | Reserved mirror for UI wiring tests. |
 | `fixtures/demo/minimal/` | Tiny scenario bundle for loader tests (graph, metrics, relevance JSON). |
-| `ingestion/`, `client_value/`, `experiments/`, `graph_hygiene/`, `value_linkage/`, `ontology/` | Empty mirrors until those modules gain behavior. |
+| `graph_hygiene/` | Coherence audit tests (`test_coherence.py`). |
+| `ingestion/`, `client_value/`, `experiments/`, `value_linkage/`, `ontology/` | Empty mirrors until those modules gain behavior. |
 | `__init__.py` (root and packages) | Makes discovery packages importable under `tests/`. |
 
 ## Files (live)
@@ -34,6 +37,12 @@ Hold **automated regression tests** that mirror `src/optimizer/` module boundari
 | `graph_building/test_generate_knowledge_graph.py` | Locks post-migration behavior: mocked extraction, PyVis output, optional live OpenAI integration (`OPENAI_API_KEY` in `.env`; `load_dotenv` before skip checks). |
 | `infrastructure/test_demo_loader.py` | Demo manifest load, bundle validation, `graph.json` → `GraphDocument` adapter (FR-7, FR-8). |
 | `infrastructure/test_pyvis_graph_scenario.py` | Scenario PyVis labels, UI_v2 colors/tooltips/relevance pull, grey-out + punto ciego; **analitics** VS color overrides (ga-12). |
+| `graph_hygiene/test_coherence.py` | Checks 1–7 on tiny graphs + Eneroil Check 1 AC. |
+| `graph_hygiene/test_sanitize_labels.py` | Evidence notes stripped from labels into `evidence_pointer`. |
+| `graph_hygiene/test_intent_checks.py` | Protocol C1–C4 Intent coverage / ladder / alignment. |
+| `graph_hygiene/test_protocol_cycle.py` | R1/R2 cycle assigns Intent + SERVES. |
+| `ontology/test_schema.py` | Ontology v2.2 Intent vocabulary + isolation. |
+| `application/test_run_coherence_audit.py` | Runner on scenario id and raw `graph.json`. |
 | `application/test_run_demo_scenario.py` | `run_demo_scenario` → `ScenarioViewModel` via fixture adapter (AC-1, FR-1–FR-6). |
 | `application/test_value_insights.py` | UI_v2 shared plot analytics on `ValueScenarioInput` (ui2-01); explain paths + indirect relevance map (ui2-07, ui2-08). |
 | `application/test_graph_filter.py` | UI_v2 graph type filter + isolation (ui2-02); explain highlight sets (ui2-07). |
