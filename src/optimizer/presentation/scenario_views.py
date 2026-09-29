@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import json
+from typing import Literal
+
 import streamlit as st
 import streamlit.components.v1 as components
 from plotly import graph_objects as go
@@ -12,8 +15,16 @@ from optimizer.application.scenario_models import (
 )
 from optimizer.application.value_insights import format_activity_label
 from optimizer.graph_analytics.models import ActivityCategory
+from optimizer.infrastructure.visualization.colors import (
+    relevance_gradient_color,
+    value_gradient_color,
+)
+from optimizer.presentation.value_stream_flow_view import render_value_stream_flow_html
 
 _SESSION_ANALYTIC_HIGHLIGHT_KEY = "analytic_highlight_id"
+_SESSION_GRAPH_FINGERPRINT_KEY = "demo_graph_generated_fingerprint"
+_SESSION_LAST_SCENARIO_KEY = "demo_last_scenario_id"
+_VALUE_STREAM_MERGE_CROSSING = True
 
 _VS_CATEGORY_LABELS: dict[ActivityCategory, str] = {
     ActivityCategory.VALUE_STREAM: "Value stream (amarillo)",
@@ -38,207 +49,250 @@ def _activity_label_by_id(view_model: ScenarioViewModel) -> dict[str, str]:
     }
 
 
-def render_vs_merge_crossing_control() -> bool:
-    """Optional §1.2 merge pass; must be read before VS discovery on the Grafo tab."""
-    return st.checkbox(
-        "Fusionar historias por cruce de flujos (§1.2)",
-        value=False,
-        key="filter_vs_merge_crossing",
-        help=(
-            "Segunda pasada opcional: une grupos cuyas actividades ancestras se solapan "
-            "≥30%. Puede reducir el número de historias en grafos muy conectados."
-        ),
-    )
+def graph_filter_fingerprint(scenario_id: str, graph_filter: GraphFilter) -> str:
+    """Stable key for graph-affecting sidebar controls."""
+
+    def _sorted_frozen(values: frozenset[str] | None) -> list[str] | None:
+        if values is None:
+            return None
+        return sorted(values)
+
+    payload = {
+        "scenario_id": scenario_id,
+        "node_types": _sorted_frozen(graph_filter.node_types),
+        "relationship_types": _sorted_frozen(graph_filter.relationship_types),
+        "isolation_seed_id": graph_filter.isolation_seed_id,
+        "relevance_pull_enabled": graph_filter.relevance_pull_enabled,
+        "explain_activity_id": graph_filter.explain_activity_id,
+        "value_stream_focus_delivery_id": graph_filter.value_stream_focus_delivery_id,
+        "value_stream_focus_is_fused": graph_filter.value_stream_focus_is_fused,
+        "value_stream_include_support": graph_filter.value_stream_include_support,
+        "value_stream_include_waste": graph_filter.value_stream_include_waste,
+        "value_stream_merge_crossing": graph_filter.value_stream_merge_crossing,
+        "analytic_highlight_id": graph_filter.analytic_highlight_id,
+        "relevance_heatmap_enabled": graph_filter.relevance_heatmap_enabled,
+        "confidence_heatmap_enabled": graph_filter.confidence_heatmap_enabled,
+        "generated_highlight_enabled": graph_filter.generated_highlight_enabled,
+        "generated_opacity": graph_filter.generated_opacity,
+    }
+    return json.dumps(payload, sort_keys=True)
 
 
-def render_value_streams_panel(view_model: ScenarioViewModel) -> None:
-    """Summarize VS discovery and how to see it on the graph overlay."""
-    discovery = view_model.value_stream_discovery
-    if discovery is None:
+def reset_scenario_session_state(scenario_id: str) -> None:
+    """Clear graph + VS focus state when the selected scenario changes."""
+    if st.session_state.get(_SESSION_LAST_SCENARIO_KEY) == scenario_id:
         return
+    st.session_state[_SESSION_LAST_SCENARIO_KEY] = scenario_id
+    st.session_state.pop(_SESSION_GRAPH_FINGERPRINT_KEY, None)
+    st.session_state.pop("filter_vs_focus_story", None)
 
-    st.markdown("### Value streams")
-    st.caption(
-        "Elige una historia de valor abajo (**Enfocar value stream**) para resaltar solo "
-        "ese árbol y atenuar el resto del grafo. Activa capas de soporte o desperdicio según necesites."
-    )
 
-    if not discovery.trees:
-        st.warning(
-            "No se descubrieron historias de valor conectadas entre eventos de demanda "
-            "y entrega de valor en este escenario. El overlay mostrará la clasificación "
-            "por actividad, pero probablemente sin nodos amarillos (value stream)."
-        )
+def render_graph_generate_button(
+    scenario_id: str,
+    graph_filter: GraphFilter,
+) -> bool:
+    """Render generate control; return True when the current filter graph should display."""
+    current_fingerprint = graph_filter_fingerprint(scenario_id, graph_filter)
+    generated_fingerprint = st.session_state.get(_SESSION_GRAPH_FINGERPRINT_KEY)
+    graph_is_current = generated_fingerprint == current_fingerprint
+
+    if st.button(
+        "Generar grafo",
+        type="primary",
+        disabled=graph_is_current,
+        key="demo_generate_graph",
+    ):
+        st.session_state[_SESSION_GRAPH_FINGERPRINT_KEY] = current_fingerprint
+        st.rerun()
+
+    if graph_is_current and generated_fingerprint is not None:
+        return True
+
+    if generated_fingerprint is not None:
+        st.caption("Los controles cambiaron. Pulsa «Generar grafo» para actualizar.")
     else:
-        activity_labels = _activity_label_by_id(view_model)
-        event_labels = view_model.event_label_by_id
-        st.markdown(
-            f"**{discovery.group_count}** historias · "
-            f"**{len(discovery.vs_union)}** actividades en el VS · "
-            f"**{len(discovery.backbone)}** nodos backbone"
-        )
-        if discovery.merge_crossing_applied:
-            if discovery.initial_group_count > discovery.group_count:
-                st.caption(
-                    f"Fusión por cruce activa: **{discovery.initial_group_count}** grupos "
-                    f"iniciales → **{discovery.group_count}** tras fusionar."
-                )
-            else:
-                st.caption("Fusión por cruce activa (ningún grupo fusionado con umbral 30%).")
-        if discovery.group_count:
-            st.caption(
-                f"Tamaño promedio de grupo: **{discovery.avg_group_size:.1f}** eventos por entrega "
-                "(demanda/precondición + entrega). A mayor conectividad del grafo, cada grupo "
-                "suele incluir más anclas sin cambiar el algoritmo."
-            )
-        trees_ranked = sorted(
-            discovery.trees,
-            key=lambda tree: (tree.total_relevance, len(tree.activity_ids)),
-            reverse=True,
-        )
-        st.caption("Ordenadas por relevancia acumulada (suma normalizada multi-métrica).")
-        for tree in trees_ranked:
-            delivery_label = event_labels.get(
-                tree.delivery_event_id,
-                tree.delivery_event_id,
-            )
-            anchors = ", ".join(
-                event_labels.get(event_id, event_id)
-                for event_id in sorted(tree.anchor_event_ids)
-            )
-            activity_count = len(tree.activity_ids)
-            st.markdown(
-                f"- **{delivery_label}** — relevancia acum. **{tree.total_relevance:.2f}** · "
-                f"{activity_count} actividades"
-            )
-            if anchors:
-                st.markdown(f"  - Anclas: {anchors}")
-
-        backbone_activities = [
-            (activity_id, discovery.node_overlap.get(activity_id, 0))
-            for activity_id in sorted(discovery.backbone)
-            if activity_id in activity_labels
-        ]
-        if backbone_activities:
-            st.markdown("**Backbone (infraestructura compartida):**")
-            for activity_id, overlap in sorted(
-                backbone_activities,
-                key=lambda item: item[1],
-                reverse=True,
-            )[:5]:
-                label = activity_labels.get(activity_id, activity_id)
-                st.markdown(f"- {label} — en **{overlap}** historias")
-
-    counts = {category: 0 for category in ActivityCategory}
-    for category in discovery.classifications.values():
-        counts[category] += 1
-    summary = " · ".join(
-        f"{_VS_CATEGORY_LABELS[category]}: {counts[category]}"
-        for category in ActivityCategory
-    )
-    st.markdown(f"**Clasificación de actividades:** {summary}")
+        st.caption("Pulsa «Generar grafo» para visualizar el escenario.")
+    return False
 
 
-def build_graph_filter(
+def render_graph_type_filters(
     view_model: ScenarioViewModel,
-    *,
-    merge_crossing: bool = False,
-) -> GraphFilter:
-    """Read graph-tab widgets and return a ``GraphFilter`` for the facade."""
-    st.subheader("Filtros del grafo")
+) -> tuple[frozenset[str] | None, frozenset[str] | None]:
+    """Sidebar multiselects for node and relationship types."""
+    node_type_options = list(view_model.available_node_types)
+    rel_type_options = list(view_model.available_relationship_types)
 
+    selected_node_types = st.multiselect(
+        "Tipos de nodo",
+        node_type_options,
+        default=node_type_options,
+        key="filter_node_types_multiselect",
+    )
+    selected_rel_types = st.multiselect(
+        "Tipos de relación",
+        rel_type_options,
+        default=rel_type_options,
+        key="filter_rel_types_multiselect",
+    )
+    return (
+        _selection_to_frozenset(selected_node_types, view_model.available_node_types),
+        _selection_to_frozenset(selected_rel_types, view_model.available_relationship_types),
+    )
+
+
+def render_graph_view_controls(
+    view_model: ScenarioViewModel,
+) -> dict[str, object]:
+    """Sidebar view-mode controls (VS focus, heatmap, explain, isolate)."""
     analytic_highlight_id = st.session_state.get(_SESSION_ANALYTIC_HIGHLIGHT_KEY)
     if analytic_highlight_id:
-        st.info(
-            f"**Resaltado analítico activo:** `{analytic_highlight_id}`. "
-            "Explicar relevancia, aislamiento y enfoque VS están deshabilitados."
-        )
-        if st.button("Quitar resaltado analítico", key="clear_analytic_highlight"):
+        st.caption(f"Resaltado analítico: `{analytic_highlight_id}`")
+        if st.button("Quitar resaltado", key="clear_analytic_highlight"):
             st.session_state[_SESSION_ANALYTIC_HIGHLIGHT_KEY] = None
             st.rerun()
 
+    highlight_blocks_modes = analytic_highlight_id is not None
+
     value_stream_focus_delivery_id = None
+    value_stream_focus_is_fused = False
     value_stream_include_support = False
     value_stream_include_waste = False
-    highlight_blocks_vs_focus = analytic_highlight_id is not None
 
-    discovery = view_model.value_stream_discovery
-    if discovery and discovery.trees and not highlight_blocks_vs_focus:
+    from optimizer.application.value_stream_flow import list_flow_story_options
+
+    flow_options = list_flow_story_options(view_model)
+    if flow_options and not highlight_blocks_modes:
         focus_options = ["(ninguno)"]
-        focus_ids: dict[str, str | None] = {"(ninguno)": None}
-        for tree in discovery.trees:
-            delivery_label = view_model.event_label_by_id.get(
-                tree.delivery_event_id,
-                tree.delivery_event_id,
-            )
-            focus_options.append(delivery_label)
-            focus_ids[delivery_label] = tree.delivery_event_id
-
-        trees_by_delivery = {t.delivery_event_id: t for t in discovery.trees}
-        ranked_labels = sorted(
-            focus_options[1:],
-            key=lambda label: (
-                trees_by_delivery[focus_ids[label]].total_relevance,
-                len(trees_by_delivery[focus_ids[label]].activity_ids),
-            ),
-            reverse=True,
-        )
-        focus_options = ["(ninguno)"] + ranked_labels
+        focus_map: dict[str, tuple[str | None, bool]] = {"(ninguno)": (None, False)}
+        for option in flow_options:
+            focus_options.append(option.label)
+            delivery_id = next(iter(option.delivery_event_ids))
+            focus_map[option.label] = (delivery_id, option.is_fused)
 
         chosen_focus = st.selectbox(
             "Enfocar value stream",
             focus_options,
-            key="filter_vs_focus_delivery",
+            key="filter_vs_focus_story",
         )
-        value_stream_focus_delivery_id = focus_ids[chosen_focus]
+        value_stream_focus_delivery_id, value_stream_focus_is_fused = focus_map[
+            chosen_focus
+        ]
         focus_enabled = value_stream_focus_delivery_id is not None
 
         col_support, col_waste = st.columns(2)
         with col_support:
             value_stream_include_support = st.checkbox(
-                "Incluir actividades de soporte",
+                "+ Soporte",
                 value=False,
                 disabled=not focus_enabled,
                 key="filter_vs_include_support",
             )
         with col_waste:
             value_stream_include_waste = st.checkbox(
-                "Incluir actividades de desperdicio",
+                "+ Desperdicio",
                 value=False,
                 disabled=not focus_enabled,
                 key="filter_vs_include_waste",
             )
-
-        if focus_enabled:
-            st.caption(
-                "Solo el árbol de la historia seleccionada está resaltado. Marca soporte "
-                "o desperdicio para ampliar el conjunto visible."
-            )
-    elif highlight_blocks_vs_focus:
+    elif highlight_blocks_modes:
         st.selectbox(
             "Enfocar value stream",
             ["(no disponible con resaltado analítico)"],
             disabled=True,
-            key="filter_vs_focus_disabled_analytic",
+            key="filter_vs_focus_disabled",
         )
+        focus_enabled = False
+    else:
+        focus_enabled = False
 
-    selected_node_types: list[str] = []
-    selected_rel_types: list[str] = []
+    relevance_heatmap_enabled = st.checkbox(
+        "Mapa de calor de relevancia",
+        value=False,
+        disabled=highlight_blocks_modes or focus_enabled,
+        key="filter_relevance_heatmap",
+        help=(
+            "Actividades coloreadas marrón (baja) → naranja (alta) por relevancia acumulada "
+            "normalizada; demás nodos y aristas atenuados."
+        ),
+    )
 
-    col_nodes, col_rels = st.columns(2)
-    with col_nodes:
-        st.markdown("**Tipos de nodo**")
-        for node_type in view_model.available_node_types:
-            if st.checkbox(node_type, value=True, key=f"filter_node_{node_type}"):
-                selected_node_types.append(node_type)
-    with col_rels:
-        st.markdown("**Tipos de relación**")
-        for rel_type in view_model.available_relationship_types:
-            if st.checkbox(rel_type, value=True, key=f"filter_rel_{rel_type}"):
-                selected_rel_types.append(rel_type)
+    is_ai_enhanced = getattr(view_model.scenario, "kind", "value") == "ai_enhanced"
+    confidence_heatmap_enabled = False
+    generated_highlight_enabled = False
+    generated_opacity = 0.2
+    if is_ai_enhanced:
+        gen_node_count = len(view_model.generated_node_ids)
+        gen_edge_count = len(view_model.generated_edge_keys)
+        st.caption(
+            f"**{gen_node_count}** nodos generados · **{gen_edge_count}** aristas generadas. "
+            f"Nodos: borde **magenta**; aristas: **naranja punteado**."
+        )
+        if view_model.generated_node_ids:
+            labels = []
+            for node_id in sorted(view_model.generated_node_ids):
+                label = view_model.metric_label_by_id.get(node_id, node_id)
+                if node_id.startswith("ACT-"):
+                    for act in view_model.activities:
+                        if act.activity_id == node_id:
+                            label = f"{node_id} — {act.activity_name[:40]}"
+                            break
+                elif node_id in view_model.event_label_by_id:
+                    label = view_model.event_label_by_id[node_id]
+                elif node_id in view_model.metric_label_by_id:
+                    label = f"{node_id} — {view_model.metric_label_by_id[node_id][:40]}"
+                labels.append(label)
+            st.markdown("**Nodos generados:** " + " · ".join(f"`{n.split(' — ')[0]}`" for n in labels))
+            for line in labels:
+                st.caption(line)
+        if view_model.evaluation_confidence is not None:
+            st.metric(
+                "Confianza global de evaluación",
+                f"{view_model.evaluation_confidence:.0%}",
+                help=(
+                    "Promedio ponderado de confianza en dimensiones P/C/F/R "
+                    "de actividades puntuadas — no incluye abducciones de métricas."
+                ),
+            )
+        confidence_heatmap_enabled = st.checkbox(
+            "Mapa de confianza (rojo → azul)",
+            value=False,
+            disabled=highlight_blocks_modes or focus_enabled or relevance_heatmap_enabled,
+            key="filter_confidence_heatmap",
+            help="Colorea nodos por confianza de existencia; rojo=baja, azul=alta.",
+        )
+        generated_highlight_enabled = st.checkbox(
+            "Opacidad completa en generados",
+            value=False,
+            disabled=confidence_heatmap_enabled,
+            key="filter_generated_highlight",
+            help="Ignora el control deslizante y muestra generados al 100%.",
+        )
+        generated_opacity = st.slider(
+            "Opacidad de elementos generados",
+            min_value=0.05,
+            max_value=1.0,
+            value=0.2,
+            step=0.05,
+            disabled=generated_highlight_enabled or confidence_heatmap_enabled,
+            key="filter_generated_opacity",
+            help=(
+                "Baja = generados más tenues vs extraídos. "
+                "Afecta nodos y aristas generados; pulsa «Generar grafo» para aplicar."
+            ),
+        )
+        if view_model.cross_validation_findings:
+            st.caption(
+                f"Validación cruzada P vs proximidad "
+                f"({len(view_model.cross_validation_findings)} hallazgos)"
+            )
+            for finding in view_model.cross_validation_findings:
+                st.caption(f"• **{finding.activity_id}** — {finding.message}")
+
+    if confidence_heatmap_enabled:
+        relevance_heatmap_enabled = False
 
     relevance_pull = st.checkbox(
-        "Relevance pull (acercar actividades a métricas)",
+        "Relevance pull",
         value=False,
         key="filter_relevance_pull",
     )
@@ -271,47 +325,39 @@ def build_graph_filter(
         isolation_options.append(label)
         isolation_ids[label] = activity.activity_id
 
-    highlight_blocks_modes = analytic_highlight_id is not None
+    explain_blocked = highlight_blocks_modes or relevance_heatmap_enabled
+    if explain_blocked:
+        st.selectbox(
+            "Explicar relevancia",
+            ["(no disponible)"],
+            disabled=True,
+            key="filter_explain_disabled",
+        )
+        explain_activity_id = None
+        chosen_explain = "(sin explicar)"
+    else:
+        chosen_explain = st.selectbox(
+            "Explicar relevancia",
+            explain_options,
+            key="filter_explain_activity",
+        )
+        explain_activity_id = explain_ids[chosen_explain]
 
-    col_explain, col_isolate = st.columns(2)
-    with col_explain:
-        if highlight_blocks_modes:
-            st.selectbox(
-                "Explicar relevancia",
-                ["(no disponible con resaltado analítico)"],
-                disabled=True,
-                key="filter_explain_disabled_analytic",
-            )
-            explain_activity_id = None
-        else:
-            chosen_explain = st.selectbox(
-                "Explicar relevancia",
-                explain_options,
-                key="filter_explain_activity",
-            )
-            explain_activity_id = explain_ids[chosen_explain]
-
-    with col_isolate:
-        if highlight_blocks_modes or explain_activity_id is not None:
-            disabled_label = (
-                "(no disponible con resaltado analítico)"
-                if highlight_blocks_modes
-                else "(no disponible con explicar activo)"
-            )
-            st.selectbox(
-                "Aislar subgrafo",
-                [disabled_label],
-                disabled=True,
-                key="filter_isolation_disabled",
-            )
-            isolation_seed = None
-        else:
-            chosen_isolate = st.selectbox(
-                "Aislar subgrafo",
-                isolation_options,
-                key="filter_isolation",
-            )
-            isolation_seed = isolation_ids[chosen_isolate]
+    if highlight_blocks_modes or explain_activity_id is not None or relevance_heatmap_enabled:
+        st.selectbox(
+            "Aislar subgrafo",
+            ["(no disponible)"],
+            disabled=True,
+            key="filter_isolation_disabled",
+        )
+        isolation_seed = None
+    else:
+        chosen_isolate = st.selectbox(
+            "Aislar subgrafo",
+            isolation_options,
+            key="filter_isolation",
+        )
+        isolation_seed = isolation_ids[chosen_isolate]
 
     if explain_activity_id is not None and st.session_state.get(
         _SESSION_ANALYTIC_HIGHLIGHT_KEY
@@ -335,29 +381,174 @@ def build_graph_filter(
             ),
             explain_activity_id,
         )
-        st.info(
-            f"**Explicando relevancia:** {activity_name}. "
-            f"Resaltadas **{explain_metric_count[chosen_explain]} métricas** con relevancia > 0: "
+        st.caption(
+            f"Explicando: {activity_name} · "
+            f"{explain_metric_count[chosen_explain]} métricas: "
             + ", ".join(metric_labels)
         )
 
-    node_types = _selection_to_frozenset(selected_node_types, view_model.available_node_types)
-    relationship_types = _selection_to_frozenset(
-        selected_rel_types, view_model.available_relationship_types
-    )
+    if relevance_heatmap_enabled:
+        value_stream_focus_delivery_id = None
+        value_stream_focus_is_fused = False
+        value_stream_include_support = False
+        value_stream_include_waste = False
+        confidence_heatmap_enabled = False
+    elif confidence_heatmap_enabled:
+        value_stream_focus_delivery_id = None
+        value_stream_focus_is_fused = False
+        value_stream_include_support = False
+        value_stream_include_waste = False
+        relevance_heatmap_enabled = False
+    elif value_stream_focus_delivery_id:
+        relevance_heatmap_enabled = False
+        confidence_heatmap_enabled = False
 
+    if relevance_heatmap_enabled and explain_activity_id:
+        relevance_heatmap_enabled = False
+
+    if relevance_heatmap_enabled and explain_activity_id:
+        relevance_heatmap_enabled = False
+
+    return {
+        "isolation_seed_id": isolation_seed,
+        "relevance_pull_enabled": relevance_pull,
+        "explain_activity_id": explain_activity_id,
+        "value_stream_focus_delivery_id": value_stream_focus_delivery_id,
+        "value_stream_focus_is_fused": value_stream_focus_is_fused,
+        "value_stream_include_support": value_stream_include_support,
+        "value_stream_include_waste": value_stream_include_waste,
+        "value_stream_merge_crossing": _VALUE_STREAM_MERGE_CROSSING,
+        "analytic_highlight_id": analytic_highlight_id,
+        "relevance_heatmap_enabled": relevance_heatmap_enabled,
+        "confidence_heatmap_enabled": confidence_heatmap_enabled,
+        "generated_highlight_enabled": generated_highlight_enabled,
+        "generated_opacity": 1.0 if generated_highlight_enabled else generated_opacity,
+    }
+
+
+def build_graph_filter(
+    view_model: ScenarioViewModel,
+    *,
+    node_types: frozenset[str] | None = None,
+    relationship_types: frozenset[str] | None = None,
+    view_controls: dict[str, object] | None = None,
+) -> GraphFilter:
+    """Compose type filters + view controls into a ``GraphFilter``."""
+    if view_controls is None:
+        if node_types is None and relationship_types is None:
+            node_types, relationship_types = render_graph_type_filters(view_model)
+        view_controls = render_graph_view_controls(view_model)
     return GraphFilter(
         node_types=node_types,
         relationship_types=relationship_types,
-        isolation_seed_id=isolation_seed,
-        relevance_pull_enabled=relevance_pull,
-        explain_activity_id=explain_activity_id,
-        value_stream_focus_delivery_id=value_stream_focus_delivery_id,
-        value_stream_include_support=value_stream_include_support,
-        value_stream_include_waste=value_stream_include_waste,
-        value_stream_merge_crossing=merge_crossing,
-        analytic_highlight_id=analytic_highlight_id,
+        **view_controls,
     )
+
+
+def render_value_streams_panel(view_model: ScenarioViewModel) -> None:
+    """Summarize VS discovery in sibling collapsed expanders (Streamlit disallows nesting)."""
+    discovery = view_model.value_stream_discovery
+    if discovery is None:
+        return
+
+    st.caption(
+        "Value streams: expande las secciones abajo. Enfoca una historia o activa el "
+        "**mapa de calor** en la barra lateral (Controles del grafo)."
+    )
+
+    if not discovery.trees:
+        with st.expander("Value streams — aviso", expanded=False):
+            st.warning(
+                "No se descubrieron historias de valor conectadas entre eventos de demanda "
+                "y entrega de valor en este escenario."
+            )
+    elif (
+        discovery.merge_crossing_applied
+        and discovery.initial_group_count > 0
+        and discovery.initial_group_count == discovery.group_count
+    ):
+        with st.expander("Value streams — fusión", expanded=False):
+            st.warning(
+                "La fusión de historias (§1.2) está activa, pero ningún grupo compartió "
+                "suficiente solape de actividades ancestras (umbral 30%) para fusionarse. "
+                "Solo están disponibles las historias por entrega."
+            )
+    if discovery.trees:
+        activity_labels = _activity_label_by_id(view_model)
+        event_labels = view_model.event_label_by_id
+
+        with st.expander("Value streams — Resumen", expanded=False):
+            st.markdown(
+                f"**{discovery.group_count}** historias · "
+                f"**{len(discovery.vs_union)}** actividades en el VS · "
+                f"**{len(discovery.backbone)}** nodos backbone"
+            )
+            if discovery.initial_group_count > discovery.group_count:
+                st.caption(
+                    f"Fusión §1.2: **{discovery.initial_group_count}** grupos "
+                    f"iniciales → **{discovery.group_count}** tras fusionar."
+                )
+            else:
+                st.caption(
+                    f"Fusión §1.2 activa · **{discovery.group_count}** grupo(s) "
+                    "(sin fusiones con el umbral actual)."
+                )
+            if discovery.group_count:
+                st.caption(
+                    f"Tamaño promedio de grupo: **{discovery.avg_group_size:.1f}** eventos "
+                    "por entrega (demanda/precondición + entrega)."
+                )
+
+        trees_ranked = sorted(
+            discovery.trees,
+            key=lambda tree: (tree.total_relevance, len(tree.activity_ids)),
+            reverse=True,
+        )
+        with st.expander("Value streams — Historias de valor", expanded=False):
+            st.caption(
+                "Ordenadas por relevancia acumulada (suma normalizada multi-métrica)."
+            )
+            for tree in trees_ranked:
+                delivery_label = event_labels.get(
+                    tree.delivery_event_id,
+                    tree.delivery_event_id,
+                )
+                anchors = ", ".join(
+                    event_labels.get(event_id, event_id)
+                    for event_id in sorted(tree.anchor_event_ids)
+                )
+                activity_count = len(tree.activity_ids)
+                st.markdown(
+                    f"- **{delivery_label}** — relevancia acum. "
+                    f"**{tree.total_relevance:.2f}** · {activity_count} actividades"
+                )
+                if anchors:
+                    st.markdown(f"  - Anclas: {anchors}")
+
+        backbone_activities = [
+            (activity_id, discovery.node_overlap.get(activity_id, 0))
+            for activity_id in sorted(discovery.backbone)
+            if activity_id in activity_labels
+        ]
+        if backbone_activities:
+            with st.expander("Value streams — Backbone", expanded=False):
+                for activity_id, overlap in sorted(
+                    backbone_activities,
+                    key=lambda item: item[1],
+                    reverse=True,
+                ):
+                    label = activity_labels.get(activity_id, activity_id)
+                    st.markdown(f"- {label} — en **{overlap}** historias")
+
+    counts = {category: 0 for category in ActivityCategory}
+    for category in discovery.classifications.values():
+        counts[category] += 1
+    summary = " · ".join(
+        f"{_VS_CATEGORY_LABELS[category]}: {counts[category]}"
+        for category in ActivityCategory
+    )
+    with st.expander("Value streams — Clasificación de actividades", expanded=False):
+        st.markdown(summary)
 
 
 def _selection_to_frozenset(
@@ -400,41 +591,51 @@ def render_graph_embed(
 
 
 def render_value_tab(view_model: ScenarioViewModel) -> None:
-    """Plotly analytics primary; legacy tables in a collapsed expander."""
+    """Plotly analytics primary; VS flow diagram; legacy tables in a collapsed expander."""
     plot_series = view_model.plot_series
     if plot_series is None:
         st.info("No hay series analíticas para este escenario.")
-        _render_legacy_tables(view_model)
-        return
+    else:
+        _render_plot_row(
+            plot_series.relevance_scatter,
+            plot_series.top_relevance,
+            title="Relevancia agregada",
+            x_label="Relevancia máxima",
+            y_label="Métricas afectadas",
+            gradient="relevance",
+            color_source="cumulative_relevance",
+            view_model=view_model,
+        )
+        _render_plot_row(
+            plot_series.v_scatter,
+            plot_series.top_v,
+            title="Valor interno (V)",
+            x_label="V",
+            y_label="Procesos afectados",
+            gradient="value",
+            color_source="x",
+        )
+        _render_plot_row(
+            plot_series.v_relevance_scatter,
+            plot_series.top_v_relevance,
+            title="V × Relevancia",
+            x_label="V",
+            y_label="Relevancia máxima",
+            gradient="relevance",
+            color_source="cumulative_relevance",
+            view_model=view_model,
+        )
+        _render_plot_row(
+            plot_series.process_scatter,
+            plot_series.top_process,
+            title="Procesos (rollups)",
+            x_label="Suma de relevancia",
+            y_label="Métricas con rollup",
+            gradient="relevance",
+            color_source="x",
+        )
 
-    _render_plot_row(
-        plot_series.relevance_scatter,
-        plot_series.top_relevance,
-        title="Relevancia agregada",
-        x_label="Relevancia máxima",
-        y_label="Métricas afectadas",
-    )
-    _render_plot_row(
-        plot_series.v_scatter,
-        plot_series.top_v,
-        title="Valor interno (V)",
-        x_label="V",
-        y_label="Procesos afectados",
-    )
-    _render_plot_row(
-        plot_series.v_relevance_scatter,
-        plot_series.top_v_relevance,
-        title="V × Relevancia",
-        x_label="V",
-        y_label="Relevancia máxima",
-    )
-    _render_plot_row(
-        plot_series.process_scatter,
-        plot_series.top_process,
-        title="Procesos (rollups)",
-        x_label="Suma de relevancia",
-        y_label="Métricas con rollup",
-    )
+    render_value_stream_flow_section(view_model)
 
     contributions = _top_process_contributions(view_model)
     if contributions:
@@ -446,6 +647,92 @@ def render_value_tab(view_model: ScenarioViewModel) -> None:
         _render_legacy_tables(view_model)
 
 
+def render_structural_value_tab(view_model: ScenarioViewModel) -> None:
+    """Valor tab for structural (no-metrics) scenarios: explanation + VS flow only."""
+    st.subheader("Valor — no disponible en este escenario")
+    st.markdown(
+        "Este escenario es **estructural**: proviene de una extracción real sin "
+        "métricas de valor cliente definidas, por lo que no existen puntajes "
+        "P/C/F/R/V(A) ni relevancia B×V que graficar. Puntuar antes de definir "
+        "las métricas produciría artefactos, no hallazgos."
+    )
+    st.markdown(
+        "Cuando la investigación de cliente (JTBD) confirme las métricas de valor, "
+        "este escenario podrá cuantificarse igual que los escenarios simulados."
+    )
+    render_value_stream_flow_section(view_model)
+
+
+def render_value_stream_flow_section(view_model: ScenarioViewModel) -> None:
+    """Interactive demand→delivery flow for selected value stream story."""
+    from optimizer.application.value_stream_flow import (
+        build_flow_graph_for_selection,
+        default_flow_story_index,
+        list_flow_story_options,
+    )
+
+    options = list_flow_story_options(view_model)
+    if not options:
+        return
+
+    st.subheader("Flujos de valor")
+    st.caption(
+        "Demanda abajo, entrega arriba. **Borde blanco** = conjunción (varias entradas). "
+        "**Insignia dorada con número** = actividad compartida por ese número de historias "
+        "(ambos pueden aparecer a la vez). Clic en un nodo para relevancia y métricas."
+    )
+
+    labels = [option.label for option in options]
+    default_index = default_flow_story_index(options)
+    chosen_label = st.selectbox(
+        "Flujo",
+        labels,
+        index=default_index,
+        key="valor_vs_flow_story",
+    )
+    chosen = next(option for option in options if option.label == chosen_label)
+
+    if chosen.is_fused:
+        st.info(
+            "Vista de historia fusionada: muestra el tronco compartido entre entregas "
+            "y las conjunciones donde convergen varias rutas."
+        )
+
+    flow_graph = build_flow_graph_for_selection(view_model, chosen)
+    if flow_graph is None:
+        st.warning("No se pudo construir el diagrama de flujo para la selección.")
+        return
+
+    flow_opacity = 1.0
+    if getattr(view_model.scenario, "kind", "value") == "ai_enhanced":
+        if st.session_state.get("filter_generated_highlight"):
+            flow_opacity = 1.0
+        else:
+            flow_opacity = float(st.session_state.get("filter_generated_opacity", 0.2))
+
+    render_value_stream_flow_html(flow_graph, generated_opacity=flow_opacity)
+
+
+def _marker_colors_for_points(
+    points: tuple[PlotPoint, ...],
+    *,
+    gradient: Literal["relevance", "value"],
+    color_source: Literal["cumulative_relevance", "x"],
+    view_model: ScenarioViewModel | None = None,
+) -> list[str]:
+    if not points:
+        return []
+    if color_source == "cumulative_relevance":
+        scores = (view_model.cumulative_relevance_by_activity_id if view_model else {}) or {}
+        values = [float(scores.get(point.entity_id, 0.0)) for point in points]
+    else:
+        values = [float(point.x) for point in points]
+    max_value = max(values) if values else 1.0
+    max_value = max_value or 1.0
+    color_fn = relevance_gradient_color if gradient == "relevance" else value_gradient_color
+    return [color_fn(value / max_value) for value in values]
+
+
 def _render_plot_row(
     points: tuple[PlotPoint, ...],
     top_points: tuple[PlotPoint, ...],
@@ -453,9 +740,18 @@ def _render_plot_row(
     title: str,
     x_label: str,
     y_label: str,
+    gradient: Literal["relevance", "value"],
+    color_source: Literal["cumulative_relevance", "x"],
+    view_model: ScenarioViewModel | None = None,
 ) -> None:
     st.subheader(title)
     chart_col, top_col = st.columns([3, 1])
+    marker_colors = _marker_colors_for_points(
+        points,
+        gradient=gradient,
+        color_source=color_source,
+        view_model=view_model,
+    )
     with chart_col:
         fig = go.Figure(
             data=[
@@ -464,7 +760,7 @@ def _render_plot_row(
                     y=[point.y for point in points],
                     text=[point.entity_name for point in points],
                     mode="markers",
-                    marker={"size": 10},
+                    marker={"size": 10, "color": marker_colors},
                     hovertemplate="%{text}<br>%{xaxis.title.text}=%{x}<br>%{yaxis.title.text}=%{y}<extra></extra>",
                 )
             ]
@@ -570,6 +866,17 @@ def render_activity_detail(
     labels = metric_label_by_id or {}
     st.sidebar.markdown("### Detalle de actividad")
     st.sidebar.markdown(f"**{_activity_label(activity)}**")
+    factors = (
+        ("Posición", activity.p),
+        ("Causalidad", activity.c),
+        ("Frecuencia", activity.f),
+        ("Riesgo", activity.r),
+        ("Valor interno", activity.v),
+    )
+    if any(value is not None for _, value in factors):
+        st.sidebar.caption(
+            " · ".join(f"{name}: {value}" for name, value in factors if value is not None)
+        )
     if activity.strategic_b_zero:
         st.sidebar.warning(
             activity.b_zero_reason or "Actividad marcada como B=0 estratégico."

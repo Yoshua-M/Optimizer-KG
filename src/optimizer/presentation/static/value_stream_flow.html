@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #1e1e1e;
+      color: #f5f5f5;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      overflow: hidden;
+    }
+    #wrap {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      min-height: 520px;
+    }
+    #cy {
+      flex: 1 1 auto;
+      min-width: 0;
+      min-height: 520px;
+      height: 100%;
+      background: #1e1e1e;
+    }
+    #detail {
+      flex: 0 0 280px;
+      max-width: 34%;
+      border-left: 1px solid #444;
+      padding: 12px 14px;
+      overflow-y: auto;
+      box-sizing: border-box;
+      background: #252525;
+    }
+    #detail h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      line-height: 1.3;
+    }
+    #detail .meta {
+      color: #bdbdbd;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    #detail .placeholder {
+      color: #888;
+      font-size: 13px;
+      margin-top: 24px;
+    }
+    #error {
+      display: none;
+      color: #ff8a80;
+      padding: 12px;
+      font-size: 13px;
+      white-space: pre-wrap;
+    }
+    .metric-list {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0 0;
+    }
+    .metric-list li {
+      font-size: 12px;
+      padding: 6px 8px;
+      margin-bottom: 4px;
+      background: #333;
+      border-radius: 4px;
+    }
+    .metric-toggle {
+      margin-top: 8px;
+      padding: 6px 10px;
+      background: #444;
+      border: none;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .metric-toggle:hover {
+      background: #555;
+    }
+    .badge {
+      display: inline-block;
+      background: #FF9800;
+      color: #111;
+      border-radius: 10px;
+      padding: 1px 7px;
+      font-size: 11px;
+      margin-left: 4px;
+    }
+  </style>
+  __VENDOR_SCRIPTS__
+</head>
+<body>
+  <div id="wrap">
+    <div id="cy">
+      <div id="error"></div>
+    </div>
+    <div id="detail">
+      <div class="placeholder">Haz clic en un nodo para ver detalle.</div>
+    </div>
+  </div>
+  <script>
+    function showError(message) {
+      const box = document.getElementById("error");
+      box.style.display = "block";
+      box.textContent = message;
+    }
+
+    try {
+      if (typeof cytoscape === "undefined") {
+        throw new Error("Cytoscape no cargó. Revisa static/vendor/cytoscape.min.js");
+      }
+      if (typeof dagre === "undefined") {
+        throw new Error("Dagre no cargó. Revisa static/vendor/dagre.min.js");
+      }
+      if (typeof cytoscapeDagre === "undefined") {
+        throw new Error("cytoscape-dagre no cargó.");
+      }
+
+      const FLOW_PAYLOAD = __FLOW_PAYLOAD_JSON__;
+      cytoscape.use(cytoscapeDagre);
+
+      const EVENT_COLORS = {
+        demand_event: { bg: "#2E7D32", border: "#A5D6A7", shape: "round-rectangle" },
+        delivery_event: { bg: "#F9A825", border: "#FFD54F", shape: "diamond" },
+        anchor_event: { bg: "#1565C0", border: "#90CAF9", shape: "round-rectangle" },
+      };
+
+      function truncate(text, maxLen) {
+        if (!text) return "";
+        return text.length <= maxLen ? text : text.slice(0, maxLen - 1) + "…";
+      }
+
+      function nodeCanvasLabel(node) {
+        return truncate(node.label, 36);
+      }
+
+      /**
+       * Shared-activity badge: SVG data URI (gold circle + stream count).
+       * Designers: swap this SVG for any shape, emoji text, or embedded PNG —
+       * see presentation/AGENTS.md § Flujos de valor badge.
+       */
+      function streamCountBadgeDataUri(count) {
+        const text = String(count);
+        const size = text.length > 1 ? 26 : 22;
+        const radius = size / 2 - 1.5;
+        const cx = size / 2;
+        const cy = size / 2;
+        const fontSize = text.length > 1 ? 10 : 11;
+        const svg =
+          '<svg xmlns="http://www.w3.org/2000/svg" width="' + size + '" height="' + size + '">' +
+          '<circle cx="' + cx + '" cy="' + cy + '" r="' + radius +
+          '" fill="#FFD700" stroke="#1a1a1a" stroke-width="1.5"/>' +
+          '<text x="' + cx + '" y="' + cy + '" dominant-baseline="central" text-anchor="middle"' +
+          ' font-family="Segoe UI, system-ui, sans-serif" font-size="' + fontSize +
+          '" font-weight="700" fill="#1a1a1a">' + text + "</text></svg>";
+        return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+      }
+
+      function buildElements(payload) {
+        const elements = [];
+        for (const node of payload.nodes) {
+          const kind = node.kind;
+          const isActivity = kind === "activity";
+          const eventStyle = EVENT_COLORS[kind] || EVENT_COLORS.anchor_event;
+          const bg = isActivity ? (node.color || "#888888") : eventStyle.bg;
+          const border = isActivity
+            ? (node.is_join ? "#FFFFFF" : "#333333")
+            : eventStyle.border;
+          const borderWidth = isActivity ? (node.is_join ? 4 : 1) : 2;
+          const shape = isActivity ? "round-rectangle" : eventStyle.shape;
+          const width = isActivity ? 80 + (node.normalized_relevance || 0) * 30 : 70;
+          const height = isActivity ? 36 + (node.normalized_relevance || 0) * 10 : 36;
+          const showStreamBadge = isActivity && (node.overlap_count || 0) > 1;
+
+          const nodeStyle = {
+            "background-color": bg,
+            "border-color": border,
+            "border-width": borderWidth,
+            shape: shape,
+            width: width,
+            height: height,
+          };
+          if (isActivity) {
+            nodeStyle.color = "#111111";
+          }
+          if (showStreamBadge) {
+            const badgeSize = (node.overlap_count || 0) > 9 ? "26px" : "22px";
+            nodeStyle["background-image"] = streamCountBadgeDataUri(node.overlap_count);
+            nodeStyle["background-fit"] = "none";
+            nodeStyle["background-clip"] = "none";
+            nodeStyle["background-repeat"] = "no-repeat";
+            nodeStyle["background-width"] = badgeSize;
+            nodeStyle["background-height"] = badgeSize;
+            nodeStyle["background-position-x"] = "100%";
+            nodeStyle["background-position-y"] = "0%";
+            nodeStyle["background-offset-x"] = "-3px";
+            nodeStyle["background-offset-y"] = "3px";
+          }
+          if (node.generated) {
+            nodeStyle.opacity = payload.generated_opacity != null ? payload.generated_opacity : 0.2;
+            nodeStyle["border-width"] = 2;
+            nodeStyle["border-color"] = "#FF9800";
+          }
+
+          elements.push({
+            data: {
+              id: node.id,
+              kind: kind,
+              label: nodeCanvasLabel(node),
+              fullLabel: node.label,
+              cumulative_relevance: node.cumulative_relevance || 0,
+              metrics: node.metrics || [],
+              overlap_count: node.overlap_count || 1,
+              is_backbone: !!node.is_backbone,
+              is_join: !!node.is_join,
+              is_split: !!node.is_split,
+              p: node.p,
+              c: node.c,
+              f: node.f,
+              r: node.r,
+              v: node.v,
+            },
+            classes: kind,
+            style: nodeStyle,
+          });
+        }
+        for (const edge of payload.edges) {
+          elements.push({
+            data: {
+              id: edge.source + "->" + edge.target,
+              source: edge.source,
+              target: edge.target,
+            },
+          });
+        }
+        return elements;
+      }
+
+      function renderDetail(nodeData) {
+        const panel = document.getElementById("detail");
+        if (!nodeData) {
+          panel.innerHTML = '<div class="placeholder">Haz clic en un nodo para ver detalle.</div>';
+          return;
+        }
+        const kindLabels = {
+          activity: "Actividad",
+          demand_event: "Evento de demanda",
+          delivery_event: "Evento de entrega",
+          anchor_event: "Evento ancla",
+        };
+        let html = "<h3>" + (nodeData.fullLabel || nodeData.label) + "</h3>";
+        html += '<div class="meta">' + (kindLabels[nodeData.kind] || nodeData.kind);
+        if (nodeData.kind === "activity") {
+          html += " · relevancia acum. " + (nodeData.cumulative_relevance || 0).toFixed(2);
+        }
+        if (nodeData.overlap_count > 1) {
+          html += ' · <span class="badge">' + nodeData.overlap_count + " historias</span>";
+        }
+        if (nodeData.is_join) {
+          html += " · conjunción";
+        }
+        html += "</div>";
+
+        const factors = [
+          ["Posición", nodeData.p],
+          ["Causalidad", nodeData.c],
+          ["Frecuencia", nodeData.f],
+          ["Riesgo", nodeData.r],
+          ["Valor interno", nodeData.v],
+        ].filter(function (pair) { return pair[1] != null; });
+        if (factors.length) {
+          html += '<div class="meta">';
+          html += factors.map(function (pair) {
+            return pair[0] + ": " + Number(pair[1]).toFixed(2);
+          }).join(" · ");
+          html += "</div>";
+        }
+
+        const metrics = nodeData.metrics || [];
+        if (metrics.length === 0) {
+          html += '<div class="meta">Sin métricas con relevancia &gt; 0.</div>';
+        } else {
+          html += '<div class="meta">' + metrics.length + " métrica(s) vinculada(s)</div>";
+          html += '<ul class="metric-list" id="metric-list" style="display:none">';
+          for (const metric of metrics) {
+            html += "<li><strong>" + metric.metric_label + "</strong> · rel. "
+              + metric.relevance.toFixed(2) + "</li>";
+          }
+          html += "</ul>";
+          html += '<button class="metric-toggle" id="metric-toggle">Ver métricas (' + metrics.length + ")</button>";
+        }
+        panel.innerHTML = html;
+
+        const toggle = document.getElementById("metric-toggle");
+        const list = document.getElementById("metric-list");
+        if (toggle && list) {
+          toggle.addEventListener("click", function () {
+            const visible = list.style.display !== "none";
+            list.style.display = visible ? "none" : "block";
+            toggle.textContent = visible
+              ? "Ver métricas (" + metrics.length + ")"
+              : "Ocultar métricas";
+          });
+        }
+      }
+
+      function alignEventLayers(cy) {
+        const delivery = cy.nodes(".delivery_event");
+        const demand = cy.nodes(".demand_event");
+        if (delivery.length === 0 && demand.length === 0) {
+          return;
+        }
+
+        let globalMinX = Infinity;
+        let globalMaxX = -Infinity;
+        cy.nodes().forEach(function (node) {
+          const x = node.position("x");
+          globalMinX = Math.min(globalMinX, x);
+          globalMaxX = Math.max(globalMaxX, x);
+        });
+        if (!isFinite(globalMinX)) {
+          return;
+        }
+        const span = globalMaxX - globalMinX || 120;
+
+        function alignBand(collection, targetY) {
+          if (collection.length === 0) {
+            return;
+          }
+          const nodes = collection
+            .toArray()
+            .sort(function (a, b) {
+              return a.position("x") - b.position("x");
+            });
+          nodes.forEach(function (node, index) {
+            const x =
+              nodes.length === 1
+                ? globalMinX + span / 2
+                : globalMinX + (span * index) / (nodes.length - 1);
+            node.position({ x: x, y: targetY });
+          });
+        }
+
+        let topY = Infinity;
+        delivery.forEach(function (node) {
+          topY = Math.min(topY, node.position("y"));
+        });
+        if (!isFinite(topY)) {
+          cy.nodes().forEach(function (node) {
+            topY = Math.min(topY, node.position("y"));
+          });
+        }
+
+        let bottomY = -Infinity;
+        demand.forEach(function (node) {
+          bottomY = Math.max(bottomY, node.position("y"));
+        });
+        if (!isFinite(bottomY)) {
+          cy.nodes().forEach(function (node) {
+            bottomY = Math.max(bottomY, node.position("y"));
+          });
+        }
+        if (bottomY - topY < 120) {
+          bottomY = topY + 160;
+        }
+
+        alignBand(delivery, topY);
+        alignBand(demand, bottomY);
+      }
+
+      const payload = FLOW_PAYLOAD || { nodes: [], edges: [] };
+      const elements = buildElements(payload);
+      if (!elements.length) {
+        showError("No hay nodos para dibujar en esta selección.");
+      }
+
+      const cy = cytoscape({
+        container: document.getElementById("cy"),
+        elements: elements,
+        layout: {
+          name: "dagre",
+          rankDir: "BT",
+          nodeSep: 40,
+          rankSep: 70,
+          edgeSep: 20,
+          animate: false,
+        },
+        style: [
+          {
+            selector: "node",
+            style: {
+              label: "data(label)",
+              "text-wrap": "wrap",
+              "text-max-width": 120,
+              "font-size": 10,
+              color: "#ffffff",
+              "text-valign": "center",
+              "text-halign": "center",
+            },
+          },
+          {
+            selector: 'node[kind = "activity"]',
+            style: {
+              color: "#111111",
+            },
+          },
+          {
+            selector: "edge",
+            style: {
+              width: 2,
+              "line-color": "#888888",
+              "target-arrow-color": "#888888",
+              "target-arrow-shape": "triangle",
+              "curve-style": "bezier",
+              opacity: 0.85,
+            },
+          },
+          {
+            selector: ":selected",
+            style: {
+              "border-width": 5,
+              "border-color": "#FFFFFF",
+            },
+          },
+        ],
+        wheelSensitivity: 0.2,
+      });
+
+      cy.ready(function () {
+        alignEventLayers(cy);
+        cy.fit(undefined, 40);
+      });
+
+      cy.on("tap", "node", function (evt) {
+        const node = evt.target;
+        cy.elements().unselect();
+        node.select();
+        renderDetail(node.data());
+      });
+
+      cy.on("tap", function (evt) {
+        if (evt.target === cy) {
+          cy.elements().unselect();
+          renderDetail(null);
+        }
+      });
+    } catch (err) {
+      showError("Error al renderizar el flujo:\\n" + (err && err.message ? err.message : err));
+    }
+  </script>
+</body>
+</html>
